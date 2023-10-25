@@ -24,7 +24,7 @@ public class EffortLoggerv2 extends Application {
     	System.out.println("It started!");
         primaryStage.setTitle("Luz Rodriguez Hello World");
         Button btn = new Button();
-        btn.setText("Display: 'bruh says: Hello World!'");
+        btn.setText("Display: 'hehe says: Hello World!'");
         btn.setOnAction(new EventHandler<>() {
             public void handle(ActionEvent event) {
                 System.out.println("Luz Rodriguez: Hello World!");
