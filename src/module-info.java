@@ -14,6 +14,8 @@ module EffortLoggerv2 {
 	requires javafx.swt;
 	requires javafx.web;*/
 	requires javafx.controls;
+	requires javafx.fxml;
+	requires javafx.graphics;
 	
 	opens effortLoggerv2 to javafx.graphics, javafx.fxml;
 
