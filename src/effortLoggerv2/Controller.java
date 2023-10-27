@@ -10,9 +10,16 @@ import javafx.fxml.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleLongProperty;
 
 
 public class Controller implements Initializable {
@@ -70,7 +77,7 @@ public class Controller implements Initializable {
 	private long stopTime;
 	
 	@FXML
-	private TableView<Vector<?>> effortLogs;
+	private TableView<EffortLog> effortLogs;
 	// TODO there should be some way to iterate through this and the vectors
 	@FXML
 	private TableColumn<EffortLog, LocalDateTime> startDateTimeCol;
@@ -90,6 +97,8 @@ public class Controller implements Initializable {
 	private TableColumn<EffortLog, String> employeeRankCol;
 	@FXML
 	private TableColumn<EffortLog, String> effortCategoryCol;
+	
+	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
 
 	@SuppressWarnings("unchecked")
@@ -116,6 +125,7 @@ public class Controller implements Initializable {
 		effortLogTable.add(7, new Vector<String>());
 		effortLogTable.add(8, new Vector<String>());
 		
+		// intialize each column in the table
 		startDateTimeVect = (Vector<LocalDateTime>) effortLogTable.get(0);
 		stopDateTimeVect = (Vector<LocalDateTime>) effortLogTable.get(1);
 		timeElapsedVect = (Vector<Long>) effortLogTable.get(2);
@@ -127,8 +137,37 @@ public class Controller implements Initializable {
 		userGroupVect = (Vector<String>) effortLogTable.get(6);
 		employeeRankVect = (Vector<String>) effortLogTable.get(7);
 		effortCategoryVect = (Vector<String>) effortLogTable.get(8);
-
 		
+		// set column names to port over to the table
+		startDateTimeCol.setText("Start Date & Time");
+		stopDateTimeCol.setText("Stop Date & Time");
+		timeElapsedCol.setText("Time Elapsed");
+		projectCol.setText("Project");
+		planCol.setText("Plan");
+		lifecycleStepCol.setText("Lifecycle Step");
+		userGroupCol.setText("User Group");
+		employeeRankCol.setText("Employee Rank");
+		effortCategoryCol.setText("Effort Category");
+		
+		// set cell factories using property names (associate data names and values)
+		startDateTimeCol.setCellValueFactory(new PropertyValueFactory<EffortLog, LocalDateTime>("startDateTime"));
+		stopDateTimeCol.setCellValueFactory(new PropertyValueFactory<EffortLog, LocalDateTime>("stopDateTime"));
+		timeElapsedCol.setCellValueFactory(new PropertyValueFactory<EffortLog, Long>("timeElapsed"));
+		projectCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("project"));
+		planCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("plan"));
+		lifecycleStepCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("lifecycleStep"));
+		userGroupCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("userGroup"));
+		employeeRankCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("employeeRank"));
+		effortCategoryCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("effortCategory"));
+		
+		/*
+		myChoiceBox.setValue("Business Project");
+		myChoiceBox2.setValue("Planning");
+		myChoiceBox3.setValue("Plans");
+		myChoiceBox4.setValue("Project Plan");
+		myChoiceBox5.setValue("Team 1");
+		myChoiceBox6.setValue("Developer 1");
+		*/
 	}
 	
 
@@ -146,6 +185,7 @@ public class Controller implements Initializable {
 		else { return true; }
 	}
 	
+	
 	@FXML
 	public void timerStart(ActionEvent event) {
 		if (!isLogging) {
@@ -158,6 +198,7 @@ public class Controller implements Initializable {
 			isLogging = true;
 		}
 	}
+	
 	
 	@FXML
 	public void timerStop(ActionEvent event) {
@@ -174,17 +215,11 @@ public class Controller implements Initializable {
 				    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedTime))));
 			
 			// adds each value to the applicable table column/row
-			startDateTimeVect.add(startDateTime);
-			stopDateTimeVect.add(stopDateTime);
-			timeElapsedVect.add(stopTime - startTime);
-			projectVect.add(myChoiceBox.getValue());
-			planVect.add(myChoiceBox2.getValue());
-			lifecycleStepVect.add(myChoiceBox3.getValue());
-			userGroupVect.add(myChoiceBox4.getValue());
-			employeeRankVect.add(myChoiceBox5.getValue());
-			effortCategoryVect.add(myChoiceBox6.getValue());
+			EffortLog newEffortLog = new EffortLog(startDateTime, stopDateTime, elapsedTime,
+					myChoiceBox.getValue(), myChoiceBox5.getValue(), myChoiceBox2.getValue(), 
+					myChoiceBox3.getValue(), myChoiceBox6.getValue(), myChoiceBox4.getValue());
 			
-			//startDateTimeCol.a;
+			parseEffortLog(newEffortLog);
 			
 			// reset the logging timer/indicators
 			clockIndicatorBox.setFill(Color.RED);
@@ -205,8 +240,26 @@ public class Controller implements Initializable {
 		}
 	}
 	
-	public EffortLog newEffortLog() {
-		return new EffortLog(startDateTime, startDateTime, startTime, null, null, null, null, null, null);
+	
+	public void parseEffortLog(EffortLog e) {
+		// add data to vector objects
+		startDateTimeVect.add(e.getStartDateTime());
+		stopDateTimeVect.add(e.getStopDateTime());
+		timeElapsedVect.add(e.getTimeElapsed());
+		projectVect.add(e.getProject());
+		planVect.add(e.getPlan());
+		lifecycleStepVect.add(e.getLifecycleStep());
+		userGroupVect.add(e.getUserGroup());
+		employeeRankVect.add(e.getEmployeeRank());
+		effortCategoryVect.add(e.getEffortCategory());
+		
+		// add effort log to the running observable list
+		data.add(e);
+		
+		final ObservableList<EffortLog> writeData = FXCollections.observableArrayList(data);
+		
+		// update data on table columns
+		effortLogs.setItems(writeData);
 	}
 
 
