@@ -44,8 +44,6 @@ public class EffortLoggerv2 extends Application {
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();*/
     	
-    	//luz wrote this, we might need to switch to javafx 21 depending on if 
-    	//we start getting real issues but ignore the warning for now :)
     	try {
     		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
     		Scene scene = new Scene(root,900,600);
