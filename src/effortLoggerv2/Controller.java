@@ -63,7 +63,6 @@ public class Controller implements Initializable {
 		myChoiceBox4.getItems().addAll(choices4);
 		myChoiceBox5.getItems().addAll(choices5);
 		myChoiceBox6.getItems().addAll(choices6);
-		clockIndicatorLabel.getText();
 	}
 	
 	@FXML
