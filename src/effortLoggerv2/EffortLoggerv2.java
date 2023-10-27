@@ -24,8 +24,10 @@ import javafx.scene.layout.Priority;
 import java.util.*;
 import javafx.fxml.FXMLLoader;
 
+
 public class EffortLoggerv2 extends Application {
-    @Override
+	
+	@Override
     public void start(Stage primaryStage) {
     	//leave this in incase we have to revert it - Luz
     	/*System.out.println("Luz Rodriguez Hello World!");
