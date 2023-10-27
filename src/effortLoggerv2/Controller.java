@@ -45,10 +45,12 @@ public class Controller implements Initializable {
 	private String[] choices5 = {"Team 1", "Team 2", "Team 3"};
 	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3", "Developer 4",
 			"Developer 5","Developer 6","Developer 7"};
-	private LocalDateTime start;
+	private LocalDateTime startDateTime;
+	private long startTime;
 	private LocalDateTime stop;
-	private int timeElapsed;
+	private long stopTime;
 	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		myChoiceBox.getItems().addAll(choices);
@@ -60,11 +62,26 @@ public class Controller implements Initializable {
 	}
 	
 	public void startTime(ActionEvent e) {
-		start = LocalDateTime.now();
+		// Debug Statement
+		System.out.println("Time Started");
+		// take note of current date time for log and time in ms for elapsed time
+		startDateTime = LocalDateTime.now();
+		startTime = System.currentTimeMillis();
 	}
 	
 	public void stopTime(ActionEvent e) {
+		// Debug Statement
+		System.out.println("Time Finished");
+		// take note of current date time for log and time in ms for elapsed time
 		stop = LocalDateTime.now();
+		stopTime = System.currentTimeMillis();
+	}
+	
+	public long calcTimeElapsed(long start, long stop) {
+		// calculate time elapsed (in milliseconds), convert to hours
+		// 1 hour = 3.6 million ms => time elapsed / 3.6million = hours
+		long timeElapsed = ((stop - start) / 3600000);
+		return timeElapsed;
 	}
 	
 }
