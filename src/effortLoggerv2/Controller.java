@@ -1,6 +1,5 @@
 package effortLoggerv2;
 
-import java.awt.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.time.LocalDateTime; // import the LocalDateTime class
@@ -8,15 +7,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-
 public class Controller implements Initializable {
-	@FXML
-	private Label myLabel;
-	
 	@FXML
 	private ChoiceBox<String> myChoiceBox;
 	@FXML
@@ -29,10 +26,14 @@ public class Controller implements Initializable {
 	private ChoiceBox<String> myChoiceBox5;
 	@FXML
 	private ChoiceBox<String> myChoiceBox6;
+	
 	@FXML
 	private Pane myPane;
 	@FXML
-	private Rectangle myRectangle;
+	private Rectangle clockIndicatorBox;
+	@FXML
+	private Label clockIndicatorLabel;
+	
 	@FXML
 	private Button myButton;
 	
@@ -45,6 +46,9 @@ public class Controller implements Initializable {
 	private String[] choices5 = {"Team 1", "Team 2", "Team 3"};
 	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3", "Developer 4",
 			"Developer 5","Developer 6","Developer 7"};
+	
+	private boolean isLogging = false;
+	
 	private LocalDateTime startDateTime;
 	private long startTime;
 	private LocalDateTime stop;
@@ -59,29 +63,44 @@ public class Controller implements Initializable {
 		myChoiceBox4.getItems().addAll(choices4);
 		myChoiceBox5.getItems().addAll(choices5);
 		myChoiceBox6.getItems().addAll(choices6);
+		clockIndicatorLabel.getText();
 	}
 	
-	public void startTime(ActionEvent e) {
-		// Debug Statement
-		System.out.println("Time Started");
-		// take note of current date time for log and time in ms for elapsed time
-		startDateTime = LocalDateTime.now();
-		startTime = System.currentTimeMillis();
+	@FXML
+	public void timerStart(ActionEvent event) {
+		if (!isLogging) {
+			// Debug Statement
+			System.out.println("Time Started");
+			// take note of current date time for log and time in ms for elapsed time
+			startDateTime = LocalDateTime.now();
+			startTime = System.currentTimeMillis();
+			
+			clockIndicatorBox.setFill(Color.GREEN);
+			clockIndicatorLabel.setText("Clock is Running");
+			isLogging = !isLogging;
+		}
 	}
 	
-	public void stopTime(ActionEvent e) {
-		// Debug Statement
-		System.out.println("Time Finished");
-		// take note of current date time for log and time in ms for elapsed time
-		stop = LocalDateTime.now();
-		stopTime = System.currentTimeMillis();
+	@FXML
+	public void timerStop(ActionEvent event) {
+		if (isLogging) {
+			// Debug Statement
+			System.out.println("Time Finished");
+			// take note of current date time for log and time in ms for elapsed time
+			stop = LocalDateTime.now();
+			stopTime = System.currentTimeMillis();
+			
+			System.out.println("Elapsed Time (ms): " + calcTimeElapsed(startTime, stopTime));
+			
+			clockIndicatorBox.setFill(Color.RED);
+			clockIndicatorLabel.setText("Clock is Stopped");
+			isLogging = !isLogging;
+		}
 	}
 	
 	public long calcTimeElapsed(long start, long stop) {
 		// calculate time elapsed (in milliseconds), convert to hours
 		// 1 hour = 3.6 million ms => time elapsed / 3.6million = hours
-		long timeElapsed = ((stop - start) / 3600000);
-		return timeElapsed;
+		return stop - start;
 	}
-	
 }
