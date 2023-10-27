@@ -46,7 +46,7 @@ public class EffortLoggerv2 extends Application {
         primaryStage.show();*/
     	
     	try {
-    		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
     		Scene scene = new Scene(root,900,600);
     		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     		primaryStage.setScene(scene);
