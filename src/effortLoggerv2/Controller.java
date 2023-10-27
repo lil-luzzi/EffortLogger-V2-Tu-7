@@ -2,7 +2,7 @@ package effortLoggerv2;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.time.LocalDateTime; // import the LocalDateTime class
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;

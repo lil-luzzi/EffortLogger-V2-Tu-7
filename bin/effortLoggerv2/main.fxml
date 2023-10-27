@@ -6,13 +6,13 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -159,18 +159,23 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollBar layoutX="879.0" layoutY="161.0" orientation="VERTICAL" />
-                        <TableView prefHeight="518.0" prefWidth="900.0">
-                          <columns>
-                            <TableColumn fx:id="userGroup" prefWidth="87.0" text="User Group" />
-                              <TableColumn fx:id="employeeRank" prefWidth="126.0" text="Employee Rank" />
-                            <TableColumn fx:id="startDateTime" prefWidth="137.0" text="Start Date &amp; Time" />
-                              <TableColumn fx:id="stopDateTime" prefWidth="136.0" text="Stop Date &amp; Time" />
-                              <TableColumn minWidth="6.0" prefWidth="138.0" text="Project" />
-                              <TableColumn minWidth="6.0" prefWidth="128.0" text="Lifecycle Step" />
-                              <TableColumn minWidth="0.0" prefWidth="147.0" text="Effort Category" />
-                          </columns>
-                        </TableView>
+                        <StackPane alignment="TOP_LEFT" centerShape="false" prefHeight="518.0" prefWidth="900.0">
+                           <children>
+                              <TableView fx:id="effortLogs" prefHeight="511.0" prefWidth="870.0">
+                                <columns>
+                                  <TableColumn fx:id="startDateTime" prefWidth="119.0" text="Start Date &amp; Time" />
+                                    <TableColumn fx:id="stopDateTime" prefWidth="120.0" text="Stop Date &amp; Time" />
+                                    <TableColumn fx:id="timeElapsed" prefWidth="82.0" text="Time Elapsed" />
+                                    <TableColumn fx:id="project" minWidth="6.0" prefWidth="85.0" text="Project" />
+                                    <TableColumn fx:id="lifecycleStep" minWidth="6.0" prefWidth="97.0" text="Lifecycle Step" />
+                                    <TableColumn fx:id="effortCategory" minWidth="0.0" prefWidth="127.0" text="Effort Category" />
+                                    <TableColumn fx:id="plan" prefWidth="86.0" text="Plan" />
+                                    <TableColumn fx:id="employeeRank" prefWidth="107.0" text="Employee Rank" />
+                                  <TableColumn fx:id="userGroup" prefWidth="76.0" text="User Group" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </StackPane>
                      </children></AnchorPane>
                </content>
             </Tab>
