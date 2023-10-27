@@ -27,6 +27,7 @@ import javafx.fxml.FXMLLoader;
 public class EffortLoggerv2 extends Application {
     @Override
     public void start(Stage primaryStage) {
+    	//leave this in incase we have to revert it - Luz
     	/*System.out.println("Luz Rodriguez Hello World!");
     	System.out.println("It started!");
         primaryStage.setTitle("Luz Rodriguez Hello World");
@@ -42,10 +43,11 @@ public class EffortLoggerv2 extends Application {
         root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();*/
+    	
     	//luz wrote this, we might need to switch to javafx 21 depending on if 
     	//we start getting real issues but ignore the warning for now :)
     	try {
-    		Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
     		Scene scene = new Scene(root,900,600);
     		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     		primaryStage.setScene(scene);
