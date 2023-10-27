@@ -3,6 +3,7 @@ package effortLoggerv2;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.time.LocalDateTime; // import the LocalDateTime class
+import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
@@ -28,14 +29,9 @@ public class Controller implements Initializable {
 	private ChoiceBox<String> myChoiceBox6;
 	
 	@FXML
-	private Pane myPane;
+	private Rectangle clockIndicatorBox; // turns red when stopped, green when running
 	@FXML
-	private Rectangle clockIndicatorBox;
-	@FXML
-	private Label clockIndicatorLabel;
-	
-	@FXML
-	private Button myButton;
+	private Label clockIndicatorLabel; // indicates when stopped and started
 	
 	private String[] choices = {"Business Project", "Development Project"};
 	private String[] choices2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
@@ -47,11 +43,13 @@ public class Controller implements Initializable {
 	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3", "Developer 4",
 			"Developer 5","Developer 6","Developer 7"};
 	
+	// user starts timer
 	private boolean isLogging = false;
-	
 	private LocalDateTime startDateTime;
 	private long startTime;
-	private LocalDateTime stop;
+	
+	// user stops timer, generates EffortLog
+	private LocalDateTime stopDateTime;
 	private long stopTime;
 	
 
@@ -65,41 +63,62 @@ public class Controller implements Initializable {
 		myChoiceBox6.getItems().addAll(choices6);
 	}
 	
+
+	public boolean areFieldsFull() {
+		// Check if the user did their civic duty and filled out
+		// EffortLogger essential information, denies access if not
+		if (myChoiceBox.getValue() == null | 
+				myChoiceBox2.getValue() == null |
+				myChoiceBox3.getValue() == null |
+				myChoiceBox4.getValue() == null |
+				myChoiceBox5.getValue() == null |
+				myChoiceBox6.getValue() == null) {
+			return true; // TODO reverse truth values to get real results, this is for DEBUG
+		}
+		else { return false; }
+	}
+	
 	@FXML
 	public void timerStart(ActionEvent event) {
 		if (!isLogging) {
-			// Debug Statement
-			System.out.println("Time Started");
 			// take note of current date time for log and time in ms for elapsed time
 			startDateTime = LocalDateTime.now();
 			startTime = System.currentTimeMillis();
 			
 			clockIndicatorBox.setFill(Color.GREEN);
 			clockIndicatorLabel.setText("Clock is Running");
-			isLogging = !isLogging;
+			isLogging = true;
 		}
 	}
 	
 	@FXML
 	public void timerStop(ActionEvent event) {
-		if (isLogging) {
-			// Debug Statement
-			System.out.println("Time Finished");
+		if (isLogging & areFieldsFull()) {
 			// take note of current date time for log and time in ms for elapsed time
-			stop = LocalDateTime.now();
+			stopDateTime = LocalDateTime.now();
 			stopTime = System.currentTimeMillis();
 			
-			System.out.println("Elapsed Time (ms): " + calcTimeElapsed(startTime, stopTime));
+			long elapsedTime = stopTime - startTime;
+			
+			// Debug statement, TODO turn into data entries.
+			System.out.println("Time Elapsed : " + String.format("%d min, %d sec", 
+				    TimeUnit.MILLISECONDS.toMinutes(elapsedTime),
+				    TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - 
+				    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedTime))));
 			
 			clockIndicatorBox.setFill(Color.RED);
 			clockIndicatorLabel.setText("Clock is Stopped");
-			isLogging = !isLogging;
+			isLogging = false;
+			
+			startDateTime = null;
+			stopDateTime = null;
+			
+			myChoiceBox.setValue(null);
+			myChoiceBox2.setValue(null);
+			myChoiceBox3.setValue(null);
+			myChoiceBox4.setValue(null);
+			myChoiceBox5.setValue(null);
+			myChoiceBox6.setValue(null);
 		}
-	}
-	
-	public long calcTimeElapsed(long start, long stop) {
-		// calculate time elapsed (in milliseconds), convert to hours
-		// 1 hour = 3.6 million ms => time elapsed / 3.6million = hours
-		return stop - start;
 	}
 }
