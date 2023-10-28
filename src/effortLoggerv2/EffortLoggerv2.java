@@ -1,3 +1,4 @@
+//this file was made by Luz and Jonathan
 package effortLoggerv2;
 
 import javafx.application.Application;
