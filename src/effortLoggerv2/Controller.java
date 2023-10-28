@@ -57,6 +57,11 @@ public class Controller implements Initializable {
 	@FXML
 	private ChoiceBox<String> myChoiceBox6;
 	
+	@FXML
+	private ChoiceBox<String> groupSelect;
+	@FXML
+	private ChoiceBox<String> roleSelect;
+	
 	private String[] choices = {"Business Project", "Development Project"};
 	private String[] choices2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
 			"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
