@@ -1,3 +1,4 @@
+//this file was made by Luz and Jonathan
 package effortLoggerv2;
 
 import java.net.URL;
@@ -216,8 +217,8 @@ public class Controller implements Initializable {
 			
 			// adds each value to the applicable table column/row
 			EffortLog newEffortLog = new EffortLog(startDateTime, stopDateTime, elapsedTime,
-					myChoiceBox.getValue(), myChoiceBox5.getValue(), myChoiceBox2.getValue(), 
-					myChoiceBox3.getValue(), myChoiceBox6.getValue(), myChoiceBox4.getValue());
+					myChoiceBox.getValue(), myChoiceBox4.getValue(), myChoiceBox2.getValue(), 
+					myChoiceBox5.getValue(), myChoiceBox6.getValue(), myChoiceBox3.getValue());
 			
 			parseEffortLog(newEffortLog);
 			
