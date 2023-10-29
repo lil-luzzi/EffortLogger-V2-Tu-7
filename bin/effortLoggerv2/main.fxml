@@ -193,7 +193,7 @@
                         <Label layoutX="53.0" layoutY="32.0" text="Group Number" />
                         <Label layoutX="268.0" layoutY="32.0" text="Role" />
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="301.0" layoutX="53.0" layoutY="160.0" stroke="GREY" strokeType="INSIDE" width="778.0" />
-                        <Label layoutX="53.0" layoutY="102.0" prefHeight="38.0" prefWidth="603.0" text="Progress Report For Group #">
+                        <Label layoutX="53.0" layoutY="102.0" prefHeight="38.0" prefWidth="603.0" text="Progress Report For Group/Role">
                            <font>
                               <Font size="36.0" />
                            </font>
