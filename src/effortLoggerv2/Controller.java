@@ -8,14 +8,15 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+<<<<<<< HEAD
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.Chart;
+=======
+>>>>>>> parent of 642d0d8... updated
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -61,9 +62,8 @@ public class Controller implements Initializable {
 	@FXML
 	private ChoiceBox<String> groupSelect;
 	@FXML
-	private RadioButton groupSelectButton;
-	@FXML
 	private ChoiceBox<String> roleSelect;
+<<<<<<< HEAD
 	@FXML
 	private RadioButton roleSelectButton;
 	
@@ -75,6 +75,8 @@ public class Controller implements Initializable {
 	private Chart prodReportChart;
 	
 	final ToggleGroup prodReportGroup = new ToggleGroup();
+=======
+>>>>>>> parent of 642d0d8... updated
 	
 	private String[] choices = {"Business Project", "Development Project"};
 	private String[] choices2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
@@ -192,10 +194,6 @@ public class Controller implements Initializable {
 		// add options to group and role selections
 		groupSelect.getItems().addAll(choices5);
 		roleSelect.getItems().addAll(choices6);
-		
-		// group together group and role selection radio buttons
-		groupSelectButton.setToggleGroup(prodReportGroup);
-		roleSelectButton.setToggleGroup(prodReportGroup);
 	}
 	
 
@@ -213,6 +211,7 @@ public class Controller implements Initializable {
 		else { return true; }
 	}
 	
+<<<<<<< HEAD
 	@FXML
 	public void groupChoice(ActionEvent event) {
 		String selection = "";
@@ -244,6 +243,8 @@ public class Controller implements Initializable {
 		}
 	}
 	
+=======
+>>>>>>> parent of 642d0d8... updated
 	
 	@FXML
 	public void timerStart(ActionEvent event) {
@@ -339,15 +340,5 @@ public class Controller implements Initializable {
 
 	public void setStopDateTime(LocalDateTime stopDateTime) {
 		this.stopDateTime = stopDateTime;
-	}
-
-
-	public String getProdReportSelection() {
-		return prodReportSelection;
-	}
-
-
-	public void setProdReportSelection(String prodReportSelection) {
-		this.prodReportSelection = prodReportSelection;
 	}
 }

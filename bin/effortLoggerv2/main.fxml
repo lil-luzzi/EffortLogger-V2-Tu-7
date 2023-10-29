@@ -188,7 +188,7 @@
                         <Label layoutX="339.0" layoutY="33.0" text="Role" />
                         <Pane layoutX="-4.0" layoutY="146.0" prefHeight="376.0" prefWidth="907.0">
                            <children>
-                              <LineChart fx:id="prodReportChart" layoutX="34.0" prefHeight="340.0" prefWidth="839.0">
+                              <LineChart layoutX="34.0" prefHeight="340.0" prefWidth="839.0">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -198,15 +198,13 @@
                               </LineChart>
                            </children>
                         </Pane>
-                        <Label fx:id="prodReportLabel" layoutX="127.0" layoutY="95.0" prefHeight="38.0" prefWidth="603.0" text="Production Report For Group or Role">
+                        <Label fx:id="prodGraphLabel" layoutX="127.0" layoutY="95.0" prefHeight="38.0" prefWidth="603.0" text="Production Report For Group/Role">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
-                        <RadioButton fx:id="groupSelectButton" layoutX="87.0" layoutY="60.0" mnemonicParsing="false" onAction="#groupSelect" prefWidth="18.0" />
-                        <RadioButton fx:id="roleSelectButton" layoutX="301.0" layoutY="60.0" mnemonicParsing="false" />
-                        <Label layoutX="81.0" layoutY="33.0" text="Select" />
-                        <Label layoutX="293.0" layoutY="33.0" text="Select" />
+                        <RadioButton layoutX="101.0" layoutY="59.0" mnemonicParsing="false" />
+                        <RadioButton layoutX="310.0" layoutY="60.0" mnemonicParsing="false" />
                      </children>
                   </AnchorPane>
               </content>
