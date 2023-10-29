@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -71,7 +72,7 @@ public class Controller implements Initializable {
 	@FXML
 	private Label prodReportLabel;
 	@FXML
-	private BarChart prodReportChart;
+	private Chart prodReportChart;
 	
 	final ToggleGroup prodReportGroup = new ToggleGroup();
 	
@@ -235,9 +236,11 @@ public class Controller implements Initializable {
 		}
 		else if (newSelection != "") {
 			// TODO insert data filter and sort as well as chart display
+			return;
 		}
 		else {
 			// TODO insert cleared data
+			return;
 		}
 	}
 	
