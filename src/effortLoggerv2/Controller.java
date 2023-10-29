@@ -8,10 +8,13 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -57,7 +60,20 @@ public class Controller implements Initializable {
 	@FXML
 	private ChoiceBox<String> groupSelect;
 	@FXML
+	private RadioButton groupSelectButton;
+	@FXML
 	private ChoiceBox<String> roleSelect;
+	@FXML
+	private RadioButton roleSelectButton;
+	
+	private String prodReportSelection;
+	
+	@FXML
+	private Label prodReportLabel;
+	@FXML
+	private BarChart prodReportChart;
+	
+	final ToggleGroup prodReportGroup = new ToggleGroup();
 	
 	private String[] choices = {"Business Project", "Development Project"};
 	private String[] choices2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
@@ -175,6 +191,10 @@ public class Controller implements Initializable {
 		// add options to group and role selections
 		groupSelect.getItems().addAll(choices5);
 		roleSelect.getItems().addAll(choices6);
+		
+		// group together group and role selection radio buttons
+		groupSelectButton.setToggleGroup(prodReportGroup);
+		roleSelectButton.setToggleGroup(prodReportGroup);
 	}
 	
 
@@ -190,6 +210,35 @@ public class Controller implements Initializable {
 			return false;
 		}
 		else { return true; }
+	}
+	
+	@FXML
+	public void groupChoice(ActionEvent event) {
+		String selection = "";
+		if (groupSelect.getValue() != null) {
+			selection = groupSelect.getValue();
+		}
+		prodReportChange(selection);
+	}
+	
+	@FXML public void roleChoice(ActionEvent event) {
+		String selection = "";
+		if (roleSelect.getValue() != null) {
+			selection = roleSelect.getValue();
+		}
+		prodReportChange(selection);
+	}
+	
+	public void prodReportChange(String newSelection) {
+		if (newSelection == prodReportSelection) {
+			return;
+		}
+		else if (newSelection != "") {
+			// TODO insert data filter and sort as well as chart display
+		}
+		else {
+			// TODO insert cleared data
+		}
 	}
 	
 	
@@ -287,5 +336,15 @@ public class Controller implements Initializable {
 
 	public void setStopDateTime(LocalDateTime stopDateTime) {
 		this.stopDateTime = stopDateTime;
+	}
+
+
+	public String getProdReportSelection() {
+		return prodReportSelection;
+	}
+
+
+	public void setProdReportSelection(String prodReportSelection) {
+		this.prodReportSelection = prodReportSelection;
 	}
 }
