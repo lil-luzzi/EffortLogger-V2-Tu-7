@@ -219,7 +219,7 @@ public class Controller implements Initializable {
 		
 		// dummy data for bar charts
 		laborSeries1 = new XYChart.Series<String, Integer>();
-		laborSeries1.setName("Team 1 Labor");
+		laborSeries1.setName("Team 1 Labor Hours");
 		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.24.23", 50));
 		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.25.23", 101));
 		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.26.23", 80));
@@ -239,7 +239,7 @@ public class Controller implements Initializable {
 		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
 		
 		laborSeries2 = new XYChart.Series<String, Integer>();
-		laborSeries2.setName("Team 2 Labor");
+		laborSeries2.setName("Team 2 Labor Hours");
 		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 20));
 		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 22));
 		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 42));
@@ -259,7 +259,7 @@ public class Controller implements Initializable {
 		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 16));
 		
 		laborSeries3 = new XYChart.Series<String, Integer>();
-		laborSeries3.setName("Team 3 Labor");
+		laborSeries3.setName("Team 3 Labor Hours");
 		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
 		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
 		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
@@ -279,7 +279,7 @@ public class Controller implements Initializable {
 		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
 		
 		laborSeries4 = new XYChart.Series<String, Integer>();
-		laborSeries4.setName("Developer 1 Labor");
+		laborSeries4.setName("Developer 1 Labor Hours");
 		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
 		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
 		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
@@ -299,7 +299,7 @@ public class Controller implements Initializable {
 		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
 		
 		laborSeries5 = new XYChart.Series<String, Integer>();
-		laborSeries5.setName("Developer 2 Labor");
+		laborSeries5.setName("Developer 2 Labor Hours");
 		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.24.23", 55));
 		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
 		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
@@ -319,7 +319,7 @@ public class Controller implements Initializable {
 		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.30.23", 5));
 		
 		laborSeries6 = new XYChart.Series<String, Integer>();
-		laborSeries6.setName("Developer 3 Labor");
+		laborSeries6.setName("Developer 3 Labor Hours");
 		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.24.23", 66));
 		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
 		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
