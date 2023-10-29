@@ -9,8 +9,9 @@ import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.Chart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -59,32 +60,51 @@ public class Controller implements Initializable {
 	private ChoiceBox<String> myChoiceBox6;
 	
 	@FXML
-	private ChoiceBox<String> groupSelect;
+	private ComboBox<String> groupSelect;
 	@FXML
-	private ChoiceBox<String> roleSelect;
-
+	private RadioButton groupSelectButton;
+	@FXML
+	private ComboBox<String> roleSelect;
 	@FXML
 	private RadioButton roleSelectButton;
 	
-	private String prodReportSelection;
+	private boolean groupSelected = false;
+	private boolean roleSelected = false;
 	
+	private String prodReportSelection;
 	@FXML
-	private Label prodReportLabel;
+	private Label prodGraphLabel;
 	@FXML
-	private Chart prodReportChart;
+	private BarChart <String, Integer> laborHoursChart;
+	@FXML
+	private BarChart <String, Integer> ticketsCompletedChart;
 	
 	final ToggleGroup prodReportGroup = new ToggleGroup();
+	
+	// labor series for prototype
+	XYChart.Series<String, Integer> laborSeries1;
+	XYChart.Series<String, Integer> laborSeries2;
+	XYChart.Series<String, Integer> laborSeries3;
+	XYChart.Series<String, Integer> laborSeries4;
+	XYChart.Series<String, Integer> laborSeries5;
+	XYChart.Series<String, Integer> laborSeries6;
+	// ticket series for prototype
+	XYChart.Series<String, Integer> ticketSeries1;
+	XYChart.Series<String, Integer> ticketSeries2;
+	XYChart.Series<String, Integer> ticketSeries3;
+	XYChart.Series<String, Integer> ticketSeries4;
+	XYChart.Series<String, Integer> ticketSeries5;
+	XYChart.Series<String, Integer> ticketSeries6;
 
 	
 	private String[] choices = {"Business Project", "Development Project"};
 	private String[] choices2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
 			"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
-	private String[] choices3 = {"Plans                 ", "Deliverables", "Interruptions", "Defects", "Others"};
+	private String[] choices3 = {"Plans", "Deliverables", "Interruptions", "Defects", "Others"};
 	private String[] choices4 = {"Project Plan", "Risk Management Plan", "Conceptual Design Plan", 
 			"Detailed Design Plan", "Implementation Plan"};
 	private String[] choices5 = {"Team 1", "Team 2", "Team 3"};
-	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3", "Developer 4",
-			"Developer 5","Developer 6","Developer 7"};
+	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3"};
 	
 	// user starts timer
 	private boolean isLogging = false;
@@ -192,6 +212,131 @@ public class Controller implements Initializable {
 		// add options to group and role selections
 		groupSelect.getItems().addAll(choices5);
 		roleSelect.getItems().addAll(choices6);
+		
+		// add radio buttons to group
+		groupSelectButton.setToggleGroup(prodReportGroup);
+		roleSelectButton.setToggleGroup(prodReportGroup);
+		
+		// dummy data for bar charts
+		laborSeries1 = new XYChart.Series<String, Integer>();
+		laborSeries1.setName("Team 1 Labor");
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.24.23", 50));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.25.23", 101));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.26.23", 80));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.27.23", 75));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.28.23", 42));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.29.23", 35));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.30.23", 15));
+		
+		ticketSeries1 = new XYChart.Series<String, Integer>();
+		ticketSeries1.setName("Team 1 Tickets");
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.24.23", 3));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.25.23", 17));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.26.23", 5));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.27.23", 8));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.28.23", 2));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries2 = new XYChart.Series<String, Integer>();
+		laborSeries2.setName("Team 2 Labor");
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 20));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 22));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 42));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 32));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 54));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 75));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 102));
+		
+		ticketSeries2 = new XYChart.Series<String, Integer>();
+		ticketSeries2.setName("Team 2 Tickets");
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 2));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 2));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 3));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 5));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 10));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 16));
+		
+		laborSeries3 = new XYChart.Series<String, Integer>();
+		laborSeries3.setName("Team 3 Labor");
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.29.23", 84));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries3 = new XYChart.Series<String, Integer>();
+		ticketSeries3.setName("Team 3 Tickets");
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.24.23", 0));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.25.23", 2));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.26.23", 1));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.27.23", 1));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.28.23", 5));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.29.23", 15));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries4 = new XYChart.Series<String, Integer>();
+		laborSeries4.setName("Developer 1 Labor");
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.29.23", 84));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries4 = new XYChart.Series<String, Integer>();
+		ticketSeries4.setName("Developer 1 Tickets");
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.24.23", 7));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.25.23", 1));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.26.23", 4));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.28.23", 3));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.29.23", 11));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries5 = new XYChart.Series<String, Integer>();
+		laborSeries5.setName("Developer 2 Labor");
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.24.23", 55));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.29.23", 85));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries5 = new XYChart.Series<String, Integer>();
+		ticketSeries5.setName("Developer 2 Tickets");
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.24.23", 8));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.25.23", 7));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.26.23", 2));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.27.23", 0));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.28.23", 2));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.29.23", 14));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.30.23", 5));
+		
+		laborSeries6 = new XYChart.Series<String, Integer>();
+		laborSeries6.setName("Developer 3 Labor");
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.24.23", 66));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 86));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries6 = new XYChart.Series<String, Integer>();
+		ticketSeries6.setName("Developer 3 Tickets");
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.24.23", 0));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.25.23", 4));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.26.23", 6));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
 	}
 	
 
@@ -208,10 +353,33 @@ public class Controller implements Initializable {
 		}
 		else { return true; }
 	}
+	
+	@FXML
+	public void groupDecision(ActionEvent event) {
+		if (groupSelected) {
+			prodReportChange(groupSelect.getValue());
+		}
+		/*
+		 * for future use
+		else if (groupSelect.getValue() == ""){
+			laborHoursChart.getData().clear();
+			ticketsCompletedChart.getData().clear();
+		}
+		*/
+	}
+	
+	@FXML
+	public void roleDecision(ActionEvent event) {
+		if (roleSelected) {
+			prodReportChange(roleSelect.getValue());
+		}
+	}
 
 	@FXML
 	public void groupChoice(ActionEvent event) {
 		String selection = "";
+		groupSelected = true;
+		roleSelected = false;
 		if (groupSelect.getValue() != null) {
 			selection = groupSelect.getValue();
 		}
@@ -220,6 +388,8 @@ public class Controller implements Initializable {
 	
 	@FXML public void roleChoice(ActionEvent event) {
 		String selection = "";
+		roleSelected = true;
+		groupSelected = false;
 		if (roleSelect.getValue() != null) {
 			selection = roleSelect.getValue();
 		}
@@ -232,7 +402,55 @@ public class Controller implements Initializable {
 		}
 		else if (newSelection != "") {
 			// TODO insert data filter and sort as well as chart display
-			return;
+			prodGraphLabel.setText(prodGraphLabel.getText().substring(0,22) + newSelection);
+			if (newSelection == "Team 1") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries1);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries1);
+			}
+			else if (newSelection == "Team 2") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries2);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries2);
+			}
+			else if (newSelection == "Team 3") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries3);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries3);
+			}
+			else if (newSelection == "Developer 1") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries4);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries4);
+			}
+			else if (newSelection == "Developer 2") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries5);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries5);
+			}
+			else if (newSelection == "Developer 3") {
+				// clear labor hours chart, add data
+				laborHoursChart.getData().clear();
+				laborHoursChart.getData().add(laborSeries6);
+				// clear tickets completed chart, add data
+				ticketsCompletedChart.getData().clear();
+				ticketsCompletedChart.getData().add(ticketSeries6);
+			}
 		}
 		else {
 			// TODO insert cleared data
