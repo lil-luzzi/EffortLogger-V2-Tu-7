@@ -68,6 +68,13 @@ public class Controller implements Initializable {
 	@FXML
 	private RadioButton roleSelectButton;
 	
+	@FXML
+	private ChoiceBox<String> monthSelect;
+	@FXML
+	private ChoiceBox<String> daySelect;
+	@FXML
+	private ChoiceBox<String> yearSelect;
+	
 	private boolean groupSelected = false;
 	private boolean roleSelected = false;
 	
@@ -213,6 +220,10 @@ public class Controller implements Initializable {
 		groupSelect.getItems().addAll(choices5);
 		roleSelect.getItems().addAll(choices6);
 		
+		monthSelect.getItems().addAll("11");
+		daySelect.getItems().addAll("24");
+		yearSelect.getItems().addAll("23");
+		
 		// add radio buttons to group
 		groupSelectButton.setToggleGroup(prodReportGroup);
 		roleSelectButton.setToggleGroup(prodReportGroup);
@@ -250,13 +261,13 @@ public class Controller implements Initializable {
 		
 		ticketSeries2 = new XYChart.Series<String, Integer>();
 		ticketSeries2.setName("Team 2 Tickets");
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 2));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 2));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 3));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 5));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 10));
-		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 16));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 3));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 17));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 5));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 7));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 3));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 6));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 20));
 		
 		laborSeries3 = new XYChart.Series<String, Integer>();
 		laborSeries3.setName("Team 3 Labor Hours");
@@ -397,7 +408,8 @@ public class Controller implements Initializable {
 	}
 	
 	public void prodReportChange(String newSelection) {
-		if (newSelection == prodReportSelection) {
+		if (newSelection == prodReportSelection | monthSelect.getValue() == null | 
+				daySelect.getValue() == null |yearSelect.getValue() == null) {
 			return;
 		}
 		else if (newSelection != "") {
