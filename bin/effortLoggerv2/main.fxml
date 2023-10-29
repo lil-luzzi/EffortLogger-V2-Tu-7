@@ -183,7 +183,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="112.0" layoutY="32.0" text="Group Number" />
+                        <Label layoutX="112.0" layoutY="32.0" text="Group" />
                         <Label layoutX="339.0" layoutY="33.0" text="Role" />
                         <RadioButton fx:id="groupSelectButton" layoutX="74.0" layoutY="59.0" mnemonicParsing="false" onAction="#groupChoice" />
                         <Label layoutX="65.0" layoutY="32.0" text="Select" />
