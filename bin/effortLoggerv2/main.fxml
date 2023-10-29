@@ -118,17 +118,17 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="539.0" layoutY="30.0" prefHeight="30.0" prefWidth="103.0" text="Project Group:">
+                              <Label layoutX="302.0" layoutY="111.0" prefHeight="30.0" prefWidth="103.0" text="Project Group:">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="52.0" layoutY="110.0" prefHeight="30.0" prefWidth="114.0" text="Effort Category:">
+                              <Label layoutX="535.0" layoutY="30.0" prefHeight="30.0" prefWidth="114.0" text="Effort Category:">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="302.0" layoutY="110.0" prefHeight="30.0" prefWidth="103.0" text="Plan:">
+                              <Label layoutX="52.0" layoutY="111.0" prefHeight="30.0" prefWidth="103.0" text="Plan:">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
