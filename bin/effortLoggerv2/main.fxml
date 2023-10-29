@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -20,11 +24,6 @@
    <children>
       <TabPane prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="User Stories">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
           <Tab text="Log Adder">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -155,11 +154,6 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Calculation View">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
             <Tab text="Log View">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -184,23 +178,46 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Progress Report">
+            <Tab text="Production Report">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ChoiceBox fx:id="groupSelect" layoutX="58.0" layoutY="54.0" prefWidth="150.0" />
-                        <ChoiceBox fx:id="roleSelect" layoutX="266.0" layoutY="55.0" prefWidth="150.0" />
-                        <Label layoutX="53.0" layoutY="32.0" text="Group Number" />
-                        <Label layoutX="268.0" layoutY="32.0" text="Role" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="301.0" layoutX="53.0" layoutY="160.0" stroke="GREY" strokeType="INSIDE" width="778.0" />
-                        <Label layoutX="53.0" layoutY="102.0" prefHeight="38.0" prefWidth="603.0" text="Progress Report For Group/Role">
+                        <ChoiceBox fx:id="groupSelect" layoutX="129.0" layoutY="55.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="roleSelect" layoutX="337.0" layoutY="56.0" prefWidth="150.0" />
+                        <Label layoutX="127.0" layoutY="33.0" text="Group Number" />
+                        <Label layoutX="339.0" layoutY="33.0" text="Role" />
+                        <Pane layoutX="-4.0" layoutY="146.0" prefHeight="376.0" prefWidth="907.0">
+                           <children>
+                              <LineChart layoutX="34.0" prefHeight="340.0" prefWidth="839.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                           </children>
+                        </Pane>
+                        <Label fx:id="prodGraphLabel" layoutX="127.0" layoutY="95.0" prefHeight="38.0" prefWidth="603.0" text="Production Report For Group/Role">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
+                        <RadioButton layoutX="101.0" layoutY="59.0" mnemonicParsing="false" />
+                        <RadioButton layoutX="310.0" layoutY="60.0" mnemonicParsing="false" />
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+          <Tab closable="false" text="User Stories">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Calculation View">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
             </Tab>
         </tabs>
          <padding>

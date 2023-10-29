@@ -11,16 +11,12 @@ import javafx.fxml.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.beans.property.SimpleLongProperty;
 
 
 public class Controller implements Initializable {
@@ -167,6 +163,7 @@ public class Controller implements Initializable {
 		effortCategoryCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("effortCategory"));
 		
 		/*
+		 * OPTIONAL PARAMS SET AUTOMATICALLY
 		myChoiceBox.setValue("Business Project");
 		myChoiceBox2.setValue("Planning");
 		myChoiceBox3.setValue("Plans");
@@ -174,6 +171,10 @@ public class Controller implements Initializable {
 		myChoiceBox5.setValue("Team 1");
 		myChoiceBox6.setValue("Developer 1");
 		*/
+		
+		// add options to group and role selections
+		groupSelect.getItems().addAll(choices5);
+		roleSelect.getItems().addAll(choices6);
 	}
 	
 
