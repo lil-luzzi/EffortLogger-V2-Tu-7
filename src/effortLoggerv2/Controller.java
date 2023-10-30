@@ -10,9 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,9 +23,53 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 
 public class Controller implements Initializable {
+	//create vector for the user story table
+	Vector<Vector<?>> userTable = new Vector<Vector<?>>(6);	//User table with 6 columns
+	
+	//6 categories for the calculation view
+	Vector<String> titleVect;
+	Vector<String> priotityVect;
+	Vector<String> estimateVect;		//The different columns
+	Vector<String> typeOfUserVect;
+	Vector<String> funcVect;
+	Vector<String> benefitVect;
+	
+	@FXML
+	private TextField title;
+	@FXML
+	private ChoiceBox<String> priorityBox;
+	@FXML
+	private ChoiceBox<String> userBox;
+	@FXML
+	private TextField feature;
+	@FXML
+	private TextField reason;
+	@FXML
+	private Button createUserStoryBtn;
+	
+	@FXML
+	private TableView<UserStory> userStoryTable;		//FXML assignments, pairing the main FXML file to the controller.
+	@FXML
+	private TableColumn<UserStory, String> titleCol;
+	@FXML
+	private TableColumn<UserStory, String> priority;
+	@FXML
+	private TableColumn<UserStory, String> estimateCol;
+	@FXML
+	private TableColumn<UserStory, String> typeOfUserCol;
+	@FXML
+	private TableColumn<UserStory, String> funcCol;
+	@FXML
+	private TableColumn<UserStory, String> benefitCol;
+	
+	ObservableList<UserStory> userStories = FXCollections.observableArrayList();
+	StatisticalInsightTool insightTool = new StatisticalInsightTool(userStories);	//Creates the table and sets up the insight tool
+	
 	// Create a Vector of dynamic Vectors to make a table (Matrix)
 	Vector<Vector<?>> effortLogTable = new Vector<Vector<?>>(9);
 	
@@ -67,6 +113,8 @@ public class Controller implements Initializable {
 	private String[] choices5 = {"Team 1", "Team 2", "Team 3"};
 	private String[] choices6 = {"Developer 1", "Developer 2", "Developer 3", "Developer 4",
 			"Developer 5","Developer 6","Developer 7"};
+	private String[] choices7 = {"High", "Medium", "Low"};
+	private String[] choices8 = {"Type 1", "Type 2", "Type 3", "Type 4"};
 	
 	// user starts timer
 	private boolean isLogging = false;
@@ -105,6 +153,23 @@ public class Controller implements Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		//Sets the data in the user story table
+		userStoryTable.setItems(userStories);
+		
+		//populates choice boxes with values
+		priorityBox.getItems().addAll(choices7);
+		userBox.getItems().addAll(choices8);
+		
+		//Linking particular variables to specific cells in the table
+		titleCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+		priority.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPriority()));
+		estimateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEstimateStoryPoints()));
+		typeOfUserCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeOfUser()));
+		funcCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFeature()));
+		benefitCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReason()));
+		
+		
 		// add choices to dropdown choice boxes
 		myChoiceBox.getItems().addAll(choices);
 		myChoiceBox2.getItems().addAll(choices2);
@@ -160,15 +225,6 @@ public class Controller implements Initializable {
 		userGroupCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("userGroup"));
 		employeeRankCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("employeeRank"));
 		effortCategoryCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("effortCategory"));
-		
-		/*
-		myChoiceBox.setValue("Business Project");
-		myChoiceBox2.setValue("Planning");
-		myChoiceBox3.setValue("Plans");
-		myChoiceBox4.setValue("Project Plan");
-		myChoiceBox5.setValue("Team 1");
-		myChoiceBox6.setValue("Developer 1");
-		*/
 	}
 	
 
@@ -282,4 +338,43 @@ public class Controller implements Initializable {
 	public void setStopDateTime(LocalDateTime stopDateTime) {
 		this.stopDateTime = stopDateTime;
 	}
+	
+	public void createUserStory() {
+		String storyTitle = title.getText();
+		String storyPriority = priorityBox.getValue();
+		String userType = userBox.getValue();
+		String storyFeature = feature.getText();
+		String storyReason = reason.getText();
+		
+		int priorityVal = 0;
+		
+		switch(storyPriority) {
+		case "High":
+			priorityVal = 3;
+			break;
+		case "Medium":
+			priorityVal = 2;
+			break;
+		case "Low" :
+			priorityVal = 1;
+			break;
+		}
+		
+		String priVal = Integer.toString(priorityVal);
+		
+		if(!storyPriority.equals(""))
+				{
+		
+			UserStory newUserStory = new UserStory(storyTitle, storyFeature, 
+					storyReason, userType, priVal);
+			newUserStory.setEstimateStoryPoints(Integer.toString(insightTool.calcEstimate(newUserStory)));
+			userStories.add(newUserStory);	
+		
+			title.clear();
+			priorityBox.setValue(null);
+			userBox.setValue(null);
+			feature.clear();
+			reason.clear();
+				}
+		}
 }
