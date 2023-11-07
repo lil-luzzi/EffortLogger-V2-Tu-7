@@ -38,6 +38,7 @@ public class Controller implements Initializable {
 	Vector<String> typeOfUserVect;
 	Vector<String> funcVect;
 	Vector<String> benefitVect;
+	Vector<String> descVect;
 	
 	@FXML
 	private TextField title;
@@ -49,6 +50,8 @@ public class Controller implements Initializable {
 	private TextField feature;
 	@FXML
 	private TextField reason;
+	@FXML
+	private TextField description;
 	@FXML
 	private Button createUserStoryBtn;
 	
