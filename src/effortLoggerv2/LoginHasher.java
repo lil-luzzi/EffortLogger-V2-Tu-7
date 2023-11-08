@@ -7,9 +7,10 @@ import java.util.Base64;
 
 public class LoginHasher {
 	
+	//array of usernames and passwords, each one corresponds to the one that
+	//shares the same index
 	protected String[] usernames = {"lerodr20", "philswift", "joshli"};
     protected String[] passwords = {"123456", "7892534", "jill335812"};
-    private int userCount = 3;
 
   
     // Generate a random salt
@@ -41,10 +42,10 @@ public class LoginHasher {
         }
         return false;
     }
+    //Verify if the user exists
     public boolean verifyUsername(String username) {
     	for(int i=0;i<3;i++) {
     		if(username==usernames[i]) {
-    			System.out.println("it gets here");
     			return true;
     		}
     	}

@@ -34,7 +34,7 @@ public class LoginController {
 	
 	@FXML
 	public void login(ActionEvent event) throws IOException {
-		
+		//Checks to see if the user entered exists
 		for (int i=0;i<3;i++) {
 			if(nameTextField.getText().equals(pass.usernames[i])) {
 				userIndex = i;
@@ -42,13 +42,17 @@ public class LoginController {
 			}
 		}
 		
-		
+		//if use exists
 		if(userExists == true) {
 			String username = nameTextField.getText();
 			String password = passTextField.getText();
+			System.out.println(hashedPass[userIndex]);
+			System.out.println(LoginHasher.hashPassword(password, salt));
 			
+			//check the hashed version of the entered password against the stored hashed password
 			verification = LoginHasher.verifyPassword(password, salt, hashedPass[userIndex]);
-
+			
+			//if matches, log the user in and send them to the Mainline effortlogger interface
 			if(verification == true) {
 				System.out.println("Logging in...");
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
@@ -72,6 +76,9 @@ public class LoginController {
 			System.out.println("User does not exist.");
 		}
 		
+		
+	}
+	public void signup(ActionEvent event) throws IOException {
 		
 	}
 		

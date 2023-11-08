@@ -28,22 +28,6 @@ public class EffortLoggerv2 extends Application {
 	
 	@Override
     public void start(Stage primaryStage) {
-    	//leave this in incase we have to revert it - Luz
-    	/*System.out.println("Luz Rodriguez Hello World!");
-    	System.out.println("It started!");
-        primaryStage.setTitle("Luz Rodriguez Hello World");
-        Button btn = new Button();
-        btn.setText("Display: 'hehe says: Hello World!'");
-        btn.setOnAction(new EventHandler<>() {
-            public void handle(ActionEvent event) {
-                System.out.println("Luz Rodriguez: Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();*/
     	
     	try {
     		Parent root = FXMLLoader.load(getClass().getResource("LoginPage.fxml"));
