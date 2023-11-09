@@ -20,5 +20,12 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <TextField fx:id="passTextField" layoutX="325.0" layoutY="266.0" prefHeight="34.0" prefWidth="251.0" />
+      <Label layoutX="325.0" layoutY="236.0" text="Password:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="398.0" layoutY="436.0" mnemonicParsing="false" onAction="#signup" prefHeight="34.0" prefWidth="105.0" text="signup" />
    </children>
 </AnchorPane>
