@@ -79,7 +79,18 @@ public class LoginController {
 		
 	}
 	public void signup(ActionEvent event) throws IOException {
-		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("helloview.fxml"));
+        root = loader.load();
+
+        // Get the controller of the signup view
+        Password_Validator_Controller signupController = loader.getController();
+
+        // Set the new scene
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
 	}
 		
 		
