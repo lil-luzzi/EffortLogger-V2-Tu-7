@@ -18,8 +18,6 @@ public class LoginController {
 	
 	@FXML
 	private TextField nameTextField;
-	@FXML
-	private TextField passTextField;
 	
 	@FXML
 	private TextField passTextField;
