@@ -1,3 +1,4 @@
+//this file was made by Luz
 package effortLoggerv2;
 
 
@@ -17,6 +18,8 @@ public class LoginController {
 	
 	@FXML
 	private TextField nameTextField;
+	@FXML
+	private TextField passTextField;
 	
 	@FXML
 	private TextField passTextField;

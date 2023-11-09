@@ -1,3 +1,4 @@
+//this file was made by Jonathan
 package effortLoggerv2;
 
 import java.time.LocalDateTime;
@@ -7,7 +8,6 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
 
 public class EffortLog {
 	// EffortLog Time Info
