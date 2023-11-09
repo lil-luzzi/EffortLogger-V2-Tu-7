@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ public class LoginController {
 	private TextField nameTextField;
 	
 	@FXML
-	private TextField passTextField;
+	private PasswordField passTextField;
 	
 	private Stage stage;
 	private Scene scene;
