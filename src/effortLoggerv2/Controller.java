@@ -1,6 +1,10 @@
 //this file was made by Luz and Jonathan
 package effortLoggerv2;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -452,6 +456,8 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
+		
+		readFromCSV("userStory.csv");	//Reads data from CSV into table
 	}
 	
 
@@ -727,6 +733,8 @@ public class Controller implements Initializable {
 					storyReason, userType, priVal);
 			newUserStory.setEstimateStoryPoints(Integer.toString(insightTool.calcEstimate(newUserStory)));
 			userStories.add(newUserStory);	
+			
+			writeToCSV("userStory.csv");		//Writes user story to CSV
 		
 			title.clear();
 			priorityBox.setValue(null);
@@ -735,4 +743,60 @@ public class Controller implements Initializable {
 			reason.clear();
 				}
 		}
+	public void writeToCSV(String filePath) {
+        try (FileWriter csvWriter = new FileWriter(filePath)) {
+            csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,EstimateStoryPoints\n");
+
+            for (UserStory story : userStories) {
+                csvWriter.append(formatCSVField(story.getTitle()));
+                csvWriter.append(",");
+                csvWriter.append(formatCSVField(story.getPriority()));
+                csvWriter.append(",");
+                csvWriter.append(formatCSVField(story.getTypeOfUser()));		//Separates fields by commas
+                csvWriter.append(",");
+                csvWriter.append(formatCSVField(story.getFeature()));
+                csvWriter.append(",");
+                csvWriter.append(formatCSVField(story.getReason()));
+                csvWriter.append(",");
+                csvWriter.append(formatCSVField(story.getEstimateStoryPoints()));
+                csvWriter.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately
+        }
+    }
+
+    private String formatCSVField(String data) {
+        return "\"" + data.replace("\"", "\"\"") + "\"";  // Handles quotes within the data
+    }
+    
+    public void readFromCSV(String filePath) {
+        String line = "";
+        String csvSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip the header line
+
+            while ((line = br.readLine()) != null) {
+                // Use comma as separator
+                String[] storyData = line.split(csvSplitBy);
+
+                // Assuming storyData is in the correct format and order
+                UserStory story = new UserStory(
+                    storyData[0].replace("\"", "").trim(), // title
+                    storyData[3].replace("\"", "").trim(), // feature
+                    storyData[4].replace("\"", "").trim(), // reason
+                    storyData[2].replace("\"", "").trim(), // typeOfUser
+                    storyData[1].replace("\"", "").trim() // priority
+                );
+                story.setEstimateStoryPoints(storyData[5].replace("\"", "").trim());  //estimate
+                
+                userStories.add(story);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+    }
 }
