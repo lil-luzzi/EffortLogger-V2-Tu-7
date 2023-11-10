@@ -231,6 +231,58 @@
                      </children></AnchorPane>
                </content>
             </Tab>
+            <Tab text="Production Report">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="112.0" layoutY="32.0" text="Group" />
+                        <Label layoutX="339.0" layoutY="33.0" text="Role" />
+                        <RadioButton fx:id="groupSelectButton" layoutX="74.0" layoutY="59.0" mnemonicParsing="false" onAction="#groupChoice" />
+                        <Label layoutX="65.0" layoutY="32.0" text="Select" />
+                        <Label layoutX="301.0" layoutY="33.0" text="Select" />
+                        <RadioButton fx:id="roleSelectButton" layoutX="310.0" layoutY="60.0" mnemonicParsing="false" onAction="#roleChoice" />
+                        <Pane layoutX="-4.0" layoutY="146.0" prefHeight="376.0" prefWidth="907.0">
+                           <children>
+                              <Label layoutX="36.0" layoutY="16.0" text="Labor Hours" />
+                              <Label layoutX="457.0" layoutY="16.0" text="Tickets Completed" />
+                              <BarChart fx:id="ticketsCompletedChart" animated="false" layoutX="459.0" layoutY="40.0" prefHeight="297.0" prefWidth="437.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                              <BarChart fx:id="laborHoursChart" animated="false" layoutX="41.0" layoutY="39.0" prefHeight="303.0" prefWidth="437.0">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </BarChart>
+                              <Label layoutX="210.0" layoutY="343.0" text="Date(MM.DD.YY)" />
+                              <Label layoutX="633.0" layoutY="343.0" text="Date(MM.DD.YY)" />
+                           </children>
+                        </Pane>
+                        <Label fx:id="prodGraphLabel" contentDisplay="CENTER" layoutX="45.0" layoutY="98.0" prefHeight="60.0" prefWidth="801.0" text="Production Report For Group/Role">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="groupSelect" layoutX="112.0" layoutY="54.0" onAction="#groupDecision" prefWidth="150.0" />
+                        <ComboBox fx:id="roleSelect" layoutX="342.0" layoutY="55.0" onAction="#roleDecision" prefWidth="150.0" />
+                        <Label layoutX="633.0" layoutY="32.0" text="MM" />
+                        <Label layoutX="705.0" layoutY="32.0" text="DD" />
+                        <Label layoutX="773.0" layoutY="32.0" text="YY" />
+                        <Label layoutX="545.0" layoutY="32.0" text="Start Date:" />
+                        <ChoiceBox fx:id="monthSelect" layoutX="616.0" layoutY="55.0" prefHeight="26.0" prefWidth="56.0" />
+                        <ChoiceBox fx:id="daySelect" layoutX="686.0" layoutY="56.0" prefHeight="26.0" prefWidth="56.0" />
+                        <ChoiceBox fx:id="yearSelect" layoutX="753.0" layoutY="56.0" prefHeight="26.0" prefWidth="56.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
          <padding>
             <Insets top="50.0" />

@@ -9,7 +9,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-
 public class EffortLog {
 	// EffortLog Time Info
 	private final SimpleObjectProperty<LocalDateTime> startDateTime;
