@@ -1,6 +1,9 @@
 package effortLoggerv2;
 
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class UserStory {
@@ -10,6 +13,8 @@ public class UserStory {
     private final SimpleStringProperty typeOfUser;
     private final SimpleStringProperty priority;
     private final SimpleStringProperty estimateStoryPoints;
+    private final SimpleBooleanProperty actioned;
+    private final SimpleStringProperty actualPointScore;
     
     //constructor
 
@@ -21,6 +26,8 @@ public class UserStory {
         this.typeOfUser = new SimpleStringProperty(typeOfUser);
         this.priority = new SimpleStringProperty(priority);
         this.estimateStoryPoints = new SimpleStringProperty("0");
+        this.actioned = new SimpleBooleanProperty(false);
+        this.actualPointScore = new SimpleStringProperty("Not Assigned");
     }
 
     /*
@@ -96,5 +103,28 @@ public class UserStory {
 
     public StringProperty estimateStoryPointsProperty() {
         return estimateStoryPoints;
+    }
+    public boolean isActioned() {
+        return actioned.get();
+    }
+
+    public void setActioned(boolean actioned) {
+        this.actioned.set(actioned);
+    }
+
+    public BooleanProperty actionedProperty() {
+        return actioned;
+    }
+    
+    public String getActualPointScore() {
+        return actualPointScore.get();
+    }
+
+    public void setActualPointScore(String actualPointScore) {
+        this.actualPointScore.set(actualPointScore);
+    }
+
+    public StringProperty actualPointScoreProperty() {
+        return actualPointScore;
     }
 }

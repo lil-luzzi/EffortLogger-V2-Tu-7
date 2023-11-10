@@ -37,7 +37,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Controller implements Initializable {
 	//create vector for the user story table
-	Vector<Vector<?>> userTable = new Vector<Vector<?>>(6);	//User table with 6 columns
+	Vector<Vector<?>> userTable = new Vector<Vector<?>>(8);	//User table with 6 columns
 	
 	//6 categories for the calculation view
 	Vector<String> titleVect;
@@ -47,6 +47,7 @@ public class Controller implements Initializable {
 	Vector<String> funcVect;
 	Vector<String> benefitVect;
 	Vector<String> descVect;
+	Vector<String> actualVect;
 	
 	@FXML
 	private TextField title;
@@ -748,27 +749,23 @@ public class Controller implements Initializable {
             csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,EstimateStoryPoints\n");
 
             for (UserStory story : userStories) {
-                csvWriter.append(formatCSVField(story.getTitle()));
+            	csvWriter.append(story.getTitle());
                 csvWriter.append(",");
-                csvWriter.append(formatCSVField(story.getPriority()));
+                csvWriter.append(story.getPriority());
                 csvWriter.append(",");
-                csvWriter.append(formatCSVField(story.getTypeOfUser()));		//Separates fields by commas
+                csvWriter.append(story.getTypeOfUser());
                 csvWriter.append(",");
-                csvWriter.append(formatCSVField(story.getFeature()));
+                csvWriter.append(story.getFeature());
                 csvWriter.append(",");
-                csvWriter.append(formatCSVField(story.getReason()));
+                csvWriter.append(story.getReason());
                 csvWriter.append(",");
-                csvWriter.append(formatCSVField(story.getEstimateStoryPoints()));
-                csvWriter.append("\n");
+                csvWriter.append(story.getEstimateStoryPoints());
+                csvWriter.append(",");
             }
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception appropriately
         }
-    }
-
-    private String formatCSVField(String data) {
-        return "\"" + data.replace("\"", "\"\"") + "\"";  // Handles quotes within the data
     }
     
     public void readFromCSV(String filePath) {

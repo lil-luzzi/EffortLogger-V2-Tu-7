@@ -1,3 +1,2 @@
 Title,Priority,TypeOfUser,Feature,Reason,EstimateStoryPoints
-"Sample1","3","Type 2","This","That","9"
-"Sample2","2","Type 3","f","a","18"
+Sample1,3,Type 2,This,That,9,Sample2,2,Type 3,f,a,18,Sample3,3,Type 2,fasf,fasdg,40,
