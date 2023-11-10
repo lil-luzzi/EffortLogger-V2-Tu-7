@@ -18,6 +18,7 @@ module EffortLoggerv2 {
 	requires javafx.graphics;
 	requires java.desktop;
 	requires javafx.base;
+	requires org.json;
 	
 	opens effortLoggerv2 to javafx.graphics, javafx.fxml, javafx.base;
 
