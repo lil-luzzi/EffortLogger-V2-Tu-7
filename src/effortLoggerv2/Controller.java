@@ -2,6 +2,7 @@
 package effortLoggerv2;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.time.LocalDateTime;
@@ -9,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -17,6 +20,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -202,7 +206,34 @@ public class Controller implements Initializable {
 	
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
+	//Private Feedback Tool variables - Anton Nguyen
+	//TextFields from UI
+	@FXML
+	private TextField pft_text1;
+	@FXML
+	private TextField pft_text2;
+	@FXML
+	private TextField pft_text3;
+	@FXML
+	private TextField pft_text4;
+	
+	//bar chart variables
+	@FXML
+	private BarChart<String, Number> pft_chart;               
+	private CategoryAxis xAxis = new CategoryAxis();   
+	private NumberAxis yAxis = new NumberAxis();
+	
+	//integer variables which use TextField data
+	private int projectsCmp;
+	private int overtime;
+	private int peerRating;
+	private int solutionCnt;
+	
+	//iterator for the term a graph is representing
+	private int termCount = 0;
 
+	//end of Private Feedback Tool variables
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -640,6 +671,32 @@ public class Controller implements Initializable {
 		this.stopDateTime = stopDateTime;
 	}
 	
+	//Private Feedback Tool method - Anton Nguyen
+	public void generatePFTChart(ActionEvent Event) {
+		//write TextBox info to integers
+		projectsCmp = Integer.valueOf(pft_text1.getText());
+		overtime = Integer.valueOf(pft_text2.getText());
+		peerRating = Integer.valueOf(pft_text3.getText());
+		solutionCnt = Integer.valueOf(pft_text4.getText());
+		
+		//create chart
+		xAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(
+				   "Projects completed", "Overtime hours", "Peer satisfaction", "Solution contributions"))); 
+		xAxis.setLabel("Categories");
+        yAxis.setLabel("Ratings");
+        
+        //add chart data
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Term " + termCount);
+        series.getData().add(new XYChart.Data<>("Projects completed", projectsCmp));
+        series.getData().add(new XYChart.Data<>("Overtime hours", overtime)); 
+        series.getData().add(new XYChart.Data<>("Peer satisfaction", peerRating)); 
+        series.getData().add(new XYChart.Data<>("Solution contributions", solutionCnt)); 
+        pft_chart.getData().addAll(series);
+        
+        termCount++;	//iterate termCount
+	}
+
 	public void createUserStory() {
 		String storyTitle = title.getText();
 		String storyPriority = priorityBox.getValue();
