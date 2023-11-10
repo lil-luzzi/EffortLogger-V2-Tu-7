@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?> 
+
+	<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="effortLoggerv2.Password_Validator_Controller" style="-fx-padding: 40;">
+    <top>
+        <HBox alignment="CENTER">
+            <Label text="New User Signup" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+    <center>
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 20;">
+        	<Label text=" First Name:" />
+            <TextField fx:id="firstNameField" />
+        	 <Label text=" Last Name:" />
+            <TextField fx:id="lastNameField" />
+            <Label text="Email:" />
+            <TextField fx:id="emailField" />
+            <Label text="Password:" />
+            <PasswordField fx:id="passwordField" />
+            <Label text="Confirm Password:" />
+            <PasswordField fx:id="confirmPasswordField" />
+   			<Label text="Password Strength:" />
+		<TextField fx:id="passwordStrengthTextField" editable="false" />
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER">
+            <Button text="Submit" onAction="#handleSignUpButton" />
+        </HBox>
+    </bottom>
+</BorderPane>

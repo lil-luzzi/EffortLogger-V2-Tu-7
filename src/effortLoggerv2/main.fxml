@@ -14,6 +14,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -26,9 +28,39 @@
         <tabs>
           <Tab closable="false" text="User Stories">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="4.0" layoutY="6.0" prefHeight="99.0" prefWidth="888.0">
+                           <children>
+                              <TextField fx:id="title" layoutX="14.0" layoutY="52.0" promptText="Title" />
+                              <Label layoutX="52.0" layoutY="23.0" text="User Story Title" />
+                              <Label layoutX="748.0" layoutY="23.0" text="Priority Level" />
+                              <Label layoutX="394.0" layoutY="41.0" text="User Story Creator" />
+                              <ChoiceBox fx:id="priorityBox" layoutX="708.0" layoutY="53.0" prefWidth="150.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="4.0" layoutY="97.0" prefHeight="324.0" prefWidth="900.0">
+                           <children>
+                              <Label layoutX="426.0" layoutY="29.0" text="As a..." />
+                              <ChoiceBox fx:id="userBox" layoutX="363.0" layoutY="61.0" prefWidth="150.0" />
+                              <Label layoutX="528.0" layoutY="66.0" text="Type of User" />
+                              <Label layoutX="423.0" layoutY="123.0" text="I Want..." />
+                              <TextField fx:id="feature" layoutX="358.0" layoutY="162.0" promptText="Feature" />
+                              <Label layoutX="542.0" layoutY="167.0" text="Feature" />
+                              <Label layoutX="421.0" layoutY="215.0" text="So that..." />
+                              <TextField fx:id="reason" layoutX="358.0" layoutY="259.0" promptText="Reason" />
+                              <Label layoutX="548.0" layoutY="264.0" text="Reason" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="-1.0" layoutY="421.0" prefHeight="98.0" prefWidth="900.0">
+                           <children>
+                              <Button fx:id="createUserStoryBtn" layoutX="393.0" layoutY="36.0" mnemonicParsing="false" onAction="#createUserStory" text="Create User Story" />
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
             </content>
           </Tab>
+
           <Tab text="Log Adder">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -57,7 +89,6 @@
                         </Pane>
                         <Pane fx:id="choiceBox" layoutY="182.0" prefHeight="200.0" prefWidth="900.0">
                            <children>
-      
                                           <ChoiceBox fx:id="myChoiceBox" layoutX="52.0" layoutY="74.0" prefHeight="27.0" prefWidth="188.0">
                                  <contextMenu>
                                     <ContextMenu>
@@ -161,7 +192,23 @@
           </Tab>
             <Tab text="Calculation View">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="523.0" prefWidth="900.0">
+                           <children>
+                              <TableView fx:id="userStoryTable" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn fx:id="titleCol" prefWidth="128.0" text="Title" />
+                                  <TableColumn fx:id="priority" prefWidth="72.0" text="Priority" />
+                                    <TableColumn fx:id="estimateCol" minWidth="6.0" prefWidth="88.0" text="Estimate" />
+                                    <TableColumn fx:id="typeOfUserCol" minWidth="0.0" prefWidth="132.0" text="Type of User" />
+                                    <TableColumn fx:id="funcCol" minWidth="0.0" prefWidth="200.0" text="Feature" />
+                                    <TableColumn fx:id="benefitCol" minWidth="0.0" prefWidth="208.0" text="Benefit" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </StackPane>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab text="Log View">
@@ -209,6 +256,58 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
+                       </children>
+                  </AnchorPane>
+                </content>
+              </Tab>
+            <Tab text="Production Report">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="112.0" layoutY="33.0" text="Group" />
+                        <Label layoutX="339.0" layoutY="33.0" text="Role" />
+                        <RadioButton fx:id="groupSelectButton" layoutX="74.0" layoutY="59.0" mnemonicParsing="false" onAction="#groupChoice" />
+                        <Label layoutX="65.0" layoutY="32.0" text="Select" />
+                        <Label layoutX="301.0" layoutY="33.0" text="Select" />
+                        <RadioButton fx:id="roleSelectButton" layoutX="310.0" layoutY="60.0" mnemonicParsing="false" onAction="#roleChoice" />
+                        <Pane layoutX="-4.0" layoutY="146.0" prefHeight="376.0" prefWidth="907.0">
+                           <children>
+                              <Label layoutX="36.0" layoutY="16.0" text="Labor Hours" />
+                              <Label layoutX="457.0" layoutY="16.0" text="Tickets Completed" />
+                              <BarChart fx:id="ticketsCompletedChart" animated="false" layoutX="459.0" layoutY="40.0" prefHeight="297.0" prefWidth="437.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                              <BarChart fx:id="laborHoursChart" animated="false" layoutX="41.0" layoutY="39.0" prefHeight="303.0" prefWidth="437.0">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </BarChart>
+                              <Label layoutX="210.0" layoutY="343.0" text="Date(MM.DD.YY)" />
+                              <Label layoutX="633.0" layoutY="343.0" text="Date(MM.DD.YY)" />
+                           </children>
+                        </Pane>
+                        <Label fx:id="prodGraphLabel" contentDisplay="CENTER" layoutX="45.0" layoutY="98.0" prefHeight="60.0" prefWidth="801.0" text="Production Report For Group/Role">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="groupSelect" layoutX="112.0" layoutY="54.0" onAction="#groupDecision" prefWidth="150.0" />
+                        <ComboBox fx:id="roleSelect" layoutX="342.0" layoutY="55.0" onAction="#roleDecision" prefWidth="150.0" />
+                        <Label layoutX="633.0" layoutY="32.0" text="MM" />
+                        <Label layoutX="705.0" layoutY="32.0" text="DD" />
+                        <Label layoutX="773.0" layoutY="32.0" text="YY" />
+                        <Label layoutX="545.0" layoutY="32.0" text="Start Date:" />
+                        <ChoiceBox fx:id="monthSelect" layoutX="616.0" layoutY="55.0" prefHeight="26.0" prefWidth="56.0" />
+                        <ChoiceBox fx:id="daySelect" layoutX="686.0" layoutY="56.0" prefHeight="26.0" prefWidth="56.0" />
+                        <ChoiceBox fx:id="yearSelect" layoutX="753.0" layoutY="56.0" prefHeight="26.0" prefWidth="56.0" />
                      </children>
                   </AnchorPane>
               </content>
