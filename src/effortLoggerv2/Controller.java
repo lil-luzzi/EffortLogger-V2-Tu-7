@@ -250,6 +250,7 @@ public class Controller implements Initializable {
 	//2a and 2b
 	@FXML
 	private ChoiceBox<String> DefectSelect;
+	private String[] defecttest = {"defect test"};
 	//the rest is the cleardefectlog function and the createnewdefect function
 	//3
 	@FXML
@@ -491,7 +492,10 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
 		
 		//initializing Defect Console variables -Luz (i hear voices)
-		
+		//adding choices to #1
+		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
+		//adding choices to #2.b
+		DefectSelect.getItems().addAll(defecttest);
 		
 		
 	}
@@ -777,5 +781,23 @@ public class Controller implements Initializable {
 			reason.clear();
 				}
 		}
-	
+	//defect console commands start - Luz
+	public void ClearDefectLog(ActionEvent event) {
+		//this should clear ALL defect logs for a selected project
+	}
+	public void CreateNewDefect(ActionEvent event) {
+		//this should create a new defect if the -no defect selected- is selected
+	}
+	public void StatusClosed(ActionEvent event) {
+		//this should close up the currently selected defect
+	}
+	public void StatusOpen(ActionEvent event) {
+		//this should close up the currently selected defect
+	}
+	public void UpdateCurrentDefect(ActionEvent event) {
+		//this should update the current defect selected
+	}
+	public void DeleteCurrentDefect(ActionEvent event) {
+		//this should delete the current defect log
+	}
 }

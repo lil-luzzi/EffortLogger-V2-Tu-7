@@ -202,7 +202,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox layoutX="78.0" layoutY="51.0" prefHeight="26.0" prefWidth="322.0">
+                        <ChoiceBox fx:id="DefectProjectSelect" layoutX="78.0" layoutY="51.0" prefHeight="26.0" prefWidth="322.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -216,13 +216,13 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="607.0" layoutY="57.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" text="Clear this Defect Log" />
+                        <Button layoutX="607.0" layoutY="57.0" mnemonicParsing="false" onAction="#ClearDefectLog" prefHeight="39.0" prefWidth="136.0" text="Clear this Defect Log" />
                         <Label layoutX="61.0" layoutY="104.0" prefHeight="30.0" prefWidth="631.0" text="2.b. Select one of the following defects to make it the current defect or press &quot;Create a New Defect&quot;.">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox layoutX="78.0" layoutY="141.0" prefHeight="26.0" prefWidth="322.0">
+                        <ChoiceBox fx:id="DefectSelect" layoutX="78.0" layoutY="141.0" prefHeight="26.0" prefWidth="322.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -231,7 +231,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </ChoiceBox>
-                        <Button layoutX="607.0" layoutY="134.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" text="Create a New Defect" />
+                        <Button layoutX="607.0" layoutY="134.0" mnemonicParsing="false" onAction="#CreateNewDefect" prefHeight="39.0" prefWidth="136.0" text="Create a New Defect" />
                         <Label layoutX="59.0" layoutY="173.0" prefHeight="49.0" prefWidth="635.0" text="3. Define or update the following Current Defect attributes:">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -247,20 +247,20 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="129.0" layoutY="239.0" prefHeight="17.0" prefWidth="17.0" text="0" textAlignment="CENTER">
+                        <Label fx:id="defectNumLabel" layoutX="129.0" layoutY="239.0" prefHeight="17.0" prefWidth="17.0" text="0" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="165.0" layoutY="235.0" promptText="-defect name-" />
-                        <Label layoutX="630.0" layoutY="213.0" prefHeight="18.0" prefWidth="91.0" text="Status: Closed">
+                        <TextField fx:id="DefectName" layoutX="165.0" layoutY="235.0" promptText="-defect name-" />
+                        <Label fx:id="DefectStatus" layoutX="630.0" layoutY="213.0" prefHeight="18.0" prefWidth="91.0" text="Status: Closed">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="712.0" layoutY="233.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" text="Reopen" />
-                        <Button layoutX="576.0" layoutY="233.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="63.0" text="Close" />
-                        <TextArea layoutX="106.0" layoutY="287.0" prefHeight="60.0" prefWidth="682.0" promptText="Type in here" />
+                        <Button layoutX="712.0" layoutY="233.0" mnemonicParsing="false" onAction="#StatusOpen" prefHeight="30.0" prefWidth="63.0" text="Reopen" />
+                        <Button layoutX="576.0" layoutY="233.0" mnemonicParsing="false" onAction="#StatusClosed" prefHeight="30.0" prefWidth="63.0" text="Close" />
+                        <TextArea fx:id="DefectDescription" layoutX="106.0" layoutY="287.0" prefHeight="60.0" prefWidth="682.0" promptText="Type in here" />
                         <Label layoutX="91.0" layoutY="263.0" prefHeight="24.0" prefWidth="240.0" text="Defect Symptoms or Cause/Resolution">
                            <font>
                               <Font name="System Bold" size="13.0" />
