@@ -20,9 +20,9 @@ public class PlanningPoker{
 	public void startRound() {
 		UserStory story = findUnactionedStory();
 		if(story != null) {
-			this.currentStory = story;
-			this.scores.clear();
-			this.aggreed = false;
+			currentStory = story;
+			scores.clear();
+			aggreed = false;
 		}
 		else {
 			

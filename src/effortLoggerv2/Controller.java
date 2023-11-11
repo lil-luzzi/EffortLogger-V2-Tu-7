@@ -82,6 +82,8 @@ public class Controller implements Initializable {
 	ObservableList<UserStory> userStories = FXCollections.observableArrayList();
 	StatisticalInsightTool insightTool = new StatisticalInsightTool(userStories);	//Creates the table and sets up the insight tool
 	
+	
+	
 	// Create a Vector of dynamic Vectors to make a table (Matrix)
 	Vector<Vector<?>> effortLogTable = new Vector<Vector<?>>(9);
 	
