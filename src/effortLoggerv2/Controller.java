@@ -1,6 +1,10 @@
 //this file was made by Luz and Jonathan
 package effortLoggerv2;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -16,14 +20,18 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
@@ -233,6 +241,35 @@ public class Controller implements Initializable {
 	private int termCount = 0;
 
 	//end of Private Feedback Tool variables
+	
+	//Start of Defect Console Variables - Luz :)
+	//1
+	@FXML
+	private ChoiceBox<String> DefectProjectSelect;
+	private String[] DefectProjectChoices = {"Business Project", "Development Project"};
+	//2a and 2b
+	@FXML
+	private ChoiceBox<String> DefectSelect;
+	//the rest is the cleardefectlog function and the createnewdefect function
+	//3
+	@FXML
+	private Label defectNumLabel;
+	@FXML
+	private TextField DefectName;
+	@FXML
+	private Label DefectStatus;
+	//the 2 buttons are functions: closestatus and openstatus
+	@FXML
+	private TextArea DefectDescription;
+	@FXML
+	private ScrollPane testing123;
+	@FXML
+	private AnchorPane ScrollAnchor;
+	@FXML
+	private ListView StepWhenInjected;
+	//4
+	//the buttons are updatecurrentdefect and deletecurrentdefect
+	//End of Defect Console Variables - Luz :)
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -452,6 +489,11 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
+		
+		//initializing Defect Console variables -Luz (i hear voices)
+		
+		
+		
 	}
 	
 
@@ -735,4 +777,5 @@ public class Controller implements Initializable {
 			reason.clear();
 				}
 		}
+	
 }
