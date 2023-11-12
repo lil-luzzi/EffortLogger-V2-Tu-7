@@ -1,3 +1,5 @@
+//This file was made by Joseph Prainito
+
 package effortLoggerv2;
 
 import javafx.collections.ObservableList;
@@ -32,8 +34,8 @@ public class StatisticalInsightTool{
 		int stdDev = 0;
 		
 		for(UserStory story : historicalData) {
-			sum += Integer.parseInt(story.getEstimateStoryPoints());
-		}
+			sum += Integer.parseInt(story.getEstimateStoryPoints());		//Standard deviation
+		}	
 		
 		int average = sum/historicalData.size();
 		
@@ -52,7 +54,7 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 		
 		for(UserStory story : historicalData) {
 			if(currentStory.getTypeOfUser() == story.getTypeOfUser()) {
-				sum += Integer.parseInt(story.getEstimateStoryPoints());
+				sum += Integer.parseInt(story.getEstimateStoryPoints());		//std dev by type
 				size++;
 			}
 		}
@@ -73,7 +75,7 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 		int size = 0;
 		
 		for(UserStory story : historicalData) {
-			if(currentStory.getTypeOfUser() == story.getTypeOfUser()) {
+			if(currentStory.getTypeOfUser() == story.getTypeOfUser()) {		//Average by type
 				total += Integer.parseInt(story.getEstimateStoryPoints());
 				size++;
 			}
@@ -85,47 +87,41 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 	}
 	
 	public int calcEstimate(UserStory currentStory) {
-	    if (historicalData.isEmpty()) {
-	        return getPriorityEstimete(currentStory.getPriority());
-	    }
+	    int baseEstimate = getBaseEstimateFromPriority(currentStory.getPriority());
+	    double adjustmentFactor = getAdjustmentFactor(currentStory.getPriority());
 
-	    double weightedTotal = 0;
-	    double totalWeight = 0;
+	    return limitStoryPoints((int) Math.round(baseEstimate * adjustmentFactor));
+	}
+	
+	public int getBaseEstimateFromPriority(String priority) {
+	    switch (priority) {
+	        case "High":
+	            return 900; // Base estimate for high priority
+	        case "Medium":
+	            return 300; // Base estimate for medium priority
+	        default:
+	            return 100; // Base estimate for low/default priority
+	    }
+	}
+	
+	public double getAdjustmentFactor(String priority) {
+	    double totalDifference = 0;
+	    int count = 0;
 
 	    for (UserStory story : historicalData) {
-	        int weight = getPriorityEstimete(story.getPriority());
-
-	        int normalizedEstimate = limitStoryPoints(Integer.parseInt(story.getEstimateStoryPoints()));
-	        weightedTotal += normalizedEstimate * weight;
-	        totalWeight += weight;
-
-	        if (!story.getActualPointScore().equals("Not Assigned")) {
-	            int normalizedActual = limitStoryPoints(Integer.parseInt(story.getActualPointScore()));
-	            weightedTotal += normalizedActual * weight;
-	            totalWeight += weight;
+	        if (story.getPriority().equals(priority) && !story.getActualPointScore().equals("Not Assigned")) {
+	            int estimated = Integer.parseInt(story.getEstimateStoryPoints());
+	            int actual = Integer.parseInt(story.getActualPointScore());
+	            totalDifference += (actual - estimated);
+	            count++;
 	        }
 	    }
 
-	    if (totalWeight == 0) {
-	        return 0;
-	    }
-
-	    double weightedAverage = weightedTotal / totalWeight;
-	    return limitStoryPoints((int) Math.round(weightedAverage));
-	}
-	
-	public int getPriorityEstimete(String priority) {
-		switch (priority) {
-		case "High":
-			return 300*3;
-		case "Medium":
-			return 200*2;
-		default:
-			return 100;
-		}
+	    if (count == 0) return 1.0; // No adjustment if no historical data is available
+	    return 1.0 + (totalDifference / count) / 100.0; // Adjusting the base estimate by an average percentage
 	}
 	
 	public int limitStoryPoints(int points) {
-		return Math.min(Math.max(points, 100), 1000);
+		return Math.min(Math.max(points, 100), 1000);	//Keeps score between 100-1000
 	}
 }

@@ -129,7 +129,7 @@ public class Controller implements Initializable {
 	@FXML
 	private Button submitScoreBtn;
 	
-	private PlanningPoker session;
+	private PlanningPoker session;	
 	
 	// Create a Vector of dynamic Vectors to make a table (Matrix)
 	Vector<Vector<?>> effortLogTable = new Vector<Vector<?>>(9);
@@ -793,7 +793,7 @@ public class Controller implements Initializable {
 	public void generateNewSession() {
 		session = new PlanningPoker(userStories);		//Creates a new PlanningPoker Obj
 		int players = Integer.parseInt(playerField.getText());		
-		if(!(playerField.getText()).equals(""))		//Captures how many players are going to be participating in a planning poker session
+		if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
 			session.setPlayers(players);
 		roundLabel.setText("Round 1");
 		votingLabel.setText("Player 1 Voting");
@@ -809,6 +809,8 @@ public class Controller implements Initializable {
 			featureLabel.setText(session.getUserStory().getFeature());
 			reasonLabel.setText(session.getUserStory().getReason());
 			descriptionField.setText(session.getUserStory().getDescription());
+			userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+			userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
 		}
 	}
 	
@@ -826,7 +828,7 @@ public class Controller implements Initializable {
 		userStdDevLabel.setText("");
 		roundStdDevLabel.setText("");
 		roundLabel.setText("Round Lynn Robert Carter");
-		votingLabel.setText("Planning Poker Now Voting");
+		votingLabel.setText("Planning Poker Now Voting");		//ends a session
 		votedLabel.setText("My Brain is Fried");
 		session = null;
 	}
@@ -834,7 +836,7 @@ public class Controller implements Initializable {
 	@FXML
 	public int captureScore() {
 		int score = Integer.parseInt(actualScoreField.getText());
-		if(!(actualScoreField.getText()).equals("")) {
+		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer
 			if (score < 100)
 				return 100;
 			else if (score > 1000)
@@ -851,7 +853,7 @@ public class Controller implements Initializable {
 		actualScoreField.setText("");
 		session.setPlayersVoted(session.getPlayersVoted() + 1);
 		votingLabel.setText("Player " + (session.getPlayersVoted() + 1) + " Voting");
-		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");
+		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");	//When a score is submitted, the score is added to the arraylist and logic determinesn what is done next
 		
 		if(session.getPlayersVoted() == session.getPlayers()) {
 			if(session.allTheSame()) {
@@ -878,7 +880,7 @@ public class Controller implements Initializable {
 	}
 	
 	public void endRound() {
-		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));
+		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));	//ends a round
 		session.getUserStory().setActioned(true);
 		updateCSV("userStory.csv", session.getUserStory());
 		generateNewSession();
@@ -908,7 +910,7 @@ public class Controller implements Initializable {
                 csvWriter.append(",");
                 csvWriter.append(story.getFeature());
                 csvWriter.append(",");
-                csvWriter.append(story.getReason());
+                csvWriter.append(story.getReason());		//Writes to CSV
                 csvWriter.append(",");
                 csvWriter.append(story.getDescription());
                 csvWriter.append(",");
@@ -936,7 +938,6 @@ public class Controller implements Initializable {
                 // Use comma as separator
                 String[] storyData = line.split(csvSplitBy);
 
-                // Assuming storyData is in the correct format and order
                 UserStory story = new UserStory(
                     storyData[0].replace("\"", "").trim(), // title
                     storyData[3].replace("\"", "").trim(), // feature
@@ -954,7 +955,6 @@ public class Controller implements Initializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle exceptions appropriately
         }
     }
 }

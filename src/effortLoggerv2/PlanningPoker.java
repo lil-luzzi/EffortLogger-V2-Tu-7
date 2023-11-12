@@ -1,3 +1,5 @@
+//This file was mmade by Joseph Prainito
+
 package effortLoggerv2;
 
 import java.util.ArrayList;
@@ -7,9 +9,9 @@ import javafx.collections.ObservableList;
 public class PlanningPoker{
 	private int players;
 	private int round;
-	private int playersVoted;
+	private int playersVoted;		//Planning Poker variables
 	private UserStory currentStory;
-	private ArrayList<Integer> scores;
+	private ArrayList<Integer> scores;			
 	private ObservableList<UserStory> userStories;
 	
 	public PlanningPoker(ObservableList<UserStory> userStories) {
@@ -21,7 +23,7 @@ public class PlanningPoker{
 	}
 	
 	public boolean hasUnactionedStories() {
-	    for (UserStory story : userStories) {
+	    for (UserStory story : userStories) {		//Lets the program know if there is an unactioned story
 	        if (!story.isActioned())
 	            return true;
 	    }
@@ -29,8 +31,7 @@ public class PlanningPoker{
 	}
 	
 	public UserStory findUnactionedStory() {
-		for(UserStory story : userStories) {
-			if(!story.isActioned())
+		for(UserStory story : userStories) {		//Searches for unactioned story			
 				return story;
 		}
 		return null;
@@ -39,7 +40,7 @@ public class PlanningPoker{
 	public int minScore() {
 		int min = scores.get(0);
 		
-		for(int i = 1; i < scores.size(); i++) {
+		for(int i = 1; i < scores.size(); i++) {	//min score for range
 			if(scores.get(i) < min)
 				min = scores.get(i);
 		}
@@ -49,7 +50,7 @@ public class PlanningPoker{
 	public int maxScore() {
 		int max = scores.get(0);
 		
-		for(int i = 1; i < scores.size(); i++) {
+		for(int i = 1; i < scores.size(); i++) {		//max score for range
 			if(scores.get(i) > max)
 				max = scores.get(i);
 		}
@@ -62,7 +63,7 @@ public class PlanningPoker{
 		int stdDev = 0;
 		
 		for(int i = 0; i < scores.size(); i++) {
-			stdDev += (int) Math.pow(scores.get(i) - average,2);
+			stdDev += (int) Math.pow(scores.get(i) - average,2);		//Std deviation of the round
 		}
 		
 		return (int) Math.sqrt(stdDev/scores.size());
@@ -71,7 +72,7 @@ public class PlanningPoker{
 	public int getRoundAverage() {
 		int avg = 0;
 		
-		for(int i = 0; i < scores.size(); i++) {
+		for(int i = 0; i < scores.size(); i++) {		//Average of the round
 			avg += scores.get(i);
 		}
 		
@@ -80,7 +81,7 @@ public class PlanningPoker{
 	
 	public boolean allTheSame() {
 		int comp = scores.get(0);
-		for(int i = 1; i < scores.size(); i++) {
+		for(int i = 1; i < scores.size(); i++) {		//checks if all values were the same
 			if(comp != scores.get(i)) {
 				return false;
 			}
@@ -88,13 +89,17 @@ public class PlanningPoker{
 		return true;
 	}
 	
-	public void addScores(int score) {
+	public void addScores(int score) {	//Adds score to score arraylist
 		scores.add(score);
 	}
 	
-	public void clearScores() {
+	public void clearScores() {		//clears arraylist
 		scores.clear();
 	}
+	
+	/*
+	 * Getters/Setters
+	 */
 	
 	public UserStory getUserStory() {
 		return currentStory;
