@@ -901,6 +901,7 @@ public class Controller implements Initializable {
 								newStepRem, newDefCat, newDefectStatus, newDefFix); 
 		
 		defectData.add(newDefectLog);
+		//System.arraycopy(newDefectArray, 0, defecttest, 0, newDefectArray.length);
 		
 	}
 	public void StatusClosed(ActionEvent event) {
@@ -939,5 +940,9 @@ public class Controller implements Initializable {
 	public void DeleteCurrentDefect(ActionEvent event) {
 		//this should delete the current defect log
 		defectData.clear();
+		DefectSelect.getItems().clear();
+		DefectFix.getItems().clear();
+		DefectSelect.getItems().addAll("no defect selected");
+		DefectFix.getItems().addAll("no defect selecected");
 	}
 }
