@@ -74,9 +74,9 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="36.0" layoutY="22.0" prefHeight="17.0" prefWidth="306.0" text="Carter is my Daddy" textFill="#c90f0f">
+                              <Label layoutX="36.0" layoutY="25.0" text="We Love Planning Poker!" textFill="RED">
                                  <font>
-                                    <Font name="Avenir Next Demi Bold" size="24.0" />
+                                    <Font size="24.0" />
                                  </font>
                               </Label>
                            </children>
@@ -127,14 +127,15 @@
                         </Pane>
                         <Pane layoutX="691.0" prefHeight="518.0" prefWidth="209.0">
                            <children>
-                              <Label layoutX="80.0" layoutY="26.0" text="Round: 0" />
+                              <Label fx:id="roundLabel" layoutX="80.0" layoutY="26.0" text="Round: 0" />
                               <Label fx:id="votingLabel" layoutX="60.0" layoutY="109.0" text="Player x Voting..." />
                               <Label layoutX="57.0" layoutY="242.0" text="Story Point Score" />
                               <TextField fx:id="actualScoreField" layoutX="25.0" layoutY="209.0" promptText="Actual Score (100-1000)" />
                               <Label fx:id="votedLabel" layoutX="39.0" layoutY="427.0" text="X out of Y Players Voted" />
-                              <Button fx:id="submitScoreBtn" layoutX="58.0" layoutY="322.0" mnemonicParsing="false" text="Submit Score" />
+                              <Button fx:id="submitScoreBtn" layoutX="58.0" layoutY="322.0" mnemonicParsing="false" onAction = "#onScoreSubmit" text="Submit Score" />
                            </children>
                         </Pane>
+                        <TextField layoutX="370.0" layoutY="89.0" promptText="Players" />
                      </children>
                   </AnchorPane>
               </content>

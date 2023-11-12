@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -116,14 +117,21 @@ public class Controller implements Initializable {
 	@FXML
 	private Label votedLabel;
 	@FXML
+	private Label roundLabel;
+	@FXML
 	private TextField actualScoreField;
+	@FXML
+	private TextField playerField;
 	@FXML
 	private Button startRoundBtn;
 	@FXML
 	private Button endSessionBtn;
 	@FXML
 	private Button submitScoreBtn;
-
+	@FXML
+	private Button playerBtn;
+	
+	private PlanningPoker session;
 	
 	// Create a Vector of dynamic Vectors to make a table (Matrix)
 	Vector<Vector<?>> effortLogTable = new Vector<Vector<?>>(9);
@@ -797,6 +805,59 @@ public class Controller implements Initializable {
 			description.clear();
 				}
 		}
+	
+	@FXML
+	public void generateSession() {
+		session = new PlanningPoker(userStories);		//Creates a new PlanningPoker Obj
+		int players = Integer.parseInt(playerField.getText());		
+		if(!(playerField.getText()).equals(""))		//Captures how many players are going to be participating in a planning poker session
+			session.setPlayers(players);
+		roundLabel.setText("Round 1");
+		votingLabel.setText("Player 1 Voting");
+		votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+		session.setUserStory(session.findUnactionedStory());
+	}
+	
+	@FXML
+	public int captureScore() {
+		int score = Integer.parseInt(actualScoreField.getText());
+		if(!(actualScoreField.getText()).equals("")) {
+			if (score < 100)
+				return 100;
+			else if (score > 1000)
+				return 1000;
+			else
+				return (int)(Math.round(score / 100.0) * 100);
+		}
+		return 0;
+	}
+	
+	@FXML
+	public void onScoreSubmit() {
+		session.addScores(captureScore());
+		session.setPlayersVoted(session.getPlayersVoted() + 1);
+		
+		if(session.getPlayersVoted() == session.getPlayers()) {
+			if(session.allTheSame()) {
+				endRound();
+			}
+			else {
+				session.setRound(session.getRound() + 1);
+				session.setPlayersVoted(0);
+				roundLabel.setText("Round " + session.getRound());
+				votingLabel.setText("Player 1 Voting");
+				;
+				
+			}
+		}
+		
+		
+	}
+	
+	public void endRound() {
+		
+	}
+	
 	public void writeToCSV(String filePath) {
         try (FileWriter csvWriter = new FileWriter(filePath)) {
             csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,Description,EstimateStoryPoints,ActualStoryPoints,Actioned,\n");
