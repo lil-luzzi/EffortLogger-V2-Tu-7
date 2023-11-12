@@ -208,6 +208,9 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<EffortLog, String> effortCategoryCol;
 	
+	@FXML
+	private TableView<String> userStoryHistTable;
+	
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
 	//Private Feedback Tool variables - Anton Nguyen

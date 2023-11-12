@@ -21,7 +21,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.cell.CheckBoxTableCell<S,T>?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="effortLoggerv2.Controller">
    <children>
@@ -341,15 +340,16 @@
                           <columns>
                               <TableColumn prefWidth="76.15953826904297" text="Disabled" />
                             <TableColumn prefWidth="79.15839385986328" text="ID" />
+                              <TableColumn prefWidth="75.0" text="Estimate" />
                             <TableColumn minWidth="0.0" prefWidth="118.27943420410156" text="Name" />
-                              <TableColumn prefWidth="604.7205810546875" text="Description" />
+                              <TableColumn prefWidth="528.5" text="Description" />
                           </columns>
                         </TableView>
                         <TableView fx:id="effortLogHistTable" layoutX="11.0" layoutY="272.0" prefHeight="234.0" prefWidth="433.0">
                            <columns>
                               <TableColumn prefWidth="86.5496597290039" text="User Story ID" />
                               <TableColumn prefWidth="88.52427673339844" text="EffortLog ID" />
-                              <TableColumn prefWidth="87.51213073730469" text="Time Elapsed" />
+                              <TableColumn prefWidth="96.0" text="Time Elapsed" />
                            </columns>
                         </TableView>
                         <TableView fx:id="defectLogHistTable" layoutX="443.0" layoutY="272.0" prefHeight="234.0" prefWidth="445.0">
