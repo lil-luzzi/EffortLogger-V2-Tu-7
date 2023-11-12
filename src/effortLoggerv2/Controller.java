@@ -186,9 +186,9 @@ public class Controller implements Initializable {
 	private LocalDateTime stopDateTime;
 	private long stopTime;
 	
+	// EffortLog Table for Log Tab
 	@FXML
 	private TableView<EffortLog> effortLogs;
-	// TODO there should be some way to iterate through this and the vectors
 	@FXML
 	private TableColumn<EffortLog, LocalDateTime> startDateTimeCol;
 	@FXML
@@ -208,9 +208,39 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<EffortLog, String> effortCategoryCol;
 	
+	// User Story Table of Historical Data Tab
 	@FXML
-	private TableView<String> userStoryHistTable;
+	private TableView<?> userStoryHistTable;
+	@FXML
+	private TableColumn<String, String> userStoryID;
+	@FXML
+	private TableColumn<String, String> userStoryName;
+	@FXML
+	private TableColumn<String, String> userStoryDesc;
 	
+	// EffortLog Table of Historical Data Tab
+	@FXML
+	private TableView<?> effortLogHistTable;
+	@FXML
+	private TableColumn<String, String> effortLogUSID;
+	@FXML
+	private TableColumn<String, String> effortLogELID;
+	@FXML
+	private TableColumn<String, String> effortLogusTimeElapsed;
+	
+	// DefectLog Table of Historical Data Tab
+	@FXML
+	private TableView<?> defectLogHistTable;
+	@FXML
+	private TableColumn<String, String> defectLogUSID;
+	@FXML
+	private TableColumn<String, String> defectLogDLID;
+	@FXML
+	private TableColumn<String, String> defectLogName;
+	@FXML
+	private TableColumn<String, String> defectLogDetail;
+	
+	// Vector of EffortLogs, TODO import from CSV
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
 	//Private Feedback Tool variables - Anton Nguyen
@@ -338,6 +368,13 @@ public class Controller implements Initializable {
 		groupSelectButton.setToggleGroup(prodReportGroup);
 		roleSelectButton.setToggleGroup(prodReportGroup);
 		
+		// produce dummy graphs for production report tab
+		produceReportGraphs();
+		
+		// produce dummy tables for historical data tab
+	}
+	
+	public void produceReportGraphs() {
 		// dummy data for bar charts
 		laborSeries1 = new XYChart.Series<String, Integer>();
 		laborSeries1.setName("Team 1 Labor Hours");
