@@ -790,9 +790,11 @@ public class Controller implements Initializable {
 	}
 	public void StatusClosed(ActionEvent event) {
 		//this should close up the currently selected defect
+		DefectStatus.setText("Status: Closed");
 	}
 	public void StatusOpen(ActionEvent event) {
-		//this should close up the currently selected defect
+		//this should open up the currently selected defect
+		DefectStatus.setText("Status: Open");
 	}
 	public void UpdateCurrentDefect(ActionEvent event) {
 		//this should update the current defect selected
