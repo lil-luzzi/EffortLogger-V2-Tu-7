@@ -257,7 +257,6 @@ public class Controller implements Initializable {
 		funcCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFeature()));
 		benefitCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReason()));
 		
-		
 		// add choices to dropdown choice boxes
 		myChoiceBox.getItems().addAll(choices);
 		myChoiceBox2.getItems().addAll(choices2);
