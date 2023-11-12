@@ -29,6 +29,7 @@ public class DefectLog {
 		this.stepInjected = new SimpleIntegerProperty(stepInjected);
 		this.stepRemoved = new SimpleIntegerProperty(stepRemoved);
 		this.defectCategory = new SimpleIntegerProperty(defectCategory);
+		this.defectStatus = new SimpleIntegerProperty(defectStatus);
 		this.defectFix = new SimpleStringProperty(defectFix);
 			
 	}
@@ -82,6 +83,13 @@ public class DefectLog {
 	}
 	public void setDefectCategory(int defectCategory) {
 		this.defectCategory.set(defectCategory);
+	}
+	//for defect status
+	public int getDefectStatus() {
+		return defectCategory.get();
+	}
+	public void setDefectStatus(int defectStatus) {
+		this.defectStatus.set(defectStatus);
 	}
 	//for fix???? (idk what that is carter did NOT showcase it :|
 	public String getDefectFix() {
