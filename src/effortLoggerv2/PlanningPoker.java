@@ -17,6 +17,15 @@ public class PlanningPoker{
 		this.round = 1;
 		this.scores = new ArrayList<>();
 		this.playersVoted = 0;
+		this.userStories = userStories;
+	}
+	
+	public boolean hasUnactionedStories() {
+	    for (UserStory story : userStories) {
+	        if (!story.isActioned())
+	            return true;
+	    }
+	    return false;
 	}
 	
 	public UserStory findUnactionedStory() {
@@ -25,6 +34,38 @@ public class PlanningPoker{
 				return story;
 		}
 		return null;
+	}
+	
+	public int minScore() {
+		int min = scores.get(0);
+		
+		for(int i = 1; i < scores.size(); i++) {
+			if(scores.get(i) < min)
+				min = scores.get(i);
+		}
+		return min;
+	}
+	
+	public int maxScore() {
+		int max = scores.get(0);
+		
+		for(int i = 1; i < scores.size(); i++) {
+			if(scores.get(i) > max)
+				max = scores.get(i);
+		}
+		return max;
+	}
+	
+	public int getRoundStdDev() {
+		
+		int average = getRoundAverage();
+		int stdDev = 0;
+		
+		for(int i = 0; i < scores.size(); i++) {
+			stdDev += (int) Math.pow(scores.get(i) - average,2);
+		}
+		
+		return (int) Math.sqrt(stdDev/scores.size());
 	}
 	
 	public int getRoundAverage() {
@@ -39,7 +80,7 @@ public class PlanningPoker{
 	
 	public boolean allTheSame() {
 		int comp = scores.get(0);
-		for(int i = 1; i < scores.size() - 1; i++) {
+		for(int i = 1; i < scores.size(); i++) {
 			if(comp != scores.get(i)) {
 				return false;
 			}
@@ -49,6 +90,10 @@ public class PlanningPoker{
 	
 	public void addScores(int score) {
 		scores.add(score);
+	}
+	
+	public void clearScores() {
+		scores.clear();
 	}
 	
 	public UserStory getUserStory() {

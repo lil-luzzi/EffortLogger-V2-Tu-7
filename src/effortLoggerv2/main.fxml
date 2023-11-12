@@ -86,13 +86,13 @@
                               <Label layoutX="18.0" layoutY="21.0" text="User Story:" />
                               <Label fx:id="userStoryTitleLabel" layoutX="156.0" layoutY="21.0" text="User Story Title" />
                               <Label layoutX="19.0" layoutY="91.0" text="Estimate Story Points:" />
-                              <Label fx:id="estimateLabel" layoutX="215.0" layoutY="91.0" text="Estimate" />
-                              <Label layoutX="223.0" layoutY="176.0" text="As a..." />
-                              <Label fx:id="userLabel" layoutX="226.0" layoutY="211.0" text="User" />
-                              <Label layoutX="218.0" layoutY="256.0" text="I want..." />
-                              <Label fx:id="featureLabel" layoutX="217.0" layoutY="306.0" text="Feature" />
-                              <Label layoutX="214.0" layoutY="351.0" text="So that..." />
-                              <Label fx:id="reasonLabel" layoutX="219.0" layoutY="391.0" text="Reason" />
+                              <Label fx:id="estimateLabel" layoutX="150.0" layoutY="91.0" text="Estimate" />
+                              <Label layoutX="203.0" layoutY="143.0" text="As a..." />
+                              <Label fx:id="userLabel" layoutX="206.0" layoutY="183.0" text="User" />
+                              <Label layoutX="199.0" layoutY="228.0" text="I want..." />
+                              <Label fx:id="featureLabel" layoutX="193.0" layoutY="266.0" text="Feature" />
+                              <Label layoutX="195.0" layoutY="308.0" text="So that..." />
+                              <Label fx:id="reasonLabel" layoutX="199.0" layoutY="351.0" text="Reason" />
                               <Pane layoutY="151.0" prefHeight="289.0" prefWidth="183.0">
                                  <children>
                                     <TextArea fx:id="descriptionField" layoutY="-3.0" prefHeight="291.0" prefWidth="184.0" promptText="User Story Description" wrapText="true">
@@ -106,8 +106,8 @@
                         </Pane>
                         <Pane layoutX="350.0" layoutY="124.0" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="startRoundBtn" layoutX="45.0" layoutY="50.0" mnemonicParsing="false" text="Start New Round" />
-                              <Button fx:id="endSessionBtn" layoutX="36.0" layoutY="130.0" mnemonicParsing="false" text="End Current Session" />
+                              <Button fx:id="startRoundBtn" layoutX="45.0" layoutY="50.0" mnemonicParsing="false" onAction="#generateNewSession" text="Start New Round" />
+                              <Button fx:id="endSessionBtn" layoutX="36.0" layoutY="130.0" mnemonicParsing="false" onAction="#endSession" text="End Current Session" />
                            </children>
                         </Pane>
                         <Pane layoutX="338.0" layoutY="324.0" prefHeight="194.0" prefWidth="302.0">
@@ -127,15 +127,15 @@
                         </Pane>
                         <Pane layoutX="691.0" prefHeight="518.0" prefWidth="209.0">
                            <children>
-                              <Label fx:id="roundLabel" layoutX="80.0" layoutY="26.0" text="Round: 0" />
-                              <Label fx:id="votingLabel" layoutX="60.0" layoutY="109.0" text="Player x Voting..." />
+                              <Label fx:id="roundLabel" layoutX="25.0" layoutY="25.0" text="Round: 0" />
+                              <Label fx:id="votingLabel" layoutX="25.0" layoutY="103.0" text="Player x Voting..." />
                               <Label layoutX="57.0" layoutY="242.0" text="Story Point Score" />
                               <TextField fx:id="actualScoreField" layoutX="25.0" layoutY="209.0" promptText="Actual Score (100-1000)" />
-                              <Label fx:id="votedLabel" layoutX="39.0" layoutY="427.0" text="X out of Y Players Voted" />
-                              <Button fx:id="submitScoreBtn" layoutX="58.0" layoutY="322.0" mnemonicParsing="false" onAction = "#onScoreSubmit" text="Submit Score" />
+                              <Label fx:id="votedLabel" layoutX="14.0" layoutY="428.0" text="X out of Y Players Voted" />
+                              <Button fx:id="submitScoreBtn" layoutX="58.0" layoutY="322.0" mnemonicParsing="false" onAction="#onScoreSubmit" text="Submit Score" />
                            </children>
                         </Pane>
-                        <TextField layoutX="370.0" layoutY="89.0" promptText="Players" />
+                        <TextField fx:id="playerField" layoutX="370.0" layoutY="89.0" promptText="Players" />
                      </children>
                   </AnchorPane>
               </content>

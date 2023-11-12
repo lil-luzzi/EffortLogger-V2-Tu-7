@@ -128,8 +128,6 @@ public class Controller implements Initializable {
 	private Button endSessionBtn;
 	@FXML
 	private Button submitScoreBtn;
-	@FXML
-	private Button playerBtn;
 	
 	private PlanningPoker session;
 	
@@ -771,27 +769,12 @@ public class Controller implements Initializable {
 		String storyReason = reason.getText();
 		String storyDescription = description.getText();
 		
-		int priorityVal = 0;
-		
-		switch(storyPriority) {
-		case "High":
-			priorityVal = 3;
-			break;
-		case "Medium":
-			priorityVal = 2;
-			break;
-		case "Low" :
-			priorityVal = 1;
-			break;
-		}
-		
-		String priVal = Integer.toString(priorityVal);
 		
 		if(!storyPriority.equals(""))
 				{
 		
 			UserStory newUserStory = new UserStory(storyTitle, storyFeature, 
-					storyReason, userType, priVal, storyDescription);
+					storyReason, userType, storyPriority, storyDescription);
 			newUserStory.setEstimateStoryPoints(Integer.toString(insightTool.calcEstimate(newUserStory)));
 			userStories.add(newUserStory);	
 			
@@ -807,7 +790,7 @@ public class Controller implements Initializable {
 		}
 	
 	@FXML
-	public void generateSession() {
+	public void generateNewSession() {
 		session = new PlanningPoker(userStories);		//Creates a new PlanningPoker Obj
 		int players = Integer.parseInt(playerField.getText());		
 		if(!(playerField.getText()).equals(""))		//Captures how many players are going to be participating in a planning poker session
@@ -816,6 +799,36 @@ public class Controller implements Initializable {
 		votingLabel.setText("Player 1 Voting");
 		votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
 		session.setUserStory(session.findUnactionedStory());
+		if(!session.hasUnactionedStories()) {
+			endSession();
+		}
+		else {
+			userStoryTitleLabel.setText(session.getUserStory().getTitle());
+			estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
+			userLabel.setText(session.getUserStory().getTypeOfUser());
+			featureLabel.setText(session.getUserStory().getFeature());
+			reasonLabel.setText(session.getUserStory().getReason());
+			descriptionField.setText(session.getUserStory().getDescription());
+		}
+	}
+	
+	@FXML
+	public void endSession() {
+		userStoryTitleLabel.setText("Session Ended");
+		estimateLabel.setText("No Story");
+		userLabel.setText("");
+		featureLabel.setText("");
+		reasonLabel.setText("");
+		descriptionField.setText("");
+		rangeLabel.setText("");
+		userAverageLabel.setText("");
+		roundAverageLabel.setText("");
+		userStdDevLabel.setText("");
+		roundStdDevLabel.setText("");
+		roundLabel.setText("Round Lynn Robert Carter");
+		votingLabel.setText("Planning Poker Now Voting");
+		votedLabel.setText("My Brain is Fried");
+		session = null;
 	}
 	
 	@FXML
@@ -835,7 +848,10 @@ public class Controller implements Initializable {
 	@FXML
 	public void onScoreSubmit() {
 		session.addScores(captureScore());
+		actualScoreField.setText("");
 		session.setPlayersVoted(session.getPlayersVoted() + 1);
+		votingLabel.setText("Player " + (session.getPlayersVoted() + 1) + " Voting");
+		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");
 		
 		if(session.getPlayersVoted() == session.getPlayers()) {
 			if(session.allTheSame()) {
@@ -846,6 +862,13 @@ public class Controller implements Initializable {
 				session.setPlayersVoted(0);
 				roundLabel.setText("Round " + session.getRound());
 				votingLabel.setText("Player 1 Voting");
+				votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+				rangeLabel.setText(session.minScore() + " - " + session.maxScore());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				roundAverageLabel.setText(Integer.toString(session.getRoundAverage()));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+				roundStdDevLabel.setText(Integer.toString(session.getRoundStdDev()));
+				session.clearScores();
 				;
 				
 			}
@@ -855,7 +878,21 @@ public class Controller implements Initializable {
 	}
 	
 	public void endRound() {
-		
+		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));
+		session.getUserStory().setActioned(true);
+		updateCSV("userStory.csv", session.getUserStory());
+		generateNewSession();
+	}
+	
+	public void updateCSV(String filePath, UserStory updatedStory) {
+	    for (int i = 0; i < userStories.size(); i++) {
+	        UserStory story = userStories.get(i);
+	        if (updatedStory.getDescription().equals(story.getDescription())) {
+	            userStories.set(i, updatedStory); // Update the story at the index
+	            break;
+	        }
+	    }
+	    writeToCSV(filePath);
 	}
 	
 	public void writeToCSV(String filePath) {
