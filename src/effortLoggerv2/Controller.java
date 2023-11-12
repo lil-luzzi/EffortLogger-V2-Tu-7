@@ -246,6 +246,7 @@ public class Controller implements Initializable {
 	//end of Private Feedback Tool variables
 	
 	//Start of Defect Console Variables - Luz :)
+	private int defectInt = 0;
 	//1
 	@FXML
 	private ChoiceBox<String> DefectProjectSelect;
@@ -359,6 +360,8 @@ public class Controller implements Initializable {
 					currentDefCategory = DefectCategory.getSelectionModel().getSelectedItem();
 				}	
 			});
+		defectLogs.setItems(defectData);
+		
 		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
 		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
 		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
@@ -871,9 +874,34 @@ public class Controller implements Initializable {
 	//defect console commands start - Luz
 	public void ClearDefectLog(ActionEvent event) {
 		//this should clear ALL defect logs for a selected project
+		
 	}
 	public void CreateNewDefect(ActionEvent event) {
-		//this should create a new defect if the -no defect selected- is selected
+		//this should create a new defect 
+		String theProject = DefectProjectSelect.getValue();
+		String newDefectName = "new defect";
+		
+		String[] newDefectArray = new String[defecttest.length + 1];
+		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
+		newDefectArray[newDefectArray.length - 1] = newDefectName;
+		defectInt++;
+		DefectSelect.getItems().clear();
+		DefectFix.getItems().clear();
+		DefectSelect.getItems().addAll(newDefectArray);
+		DefectFix.getItems().addAll(newDefectArray);
+		
+		String newDefectStatus = DefectStatus.getText();
+		String newDefectDesc = DefectDescription.getText();
+		String newStepInj = currentStep;
+		String newStepRem = currentStep2;
+		String newDefCat = currentDefCategory;
+		String newDefFix = DefectFix.getValue();
+		
+		DefectLog newDefectLog = new DefectLog(theProject, defectInt, newDefectName, newDefectDesc, newStepInj, 
+								newStepRem, newDefCat, newDefectStatus, newDefFix); 
+		
+		defectData.add(newDefectLog);
+		
 	}
 	public void StatusClosed(ActionEvent event) {
 		//this should close up the currently selected defect
@@ -885,8 +913,31 @@ public class Controller implements Initializable {
 	}
 	public void UpdateCurrentDefect(ActionEvent event) {
 		//this should update the current defect selected
+		//int index = defectData.indexOf(DefectSelect.getValue());
+		String theProject = DefectProjectSelect.getValue();
+		String newDefectName = DefectName.getText();
+		String newDefectStatus = DefectStatus.getText();
+		String newDefectDesc = DefectDescription.getText();
+		String newStepInj = currentStep;
+		String newStepRem = currentStep2;
+		String newDefCat = currentDefCategory;
+		String newDefFix = DefectFix.getValue();
+		
+		String[] newDefectArray = new String[defecttest.length + 1];
+		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
+		newDefectArray[newDefectArray.length - 1] = newDefectName;
+		DefectSelect.getItems().clear();
+		DefectFix.getItems().clear();
+		DefectSelect.getItems().addAll(newDefectArray);
+		DefectFix.getItems().addAll(newDefectArray);
+		DefectLog newDefectLog = new DefectLog(theProject, defectInt, newDefectName, newDefectDesc, newStepInj, 
+				newStepRem, newDefCat, newDefectStatus, newDefFix); 
+		defectData.set(0, newDefectLog);
+		
+
 	}
 	public void DeleteCurrentDefect(ActionEvent event) {
 		//this should delete the current defect log
+		defectData.clear();
 	}
 }

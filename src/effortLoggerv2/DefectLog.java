@@ -108,7 +108,7 @@ public class DefectLog {
 	}
 	//for defect status
 	public String getDefectStatus() {
-		return defectCategory.get();
+		return defectStatus.get();
 	}
 	public void setDefectStatus(String defectStatus) {
 		this.defectStatus.set(defectStatus);
