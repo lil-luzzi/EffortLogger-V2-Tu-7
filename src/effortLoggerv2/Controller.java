@@ -36,7 +36,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 
 public class Controller implements Initializable {
@@ -250,7 +253,7 @@ public class Controller implements Initializable {
 	//2a and 2b
 	@FXML
 	private ChoiceBox<String> DefectSelect;
-	private String[] defecttest = {"defect test"};
+	private String[] defecttest = {"no defect selected"};
 	//the rest is the cleardefectlog function and the createnewdefect function
 	//3
 	@FXML
@@ -263,18 +266,108 @@ public class Controller implements Initializable {
 	@FXML
 	private TextArea DefectDescription;
 	@FXML
-	private ScrollPane testing123;
+	private ListView<String> StepWhenInjected;
 	@FXML
-	private AnchorPane ScrollAnchor;
+	private ListView<String> StepWhenRemoved;
 	@FXML
-	private ListView StepWhenInjected;
+	private ListView<String> DefectCategory;
+	
+	private String[] defectSteps = {"Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", 
+									"Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	private String[] defectSteps2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", 
+			"Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	private String[] defectCategory1 = {"10 Documentation", "20 Syntax", "30 Build, Package", "40 Assignment", "50 Interface",
+									   "60 Checking", "70 Data", "80 Function", "90 System", "100 Environment"};
+	private String currentStep;
+	private String currentStep2;
+	private String currentDefCategory;
+	@FXML
+	private ChoiceBox<String> DefectFix;
 	//4
 	//the buttons are updatecurrentdefect and deletecurrentdefect
+	
+	Vector<Vector<?>> defectLogTable = new Vector<Vector<?>>(9);
+	
+	Vector<String> projectName;
+	Vector<Integer> defectNum;
+	Vector<String> defectName;		//The different columns
+	Vector<String> defectDetail;
+	Vector<String> stepInject;
+	Vector<String> stepRemove;
+	Vector<String> defectCategory;
+	Vector<String> defectStatus;
+	Vector<String> defectFix;
+	
+	@FXML
+	private TableView<DefectLog> defectLogs;
+	// TODO there should be some way to iterate through this and the vectors
+	@FXML
+	private TableColumn<DefectLog, String> projectNameCol;
+	@FXML
+	private TableColumn<DefectLog, Integer> defectNumCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectNameCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectDetailCol;
+	@FXML
+	private TableColumn<DefectLog, String> stepInjectCol;
+	@FXML
+	private TableColumn<DefectLog, String> stepRemoveCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectCategoryCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectStatusCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectFixCol;
+	
+	//Vector<DefectLog> defectData = new Vector<DefectLog>(1);
+	ObservableList<DefectLog> defectData = FXCollections.observableArrayList();
+	//DefectLog defects = new DefectLog(defectData);
+	
 	//End of Defect Console Variables - Luz :)
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//initializing Defect Console variables -Luz (i hear voices)
+		//adding choices to #1
+		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
+		//adding choices to #2.b
+		DefectSelect.getItems().addAll(defecttest);
+		DefectFix.getItems().addAll(defecttest);
+		//initialize list views
+		StepWhenInjected.getItems().addAll(defectSteps);
+		StepWhenInjected.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentStep = StepWhenInjected.getSelectionModel().getSelectedItem();
+				}	
+			});
+		
+		StepWhenRemoved.getItems().addAll(defectSteps2);
+		StepWhenRemoved.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentStep2 = StepWhenRemoved.getSelectionModel().getSelectedItem();
+				}	
+			});
+		
+		DefectCategory.getItems().addAll(defectCategory1);
+		DefectCategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentDefCategory = DefectCategory.getSelectionModel().getSelectedItem();
+				}	
+			});
+		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
+		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
+		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
+		defectDetailCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectDetail()));
+		stepInjectCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepInjected()));
+		stepRemoveCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepRemoved()));
+		defectCategoryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectCategory()));
+		defectStatusCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectStatus()));
+		defectFixCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectFix()));
 		
 		//Sets the data in the user story table
 		userStoryTable.setItems(userStories);
@@ -490,12 +583,6 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
-		
-		//initializing Defect Console variables -Luz (i hear voices)
-		//adding choices to #1
-		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
-		//adding choices to #2.b
-		DefectSelect.getItems().addAll(defecttest);
 		
 		
 	}
