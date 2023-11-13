@@ -339,10 +339,10 @@
                         <TableView fx:id="userStoryHistTable" layoutX="11.0" layoutY="36.0" prefHeight="200.0" prefWidth="879.0">
                           <columns>
                               <TableColumn fx:id="userStoryDisabled" prefWidth="66.87050724029541" text="Disabled" />
-                            <TableColumn fx:id="userStoryID" prefWidth="67.1294937133789" text="ID" />
-                              <TableColumn fx:id="userStoryEstimation" prefWidth="75.03117370605469" text="Estimate" />
-                            <TableColumn fx:id="userStoryName" minWidth="0.0" prefWidth="129.23060607910156" text="Name" />
-                              <TableColumn fx:id="userStoryDescription" prefWidth="750.0" text="Description" />
+                            <TableColumn fx:id="userStoryID" prefWidth="66.43002319335938" text="ID" />
+                            <TableColumn fx:id="userStoryName" minWidth="0.0" prefWidth="174.83932495117188" text="Name" />
+                              <TableColumn fx:id="userStoryEstimation" prefWidth="64.16062927246094" text="Estimate" />
+                              <TableColumn fx:id="userStoryDescription" prefWidth="717.9017028808594" text="Description" />
                           </columns>
                         </TableView>
                         <TableView fx:id="effortLogHistTable" layoutX="11.0" layoutY="272.0" prefHeight="234.0" prefWidth="433.0">
@@ -356,8 +356,8 @@
                            <columns>
                               <TableColumn fx:id="defectLogUSID" prefWidth="85.58718872070312" text="User Story ID" />
                               <TableColumn fx:id="defectLogDLID" prefWidth="101.976318359375" text="DefectLog ID" />
-                              <TableColumn fx:id="defectLogName" prefWidth="90.24859619140625" text="Name" />
-                              <TableColumn fx:id="defectLogDetail" prefWidth="750.0" text="Detail" />
+                              <TableColumn fx:id="defectLogName" prefWidth="141.8572998046875" text="Name" />
+                              <TableColumn fx:id="defectLogDetail" prefWidth="500.0" text="Detail" />
                            </columns>
                         </TableView>
                      </children>

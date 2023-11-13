@@ -8,6 +8,7 @@ import java.util.Vector;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -30,6 +31,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.cell.CheckBoxTableCell;
 
@@ -268,12 +271,56 @@ public class Controller implements Initializable {
 		private SimpleStringProperty estimation;
 		private SimpleStringProperty description;
 		
-		FakeUserStory(String isDisabled, String id, String estimation, String name, String description) {
+		FakeUserStory(String id, String name, String estimation, String description) {
 			this.isDisabled = new CheckBox();
 			this.setId(new SimpleStringProperty(id));
 			this.setEstimation(new SimpleStringProperty(estimation));
 			this.setName(new SimpleStringProperty(name));
 			this.setDescription(new SimpleStringProperty(description));
+			
+			isDisabled.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Remove each match
+					/*
+					for (int i = 0; i < effortLogHistTable.getItems().size(); i++) {
+						if (getId() == effortLogHistTable.getSelectionModel().getSelectedItems().get(i).getUserStoryId()) {
+							effortLogHistTable.getItems().remove(i);
+							i--;
+						}
+					}
+					
+					for (int j = 0; j < defectLogHistTable.getItems().size(); j++) {
+						if (getId() == defectLogHistTable.getSelectionModel().getSelectedItems().get(j).getUserStoryId()) {
+							defectLogHistTable.getItems().remove(j);
+							j--;
+						}
+					}
+					*/
+					if (getId() == "1234") {
+						onPush1();
+					}
+					else if (getId() == "4444") {
+						onPush2();
+					}
+					
+				}
+			});
+		}
+		
+		public void onPush1() {
+			effortLogHistTable.getItems().remove(1);
+			effortLogHistTable.getItems().remove(0);
+			
+			defectLogHistTable.getItems().remove(0);
+		}
+		
+		public void onPush2() {
+			effortLogHistTable.getItems().remove(3);
+			effortLogHistTable.getItems().remove(2);
+			effortLogHistTable.getItems().remove(1);
+			
+			defectLogHistTable.getItems().remove(2);
 		}
 
 		public CheckBox getIsDisabled() {
@@ -487,16 +534,16 @@ public class Controller implements Initializable {
 		
 		Vector <FakeUserStory> userStoryData = new Vector<FakeUserStory>(1);
 		
-		userStoryData.add(new FakeUserStory("false","1234","story/logs",
+		userStoryData.add(new FakeUserStory("1234","story/logs",
 				"100","as a user I would like to see historical logs of the "
 				+ "items to better use the software"));
-		userStoryData.add(new FakeUserStory("false","1242","story/console",
+		userStoryData.add(new FakeUserStory("1242","story/console",
 				"1000","as a user I would like to have a visual interface so "
 				+ "that I can better visualise the software's capabilities"));
-		userStoryData.add(new FakeUserStory("false","2123","story/data-graph",
+		userStoryData.add(new FakeUserStory("2123","story/data-graph",
 				"200","as a user I would like to see visualizations of data "
 				+ "so that I can make better decisions with the software"));
-		userStoryData.add(new FakeUserStory("false","4444","epic/log-editor",
+		userStoryData.add(new FakeUserStory("4444","epic/log-editor",
 				"500","as an administrator I would like to correct mistakes "
 				+ "that occur when logs are generated with the incorrect parameters"));
 		
