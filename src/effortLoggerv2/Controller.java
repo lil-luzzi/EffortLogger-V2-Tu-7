@@ -6,8 +6,10 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -22,14 +24,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
 
+import javafx.util.converter.*;
 
 public class Controller implements Initializable {
 	//create vector for the user story table
@@ -310,6 +315,18 @@ public class Controller implements Initializable {
 		employeeRankCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("employeeRank"));
 		effortCategoryCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("effortCategory"));
 
+		//Edit EffortLogs - Anton Nguyen
+		//set editable cells
+		startDateTimeCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateTimeConverter()));
+		stopDateTimeCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateTimeConverter()));
+		timeElapsedCol.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
+		projectCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		planCol.setCellFactory(TextFieldTableCell.forTableColumn());	
+		lifecycleStepCol.setCellFactory(TextFieldTableCell.forTableColumn());	
+		userGroupCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		employeeRankCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		effortCategoryCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		
 		/*
 		 * OPTIONAL PARAMS SET AUTOMATICALLY
 		myChoiceBox.setValue("Business Project");
@@ -695,6 +712,13 @@ public class Controller implements Initializable {
         pft_chart.getData().addAll(series);
         
         termCount++;	//iterate termCount
+	}
+	
+	//Edit EffortLogs - Anton Nguyen
+	//delete button
+	public void deleteRow(ActionEvent Event) {
+		EffortLog selectedItem = effortLogs.getSelectionModel().getSelectedItem();
+	    effortLogs.getItems().remove(selectedItem);
 	}
 
 	public void createUserStory() {
