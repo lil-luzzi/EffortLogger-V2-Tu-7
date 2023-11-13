@@ -32,6 +32,7 @@ public class PlanningPoker{
 	
 	public UserStory findUnactionedStory() {
 		for(UserStory story : userStories) {		//Searches for unactioned story			
+			if (!story.isActioned())
 				return story;
 		}
 		return null;

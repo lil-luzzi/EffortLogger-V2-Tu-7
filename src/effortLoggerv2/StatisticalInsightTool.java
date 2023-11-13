@@ -88,15 +88,18 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 	
 	public int calcEstimate(UserStory currentStory) {
 	    int baseEstimate = getBaseEstimateFromPriority(currentStory.getPriority());
-	    double adjustmentFactor = getAdjustmentFactor(currentStory.getPriority());
-
-	    return limitStoryPoints((int) Math.round(baseEstimate * adjustmentFactor));
+	    double averageByPriority = getAverageByPriority(currentStory.getPriority());
+	    
+	    if(averageByPriority == 0)
+	    	return baseEstimate;
+	    else
+	    	return limitStoryPoints((int) Math.round(averageByPriority));
 	}
 	
 	public int getBaseEstimateFromPriority(String priority) {
 	    switch (priority) {
 	        case "High":
-	            return 900; // Base estimate for high priority
+	            return 500; // Base estimate for high priority
 	        case "Medium":
 	            return 300; // Base estimate for medium priority
 	        default:
@@ -104,23 +107,25 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 	    }
 	}
 	
-	public double getAdjustmentFactor(String priority) {
-	    double totalDifference = 0;
+	public double getAverageByPriority(String priority) {
+	    int average = 0;
 	    int count = 0;
 
 	    for (UserStory story : historicalData) {
-	        if (story.getPriority().equals(priority) && !story.getActualPointScore().equals("Not Assigned")) {
-	            int estimated = Integer.parseInt(story.getEstimateStoryPoints());
-	            int actual = Integer.parseInt(story.getActualPointScore());
-	            totalDifference += (actual - estimated);
-	            count++;
+	        if(story.getPriority().equals(priority)) {
+	        	average += Integer.parseInt(story.getEstimateStoryPoints());
+	        	count++;
+	        	if(!story.getActualPointScore().equals("Not Assigned")) {
+	        		average += Integer.parseInt(story.getActualPointScore());
+	        		count++;
+	        	}
 	        }
 	    }
-
-	    if (count == 0) return 1.0; // No adjustment if no historical data is available
-	    return 1.0 + (totalDifference / count) / 100.0; // Adjusting the base estimate by an average percentage
+	    if(count == 0)
+	    	return 0;
+	    else
+	    	return average/count;
 	}
-	
 	public int limitStoryPoints(int points) {
 		return Math.min(Math.max(points, 100), 1000);	//Keeps score between 100-1000
 	}
