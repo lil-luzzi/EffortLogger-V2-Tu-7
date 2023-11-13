@@ -262,6 +262,7 @@ public class Controller implements Initializable {
 	
 	//iterator for the term a graph is representing
 	private int termCount = 0;
+	private boolean firstTime = true;
 
 	//end of Private Feedback Tool variables
 	public class FakeUserStory {
@@ -297,13 +298,17 @@ public class Controller implements Initializable {
 						}
 					}
 					*/
-					if (getId() == "1234") {
+					if (getId() == "1234" && firstTime) {
 						onPush1();
+						firstTime = false;
+					}
+					else if (getId() == "1234" && !firstTime) {
+						produceHistoricalDataTables();
+						firstTime = true;
 					}
 					else if (getId() == "4444") {
 						onPush2();
 					}
-					
 				}
 			});
 		}
@@ -591,22 +596,6 @@ public class Controller implements Initializable {
 		
 		final ObservableList<FakeDefectLog> newData3 = FXCollections.observableArrayList(defectLogData);
 		defectLogHistTable.setItems(newData3);
-	}
-	
-	public void disableUS1(ActionEvent event) {
-		
-	}
-
-	public void disableUS2(ActionEvent event) {
-		
-	}
-	
-	public void disableUS3(ActionEvent event) {
-		
-	}
-	
-	public void disableUS4(ActionEvent event) {
-		
 	}
 	
 	public void produceReportGraphs() {
