@@ -246,7 +246,8 @@ public class Controller implements Initializable {
 	//end of Private Feedback Tool variables
 	
 	//Start of Defect Console Variables - Luz :)
-	private int defectInt = 0;
+	private int defectCounter;
+	private int defectCounter1;
 	//1
 	@FXML
 	private ChoiceBox<String> DefectProjectSelect;
@@ -255,6 +256,7 @@ public class Controller implements Initializable {
 	@FXML
 	private ChoiceBox<String> DefectSelect;
 	private String[] defecttest = {"no defect selected"};
+	private String[] defectPoints = {"1", "2", "3"};
 	//the rest is the cleardefectlog function and the createnewdefect function
 	//3
 	@FXML
@@ -335,7 +337,7 @@ public class Controller implements Initializable {
 		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
 		//adding choices to #2.b
 		DefectSelect.getItems().addAll(defecttest);
-		DefectFix.getItems().addAll(defecttest);
+		DefectFix.getItems().addAll(defectPoints);
 		//initialize list views
 		StepWhenInjected.getItems().addAll(defectSteps);
 		StepWhenInjected.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -361,7 +363,8 @@ public class Controller implements Initializable {
 				}	
 			});
 		defectLogs.setItems(defectData);
-		
+		defectCounter = 0;
+		defectCounter1 = 0;
 		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
 		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
 		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
@@ -874,21 +877,22 @@ public class Controller implements Initializable {
 	//defect console commands start - Luz
 	public void ClearDefectLog(ActionEvent event) {
 		//this should clear ALL defect logs for a selected project
-		
+		defectData.clear();
+		DefectSelect.getItems().clear();
+		DefectFix.getItems().clear();
+		DefectSelect.getItems().addAll("no defect selected");
+		defectCounter = 0;
 	}
 	public void CreateNewDefect(ActionEvent event) {
 		//this should create a new defect 
-		String theProject = DefectProjectSelect.getValue();
+		/*String theProject = DefectProjectSelect.getValue();
 		String newDefectName = "new defect";
 		
 		String[] newDefectArray = new String[defecttest.length + 1];
 		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
 		newDefectArray[newDefectArray.length - 1] = newDefectName;
-		defectInt++;
 		DefectSelect.getItems().clear();
-		DefectFix.getItems().clear();
 		DefectSelect.getItems().addAll(newDefectArray);
-		DefectFix.getItems().addAll(newDefectArray);
 		
 		String newDefectStatus = DefectStatus.getText();
 		String newDefectDesc = DefectDescription.getText();
@@ -898,9 +902,34 @@ public class Controller implements Initializable {
 		String newDefFix = DefectFix.getValue();
 		
 		DefectLog newDefectLog = new DefectLog(theProject, defectInt, newDefectName, newDefectDesc, newStepInj, 
-								newStepRem, newDefCat, newDefectStatus, newDefFix); 
-		
-		defectData.add(newDefectLog);
+								newStepRem, newDefCat, newDefectStatus, newDefFix); */
+		// boolean doesDefExists = CheckifDefectExists(DefectProjectSelect.getValue(), DefectName.getText());
+		 //if (doesDefExists==false) {
+			 String project = DefectProjectSelect.getValue();
+			 int defectNum;
+			 //if(DefectProjectSelect.equals("Business Project")) {
+				 defectNum = getNextDefectNumber();
+			 //}
+			// else {
+				// defectNum = getNextDefectNumber1();
+			 //}
+			 
+			 String defectName = DefectName.getText();
+			 String defectDetail = DefectDescription.getText();
+			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+			 String newDefectStatus = DefectStatus.getText();
+			 String defectFix = DefectFix.getValue();
+			 DefectLog newDefectLog = new DefectLog(project, defectNum+1, defectName, defectDetail,
+		                stepInjected, stepRemoved, defectCategory, newDefectStatus, defectFix);
+			defectData.add(newDefectLog);
+			DefectSelect.getItems().add(defectName);
+		// }
+		 //else {
+			 //System.out.println("Defect exists");
+		 //}
+		 
 		//System.arraycopy(newDefectArray, 0, defecttest, 0, newDefectArray.length);
 		
 	}
@@ -915,7 +944,7 @@ public class Controller implements Initializable {
 	public void UpdateCurrentDefect(ActionEvent event) {
 		//this should update the current defect selected
 		//int index = defectData.indexOf(DefectSelect.getValue());
-		String theProject = DefectProjectSelect.getValue();
+		/*String theProject = DefectProjectSelect.getValue();
 		String newDefectName = DefectName.getText();
 		String newDefectStatus = DefectStatus.getText();
 		String newDefectDesc = DefectDescription.getText();
@@ -928,21 +957,65 @@ public class Controller implements Initializable {
 		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
 		newDefectArray[newDefectArray.length - 1] = newDefectName;
 		DefectSelect.getItems().clear();
-		DefectFix.getItems().clear();
 		DefectSelect.getItems().addAll(newDefectArray);
-		DefectFix.getItems().addAll(newDefectArray);
-		DefectLog newDefectLog = new DefectLog(theProject, defectInt, newDefectName, newDefectDesc, newStepInj, 
+		DefectLog newDefectLog = new DefectLog(theProject, defectCounter, newDefectName, newDefectDesc, newStepInj, 
 				newStepRem, newDefCat, newDefectStatus, newDefFix); 
-		defectData.set(0, newDefectLog);
+		defectData.set(0, newDefectLog);*/
+		
+		//find the index of the defect selected in the choicbox
+		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		System.out.println(selectedIndex);
+		//if(selectedIndex >= 0) {
+		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
+			 String project = DefectProjectSelect.getValue();
+			 String defectName = DefectName.getText();
+			 String defectDetail = DefectDescription.getText();
+			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+			 String newDefectStatus = DefectStatus.getText();
+			 String defectFix = DefectFix.getValue();
+			 int newIndex = (selectedIndex -1);
+			 DefectLog updatedDefect = defectData.get(newIndex);
+			 String oldDefectName = updatedDefect.getDefectName();
+			 updatedDefect.setProject(project);
+	         updatedDefect.setDefectName(defectName);
+	         updatedDefect.setDefectDetail(defectDetail);
+	         updatedDefect.setStepInjected(stepInjected);
+	         updatedDefect.setStepRemoved(stepRemoved);
+	         updatedDefect.setDefectCategory(defectCategory);
+	         updatedDefect.setDefectStatus(newDefectStatus);
+	         updatedDefect.setDefectFix(defectFix);
+	         String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
+	         DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
+
+	         defectLogs.refresh();
+		//}
 		
 
 	}
+	//count what defect its on
+	 private int getNextDefectNumber() {
+	        return defectCounter++;
+	    }
+	 //private int getNextDefectNumber1() {
+	        //return defectCounter1++;
+	   // }
+	/* private boolean CheckifDefectExists(String ProjectName, String defName) {
+		 for(DefectLog existingDefect : defectData) {
+			 if (existingDefect.getProject().equals(projectName) && existingDefect.getDefectName().equals(defectName)) {
+	                // The defect already exists
+	                return true;
+	          }
+		 }
+		 return false;
+	 }*/
 	public void DeleteCurrentDefect(ActionEvent event) {
 		//this should delete the current defect log
 		defectData.clear();
 		DefectSelect.getItems().clear();
 		DefectFix.getItems().clear();
 		DefectSelect.getItems().addAll("no defect selected");
-		DefectFix.getItems().addAll("no defect selecected");
+		defectCounter--;
 	}
 }
