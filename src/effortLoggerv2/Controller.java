@@ -791,27 +791,33 @@ public class Controller implements Initializable {
 	
 	@FXML
 	public void generateNewSession() {
-		session = new PlanningPoker(userStories);		//Creates a new PlanningPoker Obj
-		int players = Integer.parseInt(playerField.getText());		
-		if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
-			session.setPlayers(players);
-		roundLabel.setText("Round 1");
-		votingLabel.setText("Player 1 Voting");
-		votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
-		session.setUserStory(session.findUnactionedStory());
-		if(!session.hasUnactionedStories()) {
+		try {
+			session = new PlanningPoker(userStories);				//Creates a new PlanningPoker Object
+			int players = Integer.parseInt(playerField.getText());	
+			if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
+				session.setPlayers(players);
+			roundLabel.setText("Round 1");
+			votingLabel.setText("Player 1 Voting");
+			votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+			session.setUserStory(session.findUnactionedStory());
+			if(!session.hasUnactionedStories()) {
+				endSession();
+			}
+			else {
+				userStoryTitleLabel.setText(session.getUserStory().getTitle());
+				estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
+				userLabel.setText(session.getUserStory().getTypeOfUser());
+				featureLabel.setText(session.getUserStory().getFeature());
+				reasonLabel.setText(session.getUserStory().getReason());
+				descriptionField.setText(session.getUserStory().getDescription());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+			}
+		}
+		catch(Exception e) {		//bug fix
 			endSession();
 		}
-		else {
-			userStoryTitleLabel.setText(session.getUserStory().getTitle());
-			estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
-			userLabel.setText(session.getUserStory().getTypeOfUser());
-			featureLabel.setText(session.getUserStory().getFeature());
-			reasonLabel.setText(session.getUserStory().getReason());
-			descriptionField.setText(session.getUserStory().getDescription());
-			userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
-			userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
-		}
+		
 	}
 	
 	@FXML
@@ -836,7 +842,7 @@ public class Controller implements Initializable {
 	@FXML
 	public int captureScore() {
 		int score = Integer.parseInt(actualScoreField.getText());
-		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer
+		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer, rounds to nearest base 100 value, fix 3
 			if (score < 100)
 				return 100;
 			else if (score > 1000)

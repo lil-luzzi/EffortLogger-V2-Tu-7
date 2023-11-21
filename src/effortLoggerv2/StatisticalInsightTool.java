@@ -127,6 +127,6 @@ public int calculateStandardDeviationByType(UserStory currentStory) {
 	    	return average/count;
 	}
 	public int limitStoryPoints(int points) {
-		return Math.min(Math.max(points, 100), 1000);	//Keeps score between 100-1000
+		return Math.min(Math.max(points, 100), 1000);	//Keeps score between 100-1000, fix 1
 	}
 }
