@@ -965,7 +965,7 @@ public class Controller implements Initializable {
 		//find the index of the defect selected in the choicbox
 		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
 		System.out.println(selectedIndex);
-		//if(selectedIndex >= 0) {
+		if(selectedIndex != 0) {
 		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
 			 String project = DefectProjectSelect.getValue();
 			 String defectName = DefectName.getText();
@@ -990,32 +990,40 @@ public class Controller implements Initializable {
 	         DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
 
 	         defectLogs.refresh();
-		//}
+		}
 		
 
 	}
 	//count what defect its on
 	 private int getNextDefectNumber() {
 	        return defectCounter++;
-	    }
+	 }
 	 //private int getNextDefectNumber1() {
 	        //return defectCounter1++;
 	   // }
-	/* private boolean CheckifDefectExists(String ProjectName, String defName) {
-		 for(DefectLog existingDefect : defectData) {
-			 if (existingDefect.getProject().equals(projectName) && existingDefect.getDefectName().equals(defectName)) {
-	                // The defect already exists
-	                return true;
-	          }
-		 }
-		 return false;
-	 }*/
+	 private void updateDefectNumbers(int startIndex) {
+	        for (int i = startIndex; i < defectData.size(); i++) {
+	            DefectLog defect = defectData.get(i);
+	            // Assuming you have a setDefectNum method in your DefectLog class
+	            defect.setDefectNum(defect.getDefectNum() - 1);
+	            // Update other properties as needed
+	        }
+	    }
+	 
 	public void DeleteCurrentDefect(ActionEvent event) {
 		//this should delete the current defect log
-		defectData.clear();
-		DefectSelect.getItems().clear();
-		DefectFix.getItems().clear();
-		DefectSelect.getItems().addAll("no defect selected");
-		defectCounter--;
+		int selectedDefectIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		if (selectedDefectIndex==0) {
+			System.out.println("No defect selected!");
+		}
+		else {
+			 int newIndex = (selectedDefectIndex -1);
+			 DefectLog selectedDefect = defectData.get(newIndex);
+			 defectData.remove(selectedDefect);
+			 DefectSelect.getItems().remove(selectedDefectIndex);
+			 updateDefectNumbers(newIndex);
+			 defectCounter--;
+		}
+			
 	}
 }
