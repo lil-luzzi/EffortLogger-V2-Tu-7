@@ -337,6 +337,13 @@ public class Controller implements Initializable {
 		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
 		//adding choices to #2.b
 		DefectSelect.getItems().addAll(defecttest);
+		//DefectSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            //@Override
+        /*public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // Update the label based on the selected item
+                updateDefectNumLabel(newValue);
+        }
+        });*/
 		DefectFix.getItems().addAll(defectPoints);
 		//initialize list views
 		StepWhenInjected.getItems().addAll(defectSteps);
@@ -908,7 +915,7 @@ public class Controller implements Initializable {
 			 String project = DefectProjectSelect.getValue();
 			 int defectNum;
 			 //if(DefectProjectSelect.equals("Business Project")) {
-				 defectNum = getNextDefectNumber();
+		     defectNum = getNextDefectNumber();
 			 //}
 			// else {
 				// defectNum = getNextDefectNumber1();
@@ -986,9 +993,13 @@ public class Controller implements Initializable {
 	         updatedDefect.setDefectCategory(defectCategory);
 	         updatedDefect.setDefectStatus(newDefectStatus);
 	         updatedDefect.setDefectFix(defectFix);
-	         String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
-	         DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
-
+	         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
+	         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
+	         DefectSelect.getItems().clear();
+	         for (int i = 0; i < defectData.size(); i++) {
+		            DefectLog defect = defectData.get(i);
+		            DefectSelect.getItems().add(defect.getDefectName());
+		        }
 	         defectLogs.refresh();
 		}
 		
@@ -1026,4 +1037,13 @@ public class Controller implements Initializable {
 		}
 			
 	}
+	/*private void updateDefectNumLabel(String selectedCategory) {
+        // You can customize this method based on your specific logic
+		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		int newIndex = (selectedIndex -1);
+		DefectLog updatedDefect = defectData.get(newIndex);
+		int defectnumba = updatedDefect.getDefectNum();
+		
+        defectNumLabel.setText(""+defectnumba);
+    }*/
 }

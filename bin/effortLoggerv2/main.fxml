@@ -294,6 +294,16 @@
                               </ContextMenu>
                            </contextMenu>
                         </ChoiceBox>
+                        <Label layoutX="94.0" layoutY="213.0" prefHeight="16.0" prefWidth="23.0" text="No.">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="defectNumLabel" layoutX="94.0" layoutY="235.0" prefHeight="26.0" prefWidth="52.0" text="0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
               </content>
