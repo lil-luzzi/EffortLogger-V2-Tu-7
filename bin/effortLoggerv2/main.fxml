@@ -192,6 +192,122 @@
                      </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="Log Editor">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="61.0" layoutY="15.0" prefHeight="49.0" prefWidth="429.0" text="1. Select the Project in order to edit its Effort Log">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="DefectProjectSelect1" layoutX="78.0" layoutY="51.0" prefHeight="26.0" prefWidth="322.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                 </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </ChoiceBox>
+                        <Label layoutX="556.0" layoutY="17.0" prefHeight="44.0" prefWidth="307.0" text="2.a. Clear this Project's Defect Log.">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="607.0" layoutY="57.0" mnemonicParsing="false" onAction="#ClearDefectLog" prefHeight="39.0" prefWidth="136.0" text="Clear this Defect Log" />
+                        <Label layoutX="61.0" layoutY="104.0" prefHeight="30.0" prefWidth="631.0" text="2.b. Select one of the following defects to make it the current defect or press &quot;Create a New Defect&quot;.">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="DefectSelect1" layoutX="78.0" layoutY="141.0" prefHeight="26.0" prefWidth="322.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                 </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </ChoiceBox>
+                        <Button layoutX="607.0" layoutY="134.0" mnemonicParsing="false" onAction="#CreateNewDefect" prefHeight="39.0" prefWidth="136.0" text="Create a New Defect" />
+                        <Label layoutX="59.0" layoutY="173.0" prefHeight="49.0" prefWidth="635.0" text="3. Define or update the following Current Defect attributes:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="169.0" layoutY="213.0" prefHeight="18.0" prefWidth="83.0" text="Defect Name">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="DefectName1" layoutX="165.0" layoutY="235.0" promptText="-defect name-" />
+                        <Label fx:id="DefectStatus1" layoutX="630.0" layoutY="213.0" prefHeight="18.0" prefWidth="91.0" text="Status: Closed">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="712.0" layoutY="233.0" mnemonicParsing="false" onAction="#StatusOpen" prefHeight="30.0" prefWidth="63.0" text="Reopen" />
+                        <Button layoutX="576.0" layoutY="233.0" mnemonicParsing="false" onAction="#StatusClosed" prefHeight="30.0" prefWidth="63.0" text="Close" />
+                        <TextArea fx:id="DefectDescription1" layoutX="106.0" layoutY="287.0" prefHeight="60.0" prefWidth="682.0" promptText="Type in here" />
+                        <Label layoutX="91.0" layoutY="263.0" prefHeight="24.0" prefWidth="240.0" text="Defect Symptoms or Cause/Resolution">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="105.0" layoutY="353.0" prefHeight="24.0" prefWidth="120.0" text="Step when injected">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="314.0" layoutY="353.0" prefHeight="25.0" prefWidth="126.0" text="Step when removed">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="539.0" layoutY="354.0" prefHeight="23.0" prefWidth="101.0" text="Defect Category">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="16.0" layoutY="466.0" prefHeight="29.0" prefWidth="464.0" text="4. Press the &quot;Update the Current Defect&quot; to save the changes made above.">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="495.0" layoutY="461.0" mnemonicParsing="false" onAction="#UpdateCurrentDefect" prefHeight="40.0" prefWidth="162.0" text="Update the Current Defect" />
+                        <Button layoutX="676.0" layoutY="460.0" mnemonicParsing="false" onAction="#DeleteCurrentDefect" prefHeight="42.0" prefWidth="158.0" text="Delete the Current Defect" />
+                        <Label layoutX="788.0" layoutY="355.0" prefHeight="16.0" prefWidth="23.0" text="Fix">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="StepWhenInjected1" layoutX="78.0" layoutY="377.0" prefHeight="60.0" prefWidth="174.0" />
+                        <ListView fx:id="StepWhenRemoved1" layoutX="290.0" layoutY="377.0" prefHeight="60.0" prefWidth="174.0" />
+                        <ListView fx:id="DefectCategory1" layoutX="502.0" layoutY="377.0" prefHeight="60.0" prefWidth="174.0" />
+                        <ChoiceBox fx:id="DefectFix1" layoutX="731.0" layoutY="395.0" prefHeight="20.0" prefWidth="137.0">
+                           <contextMenu>
+                              <ContextMenu>
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                                 </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </ChoiceBox>
+                        <Label layoutX="94.0" layoutY="213.0" prefHeight="16.0" prefWidth="23.0" text="No.">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="defectNumLabel1" layoutX="94.0" layoutY="235.0" prefHeight="26.0" prefWidth="52.0" text="0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
             <Tab text="Defect Console">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
