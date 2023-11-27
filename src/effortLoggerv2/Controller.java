@@ -327,12 +327,65 @@ public class Controller implements Initializable {
 	ObservableList<DefectLog> defectData = FXCollections.observableArrayList();
 	//DefectLog defects = new DefectLog(defectData);
 	
-	//End of Defect Console Variables - Luz :)
+	//End of Defect Console Variables - Luz
+	
+	//start of effort log editor variables-Luz
+	@FXML
+	private ChoiceBox<String> eeProjectSelect;
+	private String[] eeProjectChoices = {"Business Project", "Development Project"};
+	
+	@FXML
+	private ChoiceBox<String> eeLogSelect;
+	private String[] eetest = {"no effort log selected"};
+	//clear effort log button will be a method
+	@FXML
+	private TextField eeLogDate;
+	@FXML
+	private TextField eeLogStartTime;
+	@FXML
+	private TextField eeLogStopTime;
+	
+	@FXML
+	private ChoiceBox<String> eeLifeCycleSelect;
+	private String[] eeLifeCycle = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
+			"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	@FXML
+	private ChoiceBox<String> eeEffortCategorySelect;
+	//effort category
+	private String[] eeEffortCategory = {"Plans", "Deliverables", "Interruptions", "Defects", "Others"};
+	
+	@FXML
+	private ChoiceBox<String> eePlanSelect;
+	//plans
+	private String[] eePlans = {"Project Plan", "Risk Management Plan", "Conceptual Design Plan", 
+					"Detailed Design Plan", "Implementation Plan"};
+	//update this entry button method
+	//delete this entry button method
+	//split entry into two entries button
+	//end of effort log editor variables
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//initializing Defect Console variables -Luz (i hear voices)
+		//initialize effort log editor interface variables - Luz
+		//add project  choices
+		eeProjectSelect.getItems().addAll(eeProjectChoices);
+		//add log choices
+		eeLogSelect.getItems().addAll(eetest);
+		//lifecycle step choices
+		eeLifeCycleSelect.getItems().addAll(eeLifeCycle);
+		//effort category choices
+		eeEffortCategorySelect.getItems().addAll(eeEffortCategory);
+		//plan choices
+		eePlanSelect.getItems().addAll(eePlans);
+		
+		
+		
+		//end of initializing effort log variables - luz
+		
+		//initializing Defect Console variables -Luz 
 		//adding choices to #1
 		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
 		//adding choices to #2.b
@@ -1037,13 +1090,17 @@ public class Controller implements Initializable {
 		}
 			
 	}
-	/*private void updateDefectNumLabel(String selectedCategory) {
-        // You can customize this method based on your specific logic
-		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
-		int newIndex = (selectedIndex -1);
-		DefectLog updatedDefect = defectData.get(newIndex);
-		int defectnumba = updatedDefect.getDefectNum();
+	//effort log editor stuff - Luz
+	public void ClearEffortLog(ActionEvent event){
 		
-        defectNumLabel.setText(""+defectnumba);
-    }*/
+	}
+	public void UpdateEffortLog(ActionEvent event) {
+		
+	}
+	public void DeleteEffortLog(ActionEvent event) {
+		
+	}
+	public void SplitEffortLog(ActionEvent event) {
+		
+	}
 }
