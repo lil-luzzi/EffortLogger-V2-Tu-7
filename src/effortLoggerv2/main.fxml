@@ -201,7 +201,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox layoutX="78.0" layoutY="51.0" prefHeight="26.0" prefWidth="322.0">
+                        <ChoiceBox fx:id="eeProjectSelect" layoutX="78.0" layoutY="51.0" prefHeight="26.0" prefWidth="322.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -215,13 +215,13 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="607.0" layoutY="57.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="136.0" text="Clear this Effort Log" />
+                        <Button layoutX="607.0" layoutY="57.0" mnemonicParsing="false" onAction="#ClearEffortLog" prefHeight="39.0" prefWidth="136.0" text="Clear this Effort Log" />
                         <Label layoutX="61.0" layoutY="104.0" prefHeight="30.0" prefWidth="631.0" text="2.b. Select the Effort Log Entry to be modified and make it the Current Effort Log Entry.">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox layoutX="78.0" layoutY="141.0" prefHeight="17.0" prefWidth="677.0">
+                        <ChoiceBox fx:id="eeLogSelect" layoutX="78.0" layoutY="141.0" prefHeight="17.0" prefWidth="677.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -240,7 +240,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="99.0" layoutY="223.0" promptText="yyy-mm-dd" />
+                        <TextField fx:id="eeLogDate" layoutX="99.0" layoutY="223.0" promptText="yyy-mm-dd" />
                         <Label layoutX="97.0" layoutY="261.0" prefHeight="23.0" prefWidth="99.0" text="Life Cycle Step:">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -251,9 +251,9 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="337.0" layoutY="329.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="162.0" text="Update This Entry" />
-                        <Button layoutX="95.0" layoutY="408.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="158.0" text="Delete This Entry" />
-                        <TextField layoutX="342.0" layoutY="223.0" promptText="hh:mm:ss" />
+                        <Button layoutX="337.0" layoutY="329.0" mnemonicParsing="false" onAction="#UpdateEffortLog" prefHeight="40.0" prefWidth="162.0" text="Update This Entry" />
+                        <Button layoutX="95.0" layoutY="408.0" mnemonicParsing="false" onAction="#DeleteEffortLog" prefHeight="42.0" prefWidth="158.0" text="Delete This Entry" />
+                        <TextField fx:id="eeLogStartTime" layoutX="342.0" layoutY="223.0" promptText="hh:mm:ss" />
                         <Label layoutX="342.0" layoutY="206.0" prefHeight="18.0" prefWidth="83.0" text="Start Time:">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -264,8 +264,8 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="557.0" layoutY="223.0" promptText="hh:mm:ss" />
-                        <ChoiceBox layoutX="100.0" layoutY="284.0" prefHeight="25.0" prefWidth="145.0">
+                        <TextField fx:id="eeLogStopTime" layoutX="557.0" layoutY="223.0" promptText="hh:mm:ss" />
+                        <ChoiceBox fx:id="eeLifeCycleSelect" layoutX="100.0" layoutY="284.0" prefHeight="25.0" prefWidth="145.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -274,7 +274,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </ChoiceBox>
-                        <ChoiceBox layoutX="342.0" layoutY="284.0" prefHeight="25.0" prefWidth="152.0">
+                        <ChoiceBox fx:id="eeEffortCategorySelect" layoutX="342.0" layoutY="284.0" prefHeight="25.0" prefWidth="152.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -283,7 +283,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </ChoiceBox>
-                        <ChoiceBox layoutX="556.0" layoutY="284.0" prefHeight="25.0" prefWidth="152.0">
+                        <ChoiceBox fx:id="eePlanSelect" layoutX="556.0" layoutY="284.0" prefHeight="25.0" prefWidth="152.0">
                            <contextMenu>
                               <ContextMenu>
                                  <items>
@@ -307,7 +307,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Button layoutX="562.0" layoutY="408.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="190.0" text="Split This Entry into Two Entries" />
+                        <Button layoutX="562.0" layoutY="408.0" mnemonicParsing="false" onAction="#SplitEffortLog" prefHeight="42.0" prefWidth="190.0" text="Split This Entry into Two Entries" />
                      </children>
                   </AnchorPane>
                </content>
@@ -414,16 +414,6 @@
                               </ContextMenu>
                            </contextMenu>
                         </ChoiceBox>
-                        <Label layoutX="94.0" layoutY="213.0" prefHeight="16.0" prefWidth="23.0" text="No.">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="defectNumLabel" layoutX="94.0" layoutY="235.0" prefHeight="26.0" prefWidth="52.0" text="0">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
                      </children>
                   </AnchorPane>
               </content>

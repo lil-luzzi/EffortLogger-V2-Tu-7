@@ -390,6 +390,10 @@ public class Controller implements Initializable {
 		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
 		//adding choices to #2.b
 		DefectSelect.getItems().addAll(defecttest);
+		for (int i = 0; i < defectData.size(); i++) {
+            DefectLog defect = defectData.get(i);
+            DefectSelect.getItems().add(defect.getDefectName());
+        }
 		//DefectSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             //@Override
         /*public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -423,8 +427,9 @@ public class Controller implements Initializable {
 				}	
 			});
 		defectLogs.setItems(defectData);
-		defectCounter = 0;
+		defectCounter = defectData.size();
 		defectCounter1 = 0;
+		
 		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
 		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
 		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
@@ -939,7 +944,6 @@ public class Controller implements Initializable {
 		//this should clear ALL defect logs for a selected project
 		defectData.clear();
 		DefectSelect.getItems().clear();
-		DefectFix.getItems().clear();
 		DefectSelect.getItems().addAll("no defect selected");
 		defectCounter = 0;
 	}
@@ -1092,6 +1096,16 @@ public class Controller implements Initializable {
 	}
 	//effort log editor stuff - Luz
 	public void ClearEffortLog(ActionEvent event){
+		/*defectData.clear();
+		DefectSelect.getItems().clear();
+		DefectFix.getItems().clear();
+		DefectSelect.getItems().addAll("no defect selected");
+		defectCounter = 0;*/
+		data.clear();
+		effortLogs.getColumns().clear();
+		eeLogSelect.getItems().clear();
+		eeLogSelect.getItems().addAll("no effort log selected");
+		
 		
 	}
 	public void UpdateEffortLog(ActionEvent event) {
