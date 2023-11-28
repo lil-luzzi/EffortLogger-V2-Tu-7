@@ -1182,6 +1182,11 @@ public class Controller implements Initializable {
 		}
 	}
 	public void SplitEffortLog(ActionEvent event) {
-		
+		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if(selectedIndex != 0) {
+			int newIndex = (selectedIndex -1);
+			EffortLog duplicateLog = data.get(newIndex);
+			parseEffortLog(duplicateLog);
+		}
 	}
 }
