@@ -381,7 +381,12 @@ public class Controller implements Initializable {
 		//plan choices
 		eePlanSelect.getItems().addAll(eePlans);
 		
-		
+		for (int i = 0; i < data.size(); i++) {
+            EffortLog log = data.get(i);
+            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+            					log.getEffortCategory() + "; " + log.getPlan();
+            eeLogSelect.getItems().add(addToSelect);
+        }
 		
 		//end of initializing effort log variables - luz
 		
@@ -811,6 +816,10 @@ public class Controller implements Initializable {
 			EffortLog newEffortLog = new EffortLog(startDateTime, stopDateTime, elapsedTime,
 					myChoiceBox.getValue(), myChoiceBox4.getValue(), myChoiceBox2.getValue(), 
 					myChoiceBox5.getValue(), myChoiceBox6.getValue(), myChoiceBox3.getValue());
+			//added this to add to choicebox for effort log editor -Luz
+			String newLogString = "(" + newEffortLog.getStartDateTime() + "-" + newEffortLog.getStopDateTime() + ") " + newEffortLog.getLifecycleStep() + "; " + 
+					newEffortLog.getEffortCategory() + "; " + newEffortLog.getPlan();
+			eeLogSelect.getItems().add(newLogString);
 			
 			parseEffortLog(newEffortLog);
 			
@@ -1096,11 +1105,7 @@ public class Controller implements Initializable {
 	}
 	//effort log editor stuff - Luz
 	public void ClearEffortLog(ActionEvent event){
-		/*defectData.clear();
-		DefectSelect.getItems().clear();
-		DefectFix.getItems().clear();
-		DefectSelect.getItems().addAll("no defect selected");
-		defectCounter = 0;*/
+		//clear ALL effort logs
 		data.clear();
 		effortLogs.getColumns().clear();
 		eeLogSelect.getItems().clear();
@@ -1109,10 +1114,69 @@ public class Controller implements Initializable {
 		
 	}
 	public void UpdateEffortLog(ActionEvent event) {
+		/*int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		System.out.println(selectedIndex);
+		if(selectedIndex != 0) {
+		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
+			 String project = DefectProjectSelect.getValue();
+			 String defectName = DefectName.getText();
+			 String defectDetail = DefectDescription.getText();
+			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+			 String newDefectStatus = DefectStatus.getText();
+			 String defectFix = DefectFix.getValue();
+			 int newIndex = (selectedIndex -1);
+			 DefectLog updatedDefect = defectData.get(newIndex);
+			 String oldDefectName = updatedDefect.getDefectName();
+			 updatedDefect.setProject(project);
+	         updatedDefect.setDefectName(defectName);
+	         updatedDefect.setDefectDetail(defectDetail);
+	         updatedDefect.setStepInjected(stepInjected);
+	         updatedDefect.setStepRemoved(stepRemoved);
+	         updatedDefect.setDefectCategory(defectCategory);
+	         updatedDefect.setDefectStatus(newDefectStatus);
+	         updatedDefect.setDefectFix(defectFix);
+	         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
+	         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
+	         DefectSelect.getItems().clear();
+	         for (int i = 0; i < defectData.size(); i++) {
+		            DefectLog defect = defectData.get(i);
+		            DefectSelect.getItems().add(defect.getDefectName());
+		        }
+	         defectLogs.refresh();*/
+		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if(selectedIndex != 0) {
+			String newLifeCycleStep = eeLifeCycleSelect.getSelectionModel().getSelectedItem();
+			String newEffortCategory = eeEffortCategorySelect.getSelectionModel().getSelectedItem();
+			String newPlans = eePlanSelect.getSelectionModel().getSelectedItem();
+			int newIndex = (selectedIndex -1);
+			EffortLog updatedLog = data.get(newIndex);
+			updatedLog.setLifecycleStep(newLifeCycleStep);
+			updatedLog.setEffortCategory(newEffortCategory);
+			updatedLog.setPlan(newPlans);
+			eeLogSelect.getItems().clear();
+			for (int i = 0; i < data.size(); i++) {
+	            EffortLog log = data.get(i);
+	            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+	            					log.getEffortCategory() + "; " + log.getPlan();
+	            eeLogSelect.getItems().add(addToSelect);
+	        }
+			effortLogs.refresh();
+		}
 		
 	}
 	public void DeleteEffortLog(ActionEvent event) {
-		
+		int selectedLogIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if (selectedLogIndex==0) {
+			System.out.println("No log selected!");
+		}
+		else {
+			 int newIndex = (selectedLogIndex -1);
+			 EffortLog selectedLog = data.get(newIndex);
+			 data.remove(selectedLog);
+			 eeLogSelect.getItems().remove(selectedLogIndex);
+		}
 	}
 	public void SplitEffortLog(ActionEvent event) {
 		
