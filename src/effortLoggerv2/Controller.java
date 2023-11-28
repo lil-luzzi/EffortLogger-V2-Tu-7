@@ -1156,6 +1156,7 @@ public class Controller implements Initializable {
 			updatedLog.setEffortCategory(newEffortCategory);
 			updatedLog.setPlan(newPlans);
 			eeLogSelect.getItems().clear();
+			eeLogSelect.getItems().add("no effort log selected");
 			for (int i = 0; i < data.size(); i++) {
 	            EffortLog log = data.get(i);
 	            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
@@ -1176,6 +1177,8 @@ public class Controller implements Initializable {
 			 EffortLog selectedLog = data.get(newIndex);
 			 data.remove(selectedLog);
 			 eeLogSelect.getItems().remove(selectedLogIndex);
+			 effortLogs.getItems().remove(newIndex);
+			 effortLogs.refresh();
 		}
 	}
 	public void SplitEffortLog(ActionEvent event) {
