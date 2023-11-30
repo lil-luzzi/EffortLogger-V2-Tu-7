@@ -93,7 +93,6 @@
                         </Pane>
                         <Pane fx:id="choiceBox" layoutY="182.0" prefHeight="200.0" prefWidth="900.0">
                            <children>
-      
                                           <ChoiceBox fx:id="myChoiceBox" layoutX="52.0" layoutY="74.0" prefHeight="27.0" prefWidth="188.0">
                                  <contextMenu>
                                     <ContextMenu>
@@ -240,6 +239,31 @@
                      </children></AnchorPane>
                </content>
             </Tab>
+            <Tab text="Private Feedback Tool">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="21.0" layoutY="20.0" text="1. Projects completed" />
+                        <TextField fx:id="pft_text1" layoutX="21.0" layoutY="37.0" />
+                        <Label layoutX="21.0" layoutY="80.0" text="2. Overtime hours " />
+                        <TextField fx:id="pft_text2" layoutX="21.0" layoutY="97.0" />
+                        <Label layoutX="21.0" layoutY="140.0" text="3. Peer satisfaction" />
+                        <TextField fx:id="pft_text3" layoutX="21.0" layoutY="157.0" />
+                        <Label layoutX="21.0" layoutY="200.0" text="4. Solution contributions" />
+                        <TextField fx:id="pft_text4" layoutX="21.0" layoutY="217.0" />
+                        <Button layoutX="48.0" layoutY="288.0" mnemonicParsing="false" onAction="#generatePFTChart" text="Generate chart" />
+                        <BarChart fx:id="pft_chart" layoutX="278.0" layoutY="30.0" prefHeight="454.0" prefWidth="580.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                       </children>
+                  </AnchorPane>
+                </content>
+              </Tab>
             <Tab text="Production Report">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
