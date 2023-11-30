@@ -1,6 +1,10 @@
 //this file was made by Luz and Jonathan
 package effortLoggerv2;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -16,20 +20,27 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
 
@@ -275,9 +286,205 @@ public class Controller implements Initializable {
 
 	//end of Private Feedback Tool variables
 	
+	//Start of Defect Console Variables - Luz :)
+	private int defectCounter;
+	private int defectCounter1;
+	//1
+	@FXML
+	private ChoiceBox<String> DefectProjectSelect;
+	private String[] DefectProjectChoices = {"Business Project", "Development Project"};
+	//2a and 2b
+	@FXML
+	private ChoiceBox<String> DefectSelect;
+	private String[] defecttest = {"no defect selected"};
+	private String[] defectPoints = {"1", "2", "3"};
+	//the rest is the cleardefectlog function and the createnewdefect function
+	//3
+	@FXML
+	private Label defectNumLabel;
+	@FXML
+	private TextField DefectName;
+	@FXML
+	private Label DefectStatus;
+	//the 2 buttons are functions: closestatus and openstatus
+	@FXML
+	private TextArea DefectDescription;
+	@FXML
+	private ListView<String> StepWhenInjected;
+	@FXML
+	private ListView<String> StepWhenRemoved;
+	@FXML
+	private ListView<String> DefectCategory;
+	
+	private String[] defectSteps = {"Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", 
+									"Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	private String[] defectSteps2 = {"Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", 
+			"Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	private String[] defectCategory1 = {"10 Documentation", "20 Syntax", "30 Build, Package", "40 Assignment", "50 Interface",
+									   "60 Checking", "70 Data", "80 Function", "90 System", "100 Environment"};
+	private String currentStep;
+	private String currentStep2;
+	private String currentDefCategory;
+	@FXML
+	private ChoiceBox<String> DefectFix;
+	//4
+	//the buttons are updatecurrentdefect and deletecurrentdefect
+	
+	Vector<Vector<?>> defectLogTable = new Vector<Vector<?>>(9);
+	
+	Vector<String> projectName;
+	Vector<Integer> defectNum;
+	Vector<String> defectName;		//The different columns
+	Vector<String> defectDetail;
+	Vector<String> stepInject;
+	Vector<String> stepRemove;
+	Vector<String> defectCategory;
+	Vector<String> defectStatus;
+	Vector<String> defectFix;
+	
+	@FXML
+	private TableView<DefectLog> defectLogs;
+	// TODO there should be some way to iterate through this and the vectors
+	@FXML
+	private TableColumn<DefectLog, String> projectNameCol;
+	@FXML
+	private TableColumn<DefectLog, Integer> defectNumCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectNameCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectDetailCol;
+	@FXML
+	private TableColumn<DefectLog, String> stepInjectCol;
+	@FXML
+	private TableColumn<DefectLog, String> stepRemoveCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectCategoryCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectStatusCol;
+	@FXML
+	private TableColumn<DefectLog, String> defectFixCol;
+	
+	//Vector<DefectLog> defectData = new Vector<DefectLog>(1);
+	ObservableList<DefectLog> defectData = FXCollections.observableArrayList();
+	//DefectLog defects = new DefectLog(defectData);
+	
+	//End of Defect Console Variables - Luz
+	
+	//start of effort log editor variables-Luz
+	@FXML
+	private ChoiceBox<String> eeProjectSelect;
+	private String[] eeProjectChoices = {"Business Project", "Development Project"};
+	
+	@FXML
+	private ChoiceBox<String> eeLogSelect;
+	private String[] eetest = {"no effort log selected"};
+	//clear effort log button will be a method
+	@FXML
+	private TextField eeLogDate;
+	@FXML
+	private TextField eeLogStartTime;
+	@FXML
+	private TextField eeLogStopTime;
+	
+	@FXML
+	private ChoiceBox<String> eeLifeCycleSelect;
+	private String[] eeLifeCycle = {"Planning", "Information Gathering", "Information Understanding", "Verifying", 
+			"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+	@FXML
+	private ChoiceBox<String> eeEffortCategorySelect;
+	//effort category
+	private String[] eeEffortCategory = {"Plans", "Deliverables", "Interruptions", "Defects", "Others"};
+	
+	@FXML
+	private ChoiceBox<String> eePlanSelect;
+	//plans
+	private String[] eePlans = {"Project Plan", "Risk Management Plan", "Conceptual Design Plan", 
+					"Detailed Design Plan", "Implementation Plan"};
+	//update this entry button method
+	//delete this entry button method
+	//split entry into two entries button
+	//end of effort log editor variables
+	
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//initialize effort log editor interface variables - Luz
+		//add project  choices
+		eeProjectSelect.getItems().addAll(eeProjectChoices);
+		//add log choices
+		eeLogSelect.getItems().addAll(eetest);
+		//lifecycle step choices
+		eeLifeCycleSelect.getItems().addAll(eeLifeCycle);
+		//effort category choices
+		eeEffortCategorySelect.getItems().addAll(eeEffortCategory);
+		//plan choices
+		eePlanSelect.getItems().addAll(eePlans);
+		
+		for (int i = 0; i < data.size(); i++) {
+            EffortLog log = data.get(i);
+            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+            					log.getEffortCategory() + "; " + log.getPlan();
+            eeLogSelect.getItems().add(addToSelect);
+        }
+		
+		//end of initializing effort log variables - luz
+		
+		//initializing Defect Console variables -Luz 
+		//adding choices to #1
+		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
+		//adding choices to #2.b
+		DefectSelect.getItems().addAll(defecttest);
+		for (int i = 0; i < defectData.size(); i++) {
+            DefectLog defect = defectData.get(i);
+            DefectSelect.getItems().add(defect.getDefectName());
+        }
+		//DefectSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            //@Override
+        /*public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // Update the label based on the selected item
+                updateDefectNumLabel(newValue);
+        }
+        });*/
+		DefectFix.getItems().addAll(defectPoints);
+		//initialize list views
+		StepWhenInjected.getItems().addAll(defectSteps);
+		StepWhenInjected.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentStep = StepWhenInjected.getSelectionModel().getSelectedItem();
+				}	
+			});
+		
+		StepWhenRemoved.getItems().addAll(defectSteps2);
+		StepWhenRemoved.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentStep2 = StepWhenRemoved.getSelectionModel().getSelectedItem();
+				}	
+			});
+		
+		DefectCategory.getItems().addAll(defectCategory1);
+		DefectCategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					currentDefCategory = DefectCategory.getSelectionModel().getSelectedItem();
+				}	
+			});
+		defectLogs.setItems(defectData);
+		defectCounter = defectData.size();
+		defectCounter1 = 0;
+		
+		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
+		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
+		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
+		defectDetailCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectDetail()));
+		stepInjectCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepInjected()));
+		stepRemoveCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepRemoved()));
+		defectCategoryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectCategory()));
+		defectStatusCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectStatus()));
+		defectFixCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectFix()));
 		
 		//Sets the data in the user story table
 		userStoryTable.setItems(userStories);
@@ -493,6 +700,8 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
+		
+		
 	}
 	
 
@@ -648,6 +857,10 @@ public class Controller implements Initializable {
 			EffortLog newEffortLog = new EffortLog(startDateTime, stopDateTime, elapsedTime,
 					myChoiceBox.getValue(), myChoiceBox4.getValue(), myChoiceBox2.getValue(), 
 					myChoiceBox5.getValue(), myChoiceBox6.getValue(), myChoiceBox3.getValue());
+			//added this to add to choicebox for effort log editor -Luz
+			String newLogString = "(" + newEffortLog.getStartDateTime() + "-" + newEffortLog.getStopDateTime() + ") " + newEffortLog.getLifecycleStep() + "; " + 
+					newEffortLog.getEffortCategory() + "; " + newEffortLog.getPlan();
+			eeLogSelect.getItems().add(newLogString);
 			
 			parseEffortLog(newEffortLog);
 			parseCustomEffortLog(newEffortLog);
@@ -777,6 +990,170 @@ public class Controller implements Initializable {
 			reason.clear();
 				}
 		}
+	//defect console commands start - Luz
+	public void ClearDefectLog(ActionEvent event) {
+		//this should clear ALL defect logs for a selected project
+		defectData.clear();
+		DefectSelect.getItems().clear();
+		DefectSelect.getItems().addAll("no defect selected");
+		defectCounter = 0;
+	}
+	public void CreateNewDefect(ActionEvent event) {
+		//this should create a new defect 
+		
+			 String project = DefectProjectSelect.getValue();
+			 int defectNum;
+			 
+		     defectNum = getNextDefectNumber();
+			
+			 String defectName = DefectName.getText();
+			 String defectDetail = DefectDescription.getText();
+			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+			 String newDefectStatus = DefectStatus.getText();
+			 String defectFix = DefectFix.getValue();
+			 DefectLog newDefectLog = new DefectLog(project, defectNum+1, defectName, defectDetail,
+		                stepInjected, stepRemoved, defectCategory, newDefectStatus, defectFix);
+			defectData.add(newDefectLog);
+			DefectSelect.getItems().add(defectName);
+		
+	}
+	public void StatusClosed(ActionEvent event) {
+		//this should close up the currently selected defect
+		DefectStatus.setText("Status: Closed");
+	}
+	public void StatusOpen(ActionEvent event) {
+		//this should open up the currently selected defect
+		DefectStatus.setText("Status: Open");
+	}
+	public void UpdateCurrentDefect(ActionEvent event) {
+		//this should update the current defect selected
+		
+		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		System.out.println(selectedIndex);
+		if(selectedIndex != 0) {
+		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
+			 String project = DefectProjectSelect.getValue();
+			 String defectName = DefectName.getText();
+			 String defectDetail = DefectDescription.getText();
+			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+			 String newDefectStatus = DefectStatus.getText();
+			 String defectFix = DefectFix.getValue();
+			 int newIndex = (selectedIndex -1);
+			 DefectLog updatedDefect = defectData.get(newIndex);
+			 String oldDefectName = updatedDefect.getDefectName();
+			 updatedDefect.setProject(project);
+	         updatedDefect.setDefectName(defectName);
+	         updatedDefect.setDefectDetail(defectDetail);
+	         updatedDefect.setStepInjected(stepInjected);
+	         updatedDefect.setStepRemoved(stepRemoved);
+	         updatedDefect.setDefectCategory(defectCategory);
+	         updatedDefect.setDefectStatus(newDefectStatus);
+	         updatedDefect.setDefectFix(defectFix);
+	         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
+	         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
+	         DefectSelect.getItems().clear();
+	         for (int i = 0; i < defectData.size(); i++) {
+		            DefectLog defect = defectData.get(i);
+		            DefectSelect.getItems().add(defect.getDefectName());
+		        }
+	         defectLogs.refresh();
+		}
+		
+
+	}
+	//count what defect its on
+	 private int getNextDefectNumber() {
+	        return defectCounter++;
+	 }
+	 //private int getNextDefectNumber1() {
+	        //return defectCounter1++;
+	   // }
+	 private void updateDefectNumbers(int startIndex) {
+	        for (int i = startIndex; i < defectData.size(); i++) {
+	            DefectLog defect = defectData.get(i);
+	            // Assuming you have a setDefectNum method in your DefectLog class
+	            defect.setDefectNum(defect.getDefectNum() - 1);
+	            // Update other properties as needed
+	        }
+	    }
+	 
+	public void DeleteCurrentDefect(ActionEvent event) {
+		//this should delete the current defect log
+		int selectedDefectIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+		if (selectedDefectIndex==0) {
+			System.out.println("No defect selected!");
+		}
+		else {
+			 int newIndex = (selectedDefectIndex -1);
+			 DefectLog selectedDefect = defectData.get(newIndex);
+			 defectData.remove(selectedDefect);
+			 DefectSelect.getItems().remove(selectedDefectIndex);
+			 updateDefectNumbers(newIndex);
+			 defectCounter--;
+		}
+			
+	}
+	//effort log editor stuff - Luz
+	public void ClearEffortLog(ActionEvent event){
+		//clear ALL effort logs
+		data.clear();
+		effortLogs.getColumns().clear();
+		eeLogSelect.getItems().clear();
+		eeLogSelect.getItems().addAll("no effort log selected");
+		
+		
+	}
+	public void UpdateEffortLog(ActionEvent event) {
+		
+		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if(selectedIndex != 0) {
+			String newLifeCycleStep = eeLifeCycleSelect.getSelectionModel().getSelectedItem();
+			String newEffortCategory = eeEffortCategorySelect.getSelectionModel().getSelectedItem();
+			String newPlans = eePlanSelect.getSelectionModel().getSelectedItem();
+			int newIndex = (selectedIndex -1);
+			EffortLog updatedLog = data.get(newIndex);
+			updatedLog.setLifecycleStep(newLifeCycleStep);
+			updatedLog.setEffortCategory(newEffortCategory);
+			updatedLog.setPlan(newPlans);
+			eeLogSelect.getItems().clear();
+			eeLogSelect.getItems().add("no effort log selected");
+			for (int i = 0; i < data.size(); i++) {
+	            EffortLog log = data.get(i);
+	            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+	            					log.getEffortCategory() + "; " + log.getPlan();
+	            eeLogSelect.getItems().add(addToSelect);
+	        }
+			effortLogs.refresh();
+		}
+		
+	}
+	public void DeleteEffortLog(ActionEvent event) {
+		int selectedLogIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if (selectedLogIndex==0) {
+			System.out.println("No log selected!");
+		}
+		else {
+			 int newIndex = (selectedLogIndex -1);
+			 EffortLog selectedLog = data.get(newIndex);
+			 data.remove(selectedLog);
+			 eeLogSelect.getItems().remove(selectedLogIndex);
+			 effortLogs.getItems().remove(newIndex);
+			 effortLogs.refresh();
+		}
+	}
+	public void SplitEffortLog(ActionEvent event) {
+		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+		if(selectedIndex != 0) {
+			int newIndex = (selectedIndex -1);
+			EffortLog duplicateLog = data.get(newIndex);
+			parseEffortLog(duplicateLog);
+		}
+	}
+}
 	
 	@FXML
 	public void generateNewSession() {
@@ -1023,4 +1400,3 @@ public class Controller implements Initializable {
 
 
 }
-
