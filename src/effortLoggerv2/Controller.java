@@ -1005,8 +1005,6 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-}
-
 	private void initialize() {
 	    // Initialize data structure
 		data = new Vector<>();
