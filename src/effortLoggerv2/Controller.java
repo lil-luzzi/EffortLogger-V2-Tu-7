@@ -779,6 +779,180 @@ public class Controller implements Initializable {
 		}
 	
 	@FXML
+	public void generateNewSession() {
+		try {
+			session = new PlanningPoker(userStories);				//Creates a new PlanningPoker Object
+			int players = Integer.parseInt(playerField.getText());	
+			if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
+				session.setPlayers(players);
+			roundLabel.setText("Round 1");
+			votingLabel.setText("Player 1 Voting");
+			votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+			session.setUserStory(session.findUnactionedStory());
+			if(!session.hasUnactionedStories()) {
+				endSession();
+			}
+			else {
+				userStoryTitleLabel.setText(session.getUserStory().getTitle());
+				estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
+				userLabel.setText(session.getUserStory().getTypeOfUser());
+				featureLabel.setText(session.getUserStory().getFeature());
+				reasonLabel.setText(session.getUserStory().getReason());
+				descriptionField.setText(session.getUserStory().getDescription());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+			}
+		}
+		catch(Exception e) {		//bug fix
+			endSession();
+		}
+		
+	}
+	
+	@FXML
+	public void endSession() {
+		userStoryTitleLabel.setText("Session Ended");
+		estimateLabel.setText("No Story");
+		userLabel.setText("");
+		featureLabel.setText("");
+		reasonLabel.setText("");
+		descriptionField.setText("");
+		rangeLabel.setText("");
+		userAverageLabel.setText("");
+		roundAverageLabel.setText("");
+		userStdDevLabel.setText("");
+		roundStdDevLabel.setText("");
+		roundLabel.setText("Round Lynn Robert Carter");
+		votingLabel.setText("Planning Poker Now Voting");		//ends a session
+		votedLabel.setText("My Brain is Fried");
+		session = null;
+	}
+	
+	@FXML
+	public int captureScore() {
+		int score = Integer.parseInt(actualScoreField.getText());
+		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer, rounds to nearest base 100 value, fix 3
+			if (score < 100)
+				return 100;
+			else if (score > 1000)
+				return 1000;
+			else
+				return (int)(Math.round(score / 100.0) * 100);
+		}
+		return 0;
+	}
+	
+	@FXML
+	public void onScoreSubmit() {
+		session.addScores(captureScore());
+		actualScoreField.setText("");
+		session.setPlayersVoted(session.getPlayersVoted() + 1);
+		votingLabel.setText("Player " + (session.getPlayersVoted() + 1) + " Voting");
+		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");	//When a score is submitted, the score is added to the arraylist and logic determinesn what is done next
+		
+		if(session.getPlayersVoted() == session.getPlayers()) {
+			if(session.allTheSame()) {
+				endRound();
+			}
+			else {
+				session.setRound(session.getRound() + 1);
+				session.setPlayersVoted(0);
+				roundLabel.setText("Round " + session.getRound());
+				votingLabel.setText("Player 1 Voting");
+				votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+				rangeLabel.setText(session.minScore() + " - " + session.maxScore());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				roundAverageLabel.setText(Integer.toString(session.getRoundAverage()));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+				roundStdDevLabel.setText(Integer.toString(session.getRoundStdDev()));
+				session.clearScores();
+				;
+				
+			}
+		}
+		
+		
+	}
+	
+	public void endRound() {
+		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));	//ends a round
+		session.getUserStory().setActioned(true);
+		updateCSV("userStory.csv", session.getUserStory());
+		generateNewSession();
+	}
+	
+	public void updateCSV(String filePath, UserStory updatedStory) {
+	    for (int i = 0; i < userStories.size(); i++) {
+	        UserStory story = userStories.get(i);
+	        if (updatedStory.getDescription().equals(story.getDescription())) {
+	            userStories.set(i, updatedStory); // Update the story at the index
+	            break;
+	        }
+	    }
+	    writeToCSV(filePath);
+	}
+	
+	public void writeToCSV(String filePath) {
+        try (FileWriter csvWriter = new FileWriter(filePath)) {
+            csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,Description,EstimateStoryPoints,ActualStoryPoints,Actioned,\n");
+
+            for (UserStory story : userStories) {
+            	csvWriter.append(story.getTitle());
+                csvWriter.append(",");
+                csvWriter.append(story.getPriority());
+                csvWriter.append(",");
+                csvWriter.append(story.getTypeOfUser());
+                csvWriter.append(",");
+                csvWriter.append(story.getFeature());
+                csvWriter.append(",");
+                csvWriter.append(story.getReason());		//Writes to CSV
+                csvWriter.append(",");
+                csvWriter.append(story.getDescription());
+                csvWriter.append(",");
+                csvWriter.append(story.getEstimateStoryPoints());
+                csvWriter.append(",");
+                csvWriter.append(story.getActualPointScore());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(story.isActioned()));
+                csvWriter.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately
+        }
+    }
+    
+    public void readFromCSV(String filePath) {
+        String line = "";
+        String csvSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip the header line
+
+            while ((line = br.readLine()) != null) {
+                // Use comma as separator
+                String[] storyData = line.split(csvSplitBy);
+
+                UserStory story = new UserStory(
+                    storyData[0].replace("\"", "").trim(), // title
+                    storyData[3].replace("\"", "").trim(), // feature
+                    storyData[4].replace("\"", "").trim(), // reason
+                    storyData[2].replace("\"", "").trim(), // typeOfUser
+                    storyData[1].replace("\"", "").trim(), // priority
+                    storyData[5].replace("\"", "").trim() // Description
+                );
+                story.setEstimateStoryPoints(storyData[6].replace("\"", "").trim());  //estimate
+                story.setActualPointScore(storyData[7].replace("\"", "").trim());	//actual
+                story.setActioned(Boolean.parseBoolean(storyData[8].replace("\"", "").trim())); //actioned
+                
+                
+                userStories.add(story);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 	private void initialize() {
 	    // Initialize data structure
 		data = new Vector<>();
