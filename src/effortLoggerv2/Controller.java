@@ -958,35 +958,12 @@ public class Controller implements Initializable {
 	}
 	public void CreateNewDefect(ActionEvent event) {
 		//this should create a new defect 
-		/*String theProject = DefectProjectSelect.getValue();
-		String newDefectName = "new defect";
 		
-		String[] newDefectArray = new String[defecttest.length + 1];
-		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
-		newDefectArray[newDefectArray.length - 1] = newDefectName;
-		DefectSelect.getItems().clear();
-		DefectSelect.getItems().addAll(newDefectArray);
-		
-		String newDefectStatus = DefectStatus.getText();
-		String newDefectDesc = DefectDescription.getText();
-		String newStepInj = currentStep;
-		String newStepRem = currentStep2;
-		String newDefCat = currentDefCategory;
-		String newDefFix = DefectFix.getValue();
-		
-		DefectLog newDefectLog = new DefectLog(theProject, defectInt, newDefectName, newDefectDesc, newStepInj, 
-								newStepRem, newDefCat, newDefectStatus, newDefFix); */
-		// boolean doesDefExists = CheckifDefectExists(DefectProjectSelect.getValue(), DefectName.getText());
-		 //if (doesDefExists==false) {
 			 String project = DefectProjectSelect.getValue();
 			 int defectNum;
-			 //if(DefectProjectSelect.equals("Business Project")) {
-		     defectNum = getNextDefectNumber();
-			 //}
-			// else {
-				// defectNum = getNextDefectNumber1();
-			 //}
 			 
+		     defectNum = getNextDefectNumber();
+			
 			 String defectName = DefectName.getText();
 			 String defectDetail = DefectDescription.getText();
 			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
@@ -998,12 +975,6 @@ public class Controller implements Initializable {
 		                stepInjected, stepRemoved, defectCategory, newDefectStatus, defectFix);
 			defectData.add(newDefectLog);
 			DefectSelect.getItems().add(defectName);
-		// }
-		 //else {
-			 //System.out.println("Defect exists");
-		 //}
-		 
-		//System.arraycopy(newDefectArray, 0, defecttest, 0, newDefectArray.length);
 		
 	}
 	public void StatusClosed(ActionEvent event) {
@@ -1016,26 +987,7 @@ public class Controller implements Initializable {
 	}
 	public void UpdateCurrentDefect(ActionEvent event) {
 		//this should update the current defect selected
-		//int index = defectData.indexOf(DefectSelect.getValue());
-		/*String theProject = DefectProjectSelect.getValue();
-		String newDefectName = DefectName.getText();
-		String newDefectStatus = DefectStatus.getText();
-		String newDefectDesc = DefectDescription.getText();
-		String newStepInj = currentStep;
-		String newStepRem = currentStep2;
-		String newDefCat = currentDefCategory;
-		String newDefFix = DefectFix.getValue();
 		
-		String[] newDefectArray = new String[defecttest.length + 1];
-		System.arraycopy(defecttest, 0, newDefectArray, 0, defecttest.length);
-		newDefectArray[newDefectArray.length - 1] = newDefectName;
-		DefectSelect.getItems().clear();
-		DefectSelect.getItems().addAll(newDefectArray);
-		DefectLog newDefectLog = new DefectLog(theProject, defectCounter, newDefectName, newDefectDesc, newStepInj, 
-				newStepRem, newDefCat, newDefectStatus, newDefFix); 
-		defectData.set(0, newDefectLog);*/
-		
-		//find the index of the defect selected in the choicbox
 		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
 		System.out.println(selectedIndex);
 		if(selectedIndex != 0) {
@@ -1114,37 +1066,7 @@ public class Controller implements Initializable {
 		
 	}
 	public void UpdateEffortLog(ActionEvent event) {
-		/*int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
-		System.out.println(selectedIndex);
-		if(selectedIndex != 0) {
-		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
-			 String project = DefectProjectSelect.getValue();
-			 String defectName = DefectName.getText();
-			 String defectDetail = DefectDescription.getText();
-			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
-			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
-			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
-			 String newDefectStatus = DefectStatus.getText();
-			 String defectFix = DefectFix.getValue();
-			 int newIndex = (selectedIndex -1);
-			 DefectLog updatedDefect = defectData.get(newIndex);
-			 String oldDefectName = updatedDefect.getDefectName();
-			 updatedDefect.setProject(project);
-	         updatedDefect.setDefectName(defectName);
-	         updatedDefect.setDefectDetail(defectDetail);
-	         updatedDefect.setStepInjected(stepInjected);
-	         updatedDefect.setStepRemoved(stepRemoved);
-	         updatedDefect.setDefectCategory(defectCategory);
-	         updatedDefect.setDefectStatus(newDefectStatus);
-	         updatedDefect.setDefectFix(defectFix);
-	         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
-	         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
-	         DefectSelect.getItems().clear();
-	         for (int i = 0; i < defectData.size(); i++) {
-		            DefectLog defect = defectData.get(i);
-		            DefectSelect.getItems().add(defect.getDefectName());
-		        }
-	         defectLogs.refresh();*/
+		
 		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
 		if(selectedIndex != 0) {
 			String newLifeCycleStep = eeLifeCycleSelect.getSelectionModel().getSelectedItem();
