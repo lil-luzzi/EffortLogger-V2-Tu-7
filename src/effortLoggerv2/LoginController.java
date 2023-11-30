@@ -68,7 +68,6 @@ public class LoginController {
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				stage.setScene(scene);
 				stage.show();
-			
 			}
 			else {
 				System.out.println("Wrong Password!");

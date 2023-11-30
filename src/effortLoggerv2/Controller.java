@@ -8,6 +8,7 @@ import java.util.Vector;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -23,12 +24,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 
 public class Controller implements Initializable {
@@ -76,22 +82,6 @@ public class Controller implements Initializable {
 	
 	ObservableList<UserStory> userStories = FXCollections.observableArrayList();
 	StatisticalInsightTool insightTool = new StatisticalInsightTool(userStories);	//Creates the table and sets up the insight tool
-	
-	// Create a Vector of dynamic Vectors to make a table (Matrix)
-	Vector<Vector<?>> effortLogTable = new Vector<Vector<?>>(9);
-	
-	// 9 categories for the effort log
-	Vector <LocalDateTime> startDateTimeVect;
-	Vector <LocalDateTime> stopDateTimeVect;
-	Vector <Long> timeElapsedVect;
-	
-	Vector <String> projectVect;
-	Vector <String> planVect;
-	Vector <String> lifecycleStepVect;
-	
-	Vector <String> userGroupVect;
-	Vector <String> employeeRankVect;
-	Vector <String> effortCategoryVect;
 	
 	@FXML
 	private Rectangle clockIndicatorBox; // turns red when stopped, green when running
@@ -182,9 +172,9 @@ public class Controller implements Initializable {
 	private LocalDateTime stopDateTime;
 	private long stopTime;
 	
+	// EffortLog Table for Log Tab
 	@FXML
 	private TableView<EffortLog> effortLogs;
-	// TODO there should be some way to iterate through this and the vectors
 	@FXML
 	private TableColumn<EffortLog, LocalDateTime> startDateTimeCol;
 	@FXML
@@ -204,6 +194,43 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<EffortLog, String> effortCategoryCol;
 	
+	// User Story Table of Historical Data Tab
+	@FXML
+	private TableView<FakeUserStory> userStoryHistTable;
+	@FXML
+	private TableColumn<FakeUserStory, String> userStoryDisabled;
+	@FXML
+	private TableColumn<FakeUserStory, String> userStoryID;
+	@FXML
+	private TableColumn<FakeUserStory, String> userStoryEstimation;
+	@FXML
+	private TableColumn<FakeUserStory, String> userStoryName;
+	@FXML
+	private TableColumn<FakeUserStory, String> userStoryDescription;
+	
+	// EffortLog Table of Historical Data Tab
+	@FXML
+	private TableView<FakeEffortLog> effortLogHistTable;
+	@FXML
+	private TableColumn<FakeEffortLog, String> effortLogUSID;
+	@FXML
+	private TableColumn<FakeEffortLog, String> effortLogELID;
+	@FXML
+	private TableColumn<FakeEffortLog, String> effortLogTimeElapsed;
+	
+	// DefectLog Table of Historical Data Tab
+	@FXML
+	private TableView<FakeDefectLog> defectLogHistTable;
+	@FXML
+	private TableColumn<FakeDefectLog, String> defectLogUSID;
+	@FXML
+	private TableColumn<FakeDefectLog, String> defectLogDLID;
+	@FXML
+	private TableColumn<FakeDefectLog, String> defectLogName;
+	@FXML
+	private TableColumn<FakeDefectLog, String> defectLogDetail;
+	
+	// Vector of EffortLogs, TODO import from CSV
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
 	//Private Feedback Tool variables - Anton Nguyen
@@ -231,10 +258,195 @@ public class Controller implements Initializable {
 	
 	//iterator for the term a graph is representing
 	private int termCount = 0;
+	private boolean firstTime = true;
 
 	//end of Private Feedback Tool variables
+	public class FakeUserStory {
+		private CheckBox isDisabled;
+		private SimpleStringProperty id;
+		private SimpleStringProperty name;
+		private SimpleStringProperty estimation;
+		private SimpleStringProperty description;
+		
+		FakeUserStory(String id, String name, String estimation, String description) {
+			this.isDisabled = new CheckBox();
+			this.setId(new SimpleStringProperty(id));
+			this.setEstimation(new SimpleStringProperty(estimation));
+			this.setName(new SimpleStringProperty(name));
+			this.setDescription(new SimpleStringProperty(description));
+			
+			isDisabled.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent arg0) {
+					// TODO Remove each match
+					/*
+					for (int i = 0; i < effortLogHistTable.getItems().size(); i++) {
+						if (getId() == effortLogHistTable.getSelectionModel().getSelectedItems().get(i).getUserStoryId()) {
+							effortLogHistTable.getItems().remove(i);
+							i--;
+						}
+					}
+					
+					for (int j = 0; j < defectLogHistTable.getItems().size(); j++) {
+						if (getId() == defectLogHistTable.getSelectionModel().getSelectedItems().get(j).getUserStoryId()) {
+							defectLogHistTable.getItems().remove(j);
+							j--;
+						}
+					}
+					*/
+					if (getId() == "1234" && firstTime) {
+						onPush1();
+						firstTime = false;
+					}
+					else if (getId() == "1234" && !firstTime) {
+						produceHistoricalDataTables();
+						firstTime = true;
+					}
+					else if (getId() == "4444") {
+						onPush2();
+					}
+				}
+			});
+		}
+		
+		public void onPush1() {
+			effortLogHistTable.getItems().remove(1);
+			effortLogHistTable.getItems().remove(0);
+			
+			defectLogHistTable.getItems().remove(0);
+		}
+		
+		public void onPush2() {
+			effortLogHistTable.getItems().remove(3);
+			effortLogHistTable.getItems().remove(2);
+			effortLogHistTable.getItems().remove(1);
+			
+			defectLogHistTable.getItems().remove(2);
+		}
+
+		public CheckBox getIsDisabled() {
+			return isDisabled;
+		}
+
+		public void setIsDisabled(CheckBox isDisabled) {
+			this.isDisabled = isDisabled;
+		}
+
+		public String getId() {
+			return id.get();
+		}
+
+		public void setId(SimpleStringProperty id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name.get();
+		}
+
+		public void setName(SimpleStringProperty name) {
+			this.name = name;
+		}
+
+		public String getEstimation() {
+			return estimation.get();
+		}
+
+		public void setEstimation(SimpleStringProperty estimation) {
+			this.estimation = estimation;
+		}
+
+		public String getDescription() {
+			return description.get();
+		}
+
+		public void setDescription(SimpleStringProperty description) {
+			this.description = description;
+		}
+	}
 	
-	@SuppressWarnings("unchecked")
+	public class FakeEffortLog {
+		private SimpleStringProperty userStoryId;
+		private SimpleStringProperty effortLogId;
+		private SimpleStringProperty timeElapsed;
+		
+		FakeEffortLog(String userStoryId, String effortLogId, String timeElapsed) {
+			this.setUserStoryId(new SimpleStringProperty(userStoryId));
+			this.setEffortLogId(new SimpleStringProperty(effortLogId));
+			this.setTimeElapsed(new SimpleStringProperty(timeElapsed));
+		}
+
+		public String getUserStoryId() {
+			return userStoryId.get();
+		}
+
+		public void setUserStoryId(SimpleStringProperty userStoryId) {
+			this.userStoryId = userStoryId;
+		}
+
+		public String getEffortLogId() {
+			return effortLogId.get();
+		}
+
+		public void setEffortLogId(SimpleStringProperty effortLogId) {
+			this.effortLogId = effortLogId;
+		}
+
+		public String getTimeElapsed() {
+			return timeElapsed.get();
+		}
+
+		public void setTimeElapsed(SimpleStringProperty timeElapsed) {
+			this.timeElapsed = timeElapsed;
+		}
+	}
+	
+	public class FakeDefectLog {
+		private SimpleStringProperty userStoryId;
+		private SimpleStringProperty defectLogId;
+		private SimpleStringProperty name;
+		private SimpleStringProperty detail;
+		
+		FakeDefectLog(String userStoryId, String defectLogId, String name, String detail) {
+			this.setUserStoryId(new SimpleStringProperty(userStoryId));
+			this.setDefectLogId(new SimpleStringProperty(defectLogId));
+			this.setName(new SimpleStringProperty(name));
+			this.setDetail(new SimpleStringProperty(detail));
+		}
+
+		public String getUserStoryId() {
+			return userStoryId.get();
+		}
+
+		public void setUserStoryId(SimpleStringProperty userStoryId) {
+			this.userStoryId = userStoryId;
+		}
+
+		public String getDefectLogId() {
+			return defectLogId.get();
+		}
+
+		public void setDefectLogId(SimpleStringProperty defectLogId) {
+			this.defectLogId = defectLogId;
+		}
+
+		public String getName() {
+			return name.get();
+		}
+
+		public void setName(SimpleStringProperty name) {
+			this.name = name;
+		}
+
+		public String getDetail() {
+			return detail.get();
+		}
+
+		public void setDetail(SimpleStringProperty detail) {
+			this.detail = detail;
+		}
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -253,7 +465,6 @@ public class Controller implements Initializable {
 		funcCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFeature()));
 		benefitCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReason()));
 		
-		
 		// add choices to dropdown choice boxes
 		myChoiceBox.getItems().addAll(choices);
 		myChoiceBox2.getItems().addAll(choices2);
@@ -261,32 +472,6 @@ public class Controller implements Initializable {
 		myChoiceBox4.getItems().addAll(choices4);
 		myChoiceBox5.getItems().addAll(choices5);
 		myChoiceBox6.getItems().addAll(choices6);
-		
-		// add columns to the effortLogTable
-		effortLogTable.add(0, new Vector<LocalDateTime>());
-		effortLogTable.add(1, new Vector<LocalDateTime>());
-		effortLogTable.add(2, new Vector<Long>());
-		
-		effortLogTable.add(3, new Vector<String>());
-		effortLogTable.add(4, new Vector<String>());
-		effortLogTable.add(5, new Vector<String>());
-		
-		effortLogTable.add(6, new Vector<String>());
-		effortLogTable.add(7, new Vector<String>());
-		effortLogTable.add(8, new Vector<String>());
-		
-		// intialize each column in the table
-		startDateTimeVect = (Vector<LocalDateTime>) effortLogTable.get(0);
-		stopDateTimeVect = (Vector<LocalDateTime>) effortLogTable.get(1);
-		timeElapsedVect = (Vector<Long>) effortLogTable.get(2);
-		
-		projectVect = (Vector<String>) effortLogTable.get(3);
-		planVect = (Vector<String>) effortLogTable.get(4);
-		lifecycleStepVect = (Vector<String>) effortLogTable.get(5);
-
-		userGroupVect = (Vector<String>) effortLogTable.get(6);
-		employeeRankVect = (Vector<String>) effortLogTable.get(7);
-		effortCategoryVect = (Vector<String>) effortLogTable.get(8);
 		
 		// set column names to port over to the table
 		startDateTimeCol.setText("Start Date & Time");
@@ -311,7 +496,7 @@ public class Controller implements Initializable {
 		effortCategoryCol.setCellValueFactory(new PropertyValueFactory<EffortLog, String>("effortCategory"));
 
 		/*
-		 * OPTIONAL PARAMS SET AUTOMATICALLY
+		 * (OPTIONAL) EFFORTLOG PARAMS SET AUTOMATICALLY
 		myChoiceBox.setValue("Business Project");
 		myChoiceBox2.setValue("Planning");
 		myChoiceBox3.setValue("Plans");
@@ -324,6 +509,7 @@ public class Controller implements Initializable {
 		groupSelect.getItems().addAll(choices5);
 		roleSelect.getItems().addAll(choices6);
 		
+		// add options to date selections
 		monthSelect.getItems().addAll("11");
 		daySelect.getItems().addAll("24");
 		yearSelect.getItems().addAll("23");
@@ -332,6 +518,83 @@ public class Controller implements Initializable {
 		groupSelectButton.setToggleGroup(prodReportGroup);
 		roleSelectButton.setToggleGroup(prodReportGroup);
 		
+		// produce dummy graphs for production report tab
+		produceReportGraphs();
+		
+		// produce dummy tables for historical data tab
+		produceHistoricalDataTables();
+	}
+	
+	public void produceHistoricalDataTables() {
+		// userStory Data and add to columns
+		userStoryDisabled.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("isDisabled"));
+		userStoryID.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("id"));
+		userStoryName.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("name"));
+		userStoryEstimation.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("estimation"));
+		userStoryDescription.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("description"));
+		
+		Vector <FakeUserStory> userStoryData = new Vector<FakeUserStory>(1);
+		
+		userStoryData.add(new FakeUserStory("1234","story/logs",
+				"100","as a user I would like to see historical logs of the "
+				+ "items to better use the software"));
+		userStoryData.add(new FakeUserStory("1242","story/console",
+				"1000","as a user I would like to have a visual interface so "
+				+ "that I can better visualise the software's capabilities"));
+		userStoryData.add(new FakeUserStory("2123","story/data-graph",
+				"200","as a user I would like to see visualizations of data "
+				+ "so that I can make better decisions with the software"));
+		userStoryData.add(new FakeUserStory("4444","epic/log-editor",
+				"500","as an administrator I would like to correct mistakes "
+				+ "that occur when logs are generated with the incorrect parameters"));
+		
+		final ObservableList<FakeUserStory> newData1 = FXCollections.observableArrayList(userStoryData);
+		userStoryHistTable.setItems(newData1);
+		
+		
+		// EffortLog Data and add to columns
+		effortLogUSID.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("userStoryId"));
+		effortLogELID.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("effortLogId"));
+		effortLogTimeElapsed.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("timeElapsed"));
+		
+		Vector <FakeEffortLog> effortLogData = new Vector<FakeEffortLog>(1);
+		
+		effortLogData.add(new FakeEffortLog("1234","1","2.4"));
+		effortLogData.add(new FakeEffortLog("1234","2","5.2"));
+		effortLogData.add(new FakeEffortLog("2123","3","6.1"));
+		effortLogData.add(new FakeEffortLog("4444","4","4.2"));
+		effortLogData.add(new FakeEffortLog("4444","5","6.6"));
+		effortLogData.add(new FakeEffortLog("4444","6","9.9"));
+		effortLogData.add(new FakeEffortLog("1242","7","1.0"));
+		
+		final ObservableList<FakeEffortLog> newData2 = FXCollections.observableArrayList(effortLogData);
+		effortLogHistTable.setItems(newData2);
+		
+		
+		// DefectLog Data and add to columns
+		defectLogUSID.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("userStoryId"));
+		defectLogDLID.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("defectLogId"));
+		defectLogName.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("name"));
+		defectLogDetail.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("detail"));
+		
+		Vector <FakeDefectLog> defectLogData = new Vector<FakeDefectLog>(1);
+		
+		defectLogData.add(new FakeDefectLog("1234","1","Log Duplication",
+				"When creating a Log, there is a chance that it may be generated twice"));
+		defectLogData.add(new FakeDefectLog("1242","2","Incompatible Software",
+				"When creating the interface, an issued occurred where javafx conflicted with java.awt"));
+		defectLogData.add(new FakeDefectLog("1242","3","Conflicting File Locations",
+				"When importing data, different file locations are specified for loading and saving to a CSV"));
+		defectLogData.add(new FakeDefectLog("4444","4","Log Modification Error",
+				"When modifying logs, data is not being rewritten correctly"));
+		defectLogData.add(new FakeDefectLog("2123","5","Graph Update Error",
+				"When additional logs are added, the graph fails to update with correct data"));
+		
+		final ObservableList<FakeDefectLog> newData3 = FXCollections.observableArrayList(defectLogData);
+		defectLogHistTable.setItems(newData3);
+	}
+	
+	public void produceReportGraphs() {
 		// dummy data for bar charts
 		laborSeries1 = new XYChart.Series<String, Integer>();
 		laborSeries1.setName("Team 1 Labor Hours");
@@ -511,6 +774,7 @@ public class Controller implements Initializable {
 		prodReportChange(selection);
 	}
 	
+	// Production Report Selection - Jonathan Jasso
 	public void prodReportChange(String newSelection) {
 		if (newSelection == prodReportSelection | monthSelect.getValue() == null | 
 				daySelect.getValue() == null |yearSelect.getValue() == null) {
@@ -573,7 +837,6 @@ public class Controller implements Initializable {
 			return;
 		}
 	}
-
 	
 	@FXML
 	public void timerStart(ActionEvent event) {
@@ -587,7 +850,6 @@ public class Controller implements Initializable {
 			isLogging = true;
 		}
 	}
-	
 	
 	@FXML
 	public void timerStop(ActionEvent event) {
@@ -629,18 +891,7 @@ public class Controller implements Initializable {
 		}
 	}
 	
-	
 	public void parseEffortLog(EffortLog e) {
-		// add data to vector objects
-		startDateTimeVect.add(e.getStartDateTime());
-		stopDateTimeVect.add(e.getStopDateTime());
-		timeElapsedVect.add(e.getTimeElapsed());
-		projectVect.add(e.getProject());
-		planVect.add(e.getPlan());
-		lifecycleStepVect.add(e.getLifecycleStep());
-		userGroupVect.add(e.getUserGroup());
-		employeeRankVect.add(e.getEmployeeRank());
-		effortCategoryVect.add(e.getEffortCategory());
 		
 		// add effort log to the running observable list
 		data.add(e);
@@ -650,8 +901,8 @@ public class Controller implements Initializable {
 		// update data on table columns
 		effortLogs.setItems(writeData);
 	}
-
-
+	
+	// getters and setters
 	public LocalDateTime getStartDateTime() {
 		return startDateTime;
 	}
