@@ -32,6 +32,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
@@ -40,6 +41,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
+
 
 
 public class Controller implements Initializable {
@@ -151,6 +154,10 @@ public class Controller implements Initializable {
 	
 	final ToggleGroup prodReportGroup = new ToggleGroup();
 	
+	
+	
+	 
+	
 	// labor series for prototype
 	XYChart.Series<String, Integer> laborSeries1;
 	XYChart.Series<String, Integer> laborSeries2;
@@ -217,6 +224,7 @@ public class Controller implements Initializable {
 	
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
+
 	//Private Feedback Tool variables - Anton Nguyen
 	//TextFields from UI
 	@FXML
@@ -242,6 +250,39 @@ public class Controller implements Initializable {
 	
 	//iterator for the term a graph is representing
 	private int termCount = 0;
+
+	
+	
+	
+	//the description for the description page
+	
+	@FXML
+	private TableView<EffortLog> customEffortLogs;
+	
+	@FXML
+	private TableColumn<EffortLog, String> customProjectCol;
+	@FXML
+	private TableColumn<EffortLog, String> customPlanCol;
+	@FXML
+	private TableColumn<EffortLog, String> customLifecycleStepCol;
+	
+	@FXML
+	private TableColumn<EffortLog, String> inputColumn;
+	
+	 @FXML
+	 private TableColumn<EffortLog, String> additionalInputColumn;
+	 
+	 @FXML
+	 private TextField InputColumnFromUser;
+
+
+	
+	
+	
+	
+	
+	
+
 
 	//end of Private Feedback Tool variables
 	
@@ -822,6 +863,7 @@ public class Controller implements Initializable {
 			eeLogSelect.getItems().add(newLogString);
 			
 			parseEffortLog(newEffortLog);
+			parseCustomEffortLog(newEffortLog);
 			
 			// reset the logging timer/indicators
 			clockIndicatorBox.setFill(Color.RED);
@@ -1111,4 +1153,250 @@ public class Controller implements Initializable {
 			parseEffortLog(duplicateLog);
 		}
 	}
+}
+	
+	@FXML
+	public void generateNewSession() {
+		try {
+			session = new PlanningPoker(userStories);				//Creates a new PlanningPoker Object
+			int players = Integer.parseInt(playerField.getText());	
+			if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
+				session.setPlayers(players);
+			roundLabel.setText("Round 1");
+			votingLabel.setText("Player 1 Voting");
+			votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+			session.setUserStory(session.findUnactionedStory());
+			if(!session.hasUnactionedStories()) {
+				endSession();
+			}
+			else {
+				userStoryTitleLabel.setText(session.getUserStory().getTitle());
+				estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
+				userLabel.setText(session.getUserStory().getTypeOfUser());
+				featureLabel.setText(session.getUserStory().getFeature());
+				reasonLabel.setText(session.getUserStory().getReason());
+				descriptionField.setText(session.getUserStory().getDescription());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+			}
+		}
+		catch(Exception e) {		//bug fix
+			endSession();
+		}
+		
+	}
+	
+	@FXML
+	public void endSession() {
+		userStoryTitleLabel.setText("Session Ended");
+		estimateLabel.setText("No Story");
+		userLabel.setText("");
+		featureLabel.setText("");
+		reasonLabel.setText("");
+		descriptionField.setText("");
+		rangeLabel.setText("");
+		userAverageLabel.setText("");
+		roundAverageLabel.setText("");
+		userStdDevLabel.setText("");
+		roundStdDevLabel.setText("");
+		roundLabel.setText("Round Lynn Robert Carter");
+		votingLabel.setText("Planning Poker Now Voting");		//ends a session
+		votedLabel.setText("My Brain is Fried");
+		session = null;
+	}
+	
+	@FXML
+	public int captureScore() {
+		int score = Integer.parseInt(actualScoreField.getText());
+		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer, rounds to nearest base 100 value, fix 3
+			if (score < 100)
+				return 100;
+			else if (score > 1000)
+				return 1000;
+			else
+				return (int)(Math.round(score / 100.0) * 100);
+		}
+		return 0;
+	}
+	
+	@FXML
+	public void onScoreSubmit() {
+		session.addScores(captureScore());
+		actualScoreField.setText("");
+		session.setPlayersVoted(session.getPlayersVoted() + 1);
+		votingLabel.setText("Player " + (session.getPlayersVoted() + 1) + " Voting");
+		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");	//When a score is submitted, the score is added to the arraylist and logic determinesn what is done next
+		
+		if(session.getPlayersVoted() == session.getPlayers()) {
+			if(session.allTheSame()) {
+				endRound();
+			}
+			else {
+				session.setRound(session.getRound() + 1);
+				session.setPlayersVoted(0);
+				roundLabel.setText("Round " + session.getRound());
+				votingLabel.setText("Player 1 Voting");
+				votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
+				rangeLabel.setText(session.minScore() + " - " + session.maxScore());
+				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
+				roundAverageLabel.setText(Integer.toString(session.getRoundAverage()));
+				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
+				roundStdDevLabel.setText(Integer.toString(session.getRoundStdDev()));
+				session.clearScores();
+				;
+				
+			}
+		}
+		
+		
+	}
+	
+	public void endRound() {
+		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));	//ends a round
+		session.getUserStory().setActioned(true);
+		updateCSV("userStory.csv", session.getUserStory());
+		generateNewSession();
+	}
+	
+	public void updateCSV(String filePath, UserStory updatedStory) {
+	    for (int i = 0; i < userStories.size(); i++) {
+	        UserStory story = userStories.get(i);
+	        if (updatedStory.getDescription().equals(story.getDescription())) {
+	            userStories.set(i, updatedStory); // Update the story at the index
+	            break;
+	        }
+	    }
+	    writeToCSV(filePath);
+	}
+	
+	public void writeToCSV(String filePath) {
+        try (FileWriter csvWriter = new FileWriter(filePath)) {
+            csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,Description,EstimateStoryPoints,ActualStoryPoints,Actioned,\n");
+
+            for (UserStory story : userStories) {
+            	csvWriter.append(story.getTitle());
+                csvWriter.append(",");
+                csvWriter.append(story.getPriority());
+                csvWriter.append(",");
+                csvWriter.append(story.getTypeOfUser());
+                csvWriter.append(",");
+                csvWriter.append(story.getFeature());
+                csvWriter.append(",");
+                csvWriter.append(story.getReason());		//Writes to CSV
+                csvWriter.append(",");
+                csvWriter.append(story.getDescription());
+                csvWriter.append(",");
+                csvWriter.append(story.getEstimateStoryPoints());
+                csvWriter.append(",");
+                csvWriter.append(story.getActualPointScore());
+                csvWriter.append(",");
+                csvWriter.append(String.valueOf(story.isActioned()));
+                csvWriter.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately
+        }
+    }
+    
+    public void readFromCSV(String filePath) {
+        String line = "";
+        String csvSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip the header line
+
+            while ((line = br.readLine()) != null) {
+                // Use comma as separator
+                String[] storyData = line.split(csvSplitBy);
+
+                UserStory story = new UserStory(
+                    storyData[0].replace("\"", "").trim(), // title
+                    storyData[3].replace("\"", "").trim(), // feature
+                    storyData[4].replace("\"", "").trim(), // reason
+                    storyData[2].replace("\"", "").trim(), // typeOfUser
+                    storyData[1].replace("\"", "").trim(), // priority
+                    storyData[5].replace("\"", "").trim() // Description
+                );
+                story.setEstimateStoryPoints(storyData[6].replace("\"", "").trim());  //estimate
+                story.setActualPointScore(storyData[7].replace("\"", "").trim());	//actual
+                story.setActioned(Boolean.parseBoolean(storyData[8].replace("\"", "").trim())); //actioned
+                
+                
+                userStories.add(story);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	private void initialize() {
+	    // Initialize data structure
+		data = new Vector<>();
+
+
+	    // Initialize customEffortLogs TableView
+	    customEffortLogs.setItems(FXCollections.observableArrayList(data));
+
+	    // Initialize custom TableColumn cell value factories only once
+	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
+	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
+	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
+
+	   //  Adding the new column for user input
+	    inputColumn = new TableColumn<>("Input");
+	    inputColumn.setPrefWidth(150.0);
+	    inputColumn.setCellValueFactory(new PropertyValueFactory<>("input"));
+	    inputColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+	 
+
+	    // Add the new column to the TableView
+	    customEffortLogs.getColumns().add(inputColumn);
+	    inputColumn.setOnEditCommit(event -> {
+	        EffortLog rowData = event.getRowValue();
+	        rowData.setInput(event.getNewValue());
+	    });
+	    
+	    InputColumnFromUser.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Update the "Input" column in the TableView with the new value
+            if (!customEffortLogs.getSelectionModel().isEmpty()) {
+                EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
+                selectedRow.setInput(newValue);
+            }
+        });
+
+	}
+
+	public void parseCustomEffortLog(EffortLog e) {
+	    // Add data to the existing data structure
+	    data.add(e);
+	    
+	    // Add the EffortLog object to the TableView
+	    customEffortLogs.getItems().add(e);
+
+	    // Update column configurations (Uncomment these lines if they were previously commented out)
+	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
+	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
+	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
+	    inputColumn.setCellValueFactory(cellData -> cellData.getValue().inputProperty());
+	    inputColumn.setEditable(true); 
+
+	    // Refresh the TableView
+	    customEffortLogs.refresh();
+	}
+
+	 @FXML
+	    private void updateTableView() {
+	        // Get the input value from InputColumnFromUser
+	        String userInput = InputColumnFromUser.getText();
+
+	        // Update the "Input" column in the TableView with the new value
+	        if (!customEffortLogs.getSelectionModel().isEmpty()) {
+	            EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
+	            selectedRow.setInput(userInput);
+	        }
+	    }
+
+
 }

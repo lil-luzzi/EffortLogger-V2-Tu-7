@@ -2,6 +2,7 @@
 package effortLoggerv2;
 
 import java.time.LocalDateTime;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.LongProperty;
@@ -26,6 +27,12 @@ public class EffortLog {
 	private SimpleStringProperty effortCategory;
 	
 	
+	
+	 private SimpleStringProperty additionalInput;
+	 private final StringProperty input;
+
+	
+	
 	EffortLog(LocalDateTime startDateTime, LocalDateTime stopDateTime, 
 			long timeElapsed, String project, String plan, String lifecycleStep,
 			String userGroup, String employeeRank, String effortCategory){
@@ -38,6 +45,8 @@ public class EffortLog {
 		this.userGroup = new SimpleStringProperty(userGroup);
 		this.employeeRank = new SimpleStringProperty(employeeRank);
 		this.effortCategory = new SimpleStringProperty(effortCategory);
+		this.input = new SimpleStringProperty();
+		this.additionalInput = new SimpleStringProperty();
 	}
 
 	
@@ -174,4 +183,16 @@ public class EffortLog {
 	public StringProperty effortCategoryProperty() {
 		return this.effortCategory;
 	}
+		        
+    public String getInput() {
+        return input.get();
+    }
+
+    public void setInput(String input) {
+        this.input.set(input);
+    }
+
+    public StringProperty inputProperty() {
+        return input;
+    }
 }
