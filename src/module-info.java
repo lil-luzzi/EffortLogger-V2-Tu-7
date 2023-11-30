@@ -1,4 +1,4 @@
-module EffortLoggerV2 {
+module EffortLoggerv2 {
 	exports effortLoggerv2;
 
 	requires javafx.base;
@@ -6,5 +6,5 @@ module EffortLoggerV2 {
 	requires javafx.fxml;
 	requires javafx.graphics;
 	
-	opens effortLoggerV2 to javafx.fxml;
+	opens effortLoggerv2 to javafx.fxml, javafx.graphics, javafx.base;
 }
