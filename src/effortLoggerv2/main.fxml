@@ -338,25 +338,26 @@
                         </Label>
                         <TableView fx:id="userStoryHistTable" layoutX="11.0" layoutY="36.0" prefHeight="200.0" prefWidth="879.0">
                           <columns>
-                              <TableColumn prefWidth="76.15953826904297" text="Disabled" />
-                            <TableColumn prefWidth="79.15839385986328" text="ID" />
-                            <TableColumn minWidth="0.0" prefWidth="118.27943420410156" text="Name" />
-                              <TableColumn prefWidth="604.7205810546875" text="Description" />
+                              <TableColumn fx:id="userStoryDisabled" prefWidth="66.87050724029541" text="Disabled" />
+                            <TableColumn fx:id="userStoryID" prefWidth="66.43002319335938" text="ID" />
+                            <TableColumn fx:id="userStoryName" minWidth="0.0" prefWidth="174.83932495117188" text="Name" />
+                              <TableColumn fx:id="userStoryEstimation" prefWidth="64.16062927246094" text="Estimate" />
+                              <TableColumn fx:id="userStoryDescription" prefWidth="717.9017028808594" text="Description" />
                           </columns>
                         </TableView>
                         <TableView fx:id="effortLogHistTable" layoutX="11.0" layoutY="272.0" prefHeight="234.0" prefWidth="433.0">
                            <columns>
-                              <TableColumn prefWidth="86.5496597290039" text="User Story ID" />
-                              <TableColumn prefWidth="88.52427673339844" text="EffortLog ID" />
-                              <TableColumn prefWidth="87.51213073730469" text="Time Elapsed" />
+                              <TableColumn fx:id="effortLogUSID" prefWidth="86.5496597290039" text="User Story ID" />
+                              <TableColumn fx:id="effortLogELID" prefWidth="111.46884155273438" text="EffortLog ID" />
+                              <TableColumn fx:id="effortLogTimeElapsed" prefWidth="233.49998474121094" text="Time Elapsed" />
                            </columns>
                         </TableView>
                         <TableView fx:id="defectLogHistTable" layoutX="443.0" layoutY="272.0" prefHeight="234.0" prefWidth="445.0">
                            <columns>
-                              <TableColumn prefWidth="85.58718872070312" text="User Story ID" />
-                              <TableColumn prefWidth="89.5242919921875" text="DefectLog ID" />
-                              <TableColumn prefWidth="75.0" text="Name" />
-                              <TableColumn prefWidth="193.0" text="Detail" />
+                              <TableColumn fx:id="defectLogUSID" prefWidth="85.58718872070312" text="User Story ID" />
+                              <TableColumn fx:id="defectLogDLID" prefWidth="101.976318359375" text="DefectLog ID" />
+                              <TableColumn fx:id="defectLogName" prefWidth="141.8572998046875" text="Name" />
+                              <TableColumn fx:id="defectLogDetail" prefWidth="500.0" text="Detail" />
                            </columns>
                         </TableView>
                      </children>
