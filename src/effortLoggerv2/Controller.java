@@ -36,10 +36,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.cell.CheckBoxTableCell;
 
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 
 public class Controller implements Initializable {
 	//create vector for the user story table
