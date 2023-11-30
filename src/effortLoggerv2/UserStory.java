@@ -1,6 +1,9 @@
 package effortLoggerv2;
 
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class UserStory {
@@ -9,18 +12,24 @@ public class UserStory {
     private final SimpleStringProperty reason;		//variables
     private final SimpleStringProperty typeOfUser;
     private final SimpleStringProperty priority;
+    private final SimpleStringProperty description;
     private final SimpleStringProperty estimateStoryPoints;
+    private final SimpleBooleanProperty actioned;
+    private final SimpleStringProperty actualPointScore;
     
     //constructor
 
     UserStory(String title, String feature, String reason,
-              String typeOfUser, String priority) {
+              String typeOfUser, String priority, String description) {
         this.title = new SimpleStringProperty(title);
         this.feature = new SimpleStringProperty(feature);
         this.reason = new SimpleStringProperty(reason);
         this.typeOfUser = new SimpleStringProperty(typeOfUser);
         this.priority = new SimpleStringProperty(priority);
+        this.description = new SimpleStringProperty(description);
         this.estimateStoryPoints = new SimpleStringProperty("0");
+        this.actioned = new SimpleBooleanProperty(false);
+        this.actualPointScore = new SimpleStringProperty("Not Assigned");
     }
 
     /*
@@ -36,6 +45,18 @@ public class UserStory {
 
     public StringProperty titleProperty() {
         return title;
+    }
+    
+    public String getDescription() {
+        return description.get();
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
     }
 
     public String getFeature() {
@@ -96,5 +117,28 @@ public class UserStory {
 
     public StringProperty estimateStoryPointsProperty() {
         return estimateStoryPoints;
+    }
+    public boolean isActioned() {
+        return actioned.get();
+    }
+
+    public void setActioned(boolean actioned) {
+        this.actioned.set(actioned);
+    }
+
+    public BooleanProperty actionedProperty() {
+        return actioned;
+    }
+    
+    public String getActualPointScore() {
+        return actualPointScore.get();
+    }
+
+    public void setActualPointScore(String actualPointScore) {
+        this.actualPointScore.set(actualPointScore);
+    }
+
+    public StringProperty actualPointScoreProperty() {
+        return actualPointScore;
     }
 }
