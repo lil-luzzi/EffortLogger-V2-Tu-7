@@ -139,7 +139,10 @@ public class Password_Validator_Controller {
         if (password.toLowerCase().contains(lastNameField.getText().toLowerCase().replaceAll("\\s", ""))) {
             strength = 0;
         }
-
+        
+        if (hasConsecutiveCharacters(password)) {
+          return "Password has consecutive characters (Not Accepted)";
+        }
         // Determine password strength level based on the total strength points
         if (strength > 16) {
             return "Strong(Accepted)";
@@ -151,5 +154,16 @@ public class Password_Validator_Controller {
             return "Password contains the name (Not Accepted)";
         }
         return "Invalid Strength";
+    }
+    
+    
+    // Method to check for consecutive characters
+    private boolean hasConsecutiveCharacters(String password) {
+        for (int i = 0; i < password.length() - 1; i++) {
+            if (password.charAt(i) == password.charAt(i + 1)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
