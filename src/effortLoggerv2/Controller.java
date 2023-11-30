@@ -24,11 +24,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+
 
 
 public class Controller implements Initializable {
@@ -140,6 +143,10 @@ public class Controller implements Initializable {
 	
 	final ToggleGroup prodReportGroup = new ToggleGroup();
 	
+	
+	
+	 
+	
 	// labor series for prototype
 	XYChart.Series<String, Integer> laborSeries1;
 	XYChart.Series<String, Integer> laborSeries2;
@@ -206,6 +213,7 @@ public class Controller implements Initializable {
 	
 	Vector<EffortLog> data = new Vector<EffortLog>(1);
 	
+
 	//Private Feedback Tool variables - Anton Nguyen
 	//TextFields from UI
 	@FXML
@@ -231,6 +239,39 @@ public class Controller implements Initializable {
 	
 	//iterator for the term a graph is representing
 	private int termCount = 0;
+
+	
+	
+	
+	//the description for the description page
+	
+	@FXML
+	private TableView<EffortLog> customEffortLogs;
+	
+	@FXML
+	private TableColumn<EffortLog, String> customProjectCol;
+	@FXML
+	private TableColumn<EffortLog, String> customPlanCol;
+	@FXML
+	private TableColumn<EffortLog, String> customLifecycleStepCol;
+	
+	@FXML
+	private TableColumn<EffortLog, String> inputColumn;
+	
+	 @FXML
+	 private TableColumn<EffortLog, String> additionalInputColumn;
+	 
+	 @FXML
+	 private TextField InputColumnFromUser;
+
+
+	
+	
+	
+	
+	
+	
+
 
 	//end of Private Feedback Tool variables
 	
@@ -609,6 +650,7 @@ public class Controller implements Initializable {
 					myChoiceBox5.getValue(), myChoiceBox6.getValue(), myChoiceBox3.getValue());
 			
 			parseEffortLog(newEffortLog);
+			parseCustomEffortLog(newEffortLog);
 			
 			// reset the logging timer/indicators
 			clockIndicatorBox.setFill(Color.RED);
@@ -735,4 +777,76 @@ public class Controller implements Initializable {
 			reason.clear();
 				}
 		}
+	
+	@FXML
+	private void initialize() {
+	    // Initialize data structure
+		data = new Vector<>();
+
+
+	    // Initialize customEffortLogs TableView
+	    customEffortLogs.setItems(FXCollections.observableArrayList(data));
+
+	    // Initialize custom TableColumn cell value factories only once
+	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
+	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
+	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
+
+	   //  Adding the new column for user input
+	    inputColumn = new TableColumn<>("Input");
+	    inputColumn.setPrefWidth(150.0);
+	    inputColumn.setCellValueFactory(new PropertyValueFactory<>("input"));
+	    inputColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+	 
+
+	    // Add the new column to the TableView
+	    customEffortLogs.getColumns().add(inputColumn);
+	    inputColumn.setOnEditCommit(event -> {
+	        EffortLog rowData = event.getRowValue();
+	        rowData.setInput(event.getNewValue());
+	    });
+	    
+	    InputColumnFromUser.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Update the "Input" column in the TableView with the new value
+            if (!customEffortLogs.getSelectionModel().isEmpty()) {
+                EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
+                selectedRow.setInput(newValue);
+            }
+        });
+
+	}
+
+	public void parseCustomEffortLog(EffortLog e) {
+	    // Add data to the existing data structure
+	    data.add(e);
+	    
+	    // Add the EffortLog object to the TableView
+	    customEffortLogs.getItems().add(e);
+
+	    // Update column configurations (Uncomment these lines if they were previously commented out)
+	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
+	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
+	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
+	    inputColumn.setCellValueFactory(cellData -> cellData.getValue().inputProperty());
+	    inputColumn.setEditable(true); 
+
+	    // Refresh the TableView
+	    customEffortLogs.refresh();
+	}
+
+	 @FXML
+	    private void updateTableView() {
+	        // Get the input value from InputColumnFromUser
+	        String userInput = InputColumnFromUser.getText();
+
+	        // Update the "Input" column in the TableView with the new value
+	        if (!customEffortLogs.getSelectionModel().isEmpty()) {
+	            EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
+	            selectedRow.setInput(userInput);
+	        }
+	    }
+
+
 }
+
