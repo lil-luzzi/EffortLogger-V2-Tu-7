@@ -20,6 +20,7 @@ public class DefectLog {
 	private SimpleStringProperty defectFix;
 	private SimpleStringProperty project;
 	
+	//worked on by luz
 	//constructor
 	DefectLog(String project, int defectNum, String defectName, String defectDetail, String stepInjected, 
 			String stepRemoved, String defectCategory, String defectStatus, String defectFix){

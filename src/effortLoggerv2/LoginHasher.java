@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-
+//worked on by luz
 public class LoginHasher {
 	
 	//array of usernames and passwords, each one corresponds to the one that
