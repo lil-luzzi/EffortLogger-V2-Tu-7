@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -501,7 +502,7 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 			private SimpleStringProperty estimation;
 			private SimpleStringProperty description;
 			
-			/*FakeUserStory(String id, String name, String estimation, String description) {
+			FakeUserStory(String id, String name, String estimation, String description) {
 				this.isDisabled = new CheckBox();
 				this.setId(new SimpleStringProperty(id));
 				this.setEstimation(new SimpleStringProperty(estimation));
@@ -509,7 +510,6 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 				this.setDescription(new SimpleStringProperty(description));
 				
 				isDisabled.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
 					public void handle(ActionEvent arg0) {
 						// TODO Remove each match
 						
@@ -540,7 +540,7 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 						}
 					}
 				});
-			}*/
+			}
 			
 			public void onPush1() {
 				effortLogHistTable.getItems().remove(1);
@@ -992,7 +992,7 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 		
 		Vector <FakeUserStory> userStoryData = new Vector<FakeUserStory>(1);
 		
-		/*userStoryData.add(new FakeUserStory("1234","story/logs",
+		userStoryData.add(new FakeUserStory("1234","story/logs",
 				"100","as a user I would like to see historical logs of the "
 				+ "items to better use the software"));
 		userStoryData.add(new FakeUserStory("1242","story/console",
@@ -1003,7 +1003,7 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 				+ "so that I can make better decisions with the software"));
 		userStoryData.add(new FakeUserStory("4444","epic/log-editor",
 				"500","as an administrator I would like to correct mistakes "
-				+ "that occur when logs are generated with the incorrect parameters"));*/
+				+ "that occur when logs are generated with the incorrect parameters"));
 		
 		final ObservableList<FakeUserStory> newData1 = FXCollections.observableArrayList(userStoryData);
 		userStoryHistTable.setItems(newData1);
