@@ -30,6 +30,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -42,6 +43,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 
 
@@ -85,9 +87,10 @@ public class Controller implements Initializable {
 	@FXML
 	private Button submitScoreBtn;
 	
-	private PlanningPoker session;
+	private PlanningPoker session;	
+
 	//create vector for the user story table
-	Vector<Vector<?>> userTable = new Vector<Vector<?>>(6);	//User table with 6 columns
+Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 columns
 	
 	//6 categories for the calculation view
 	Vector<String> titleVect;
@@ -97,6 +100,7 @@ public class Controller implements Initializable {
 	Vector<String> funcVect;
 	Vector<String> benefitVect;
 	Vector<String> descVect;
+	Vector<String> actualVect;
 	
 	@FXML
 	private TextField title;
@@ -127,6 +131,12 @@ public class Controller implements Initializable {
 	private TableColumn<UserStory, String> funcCol;
 	@FXML
 	private TableColumn<UserStory, String> benefitCol;
+	@FXML
+	private TableColumn<UserStory, String> descriptionCol;
+	@FXML
+	private TableColumn<UserStory, String> actualCol;
+	@FXML
+	private TableColumn<UserStory, String> actionedCol;
 	
 	ObservableList<UserStory> userStories = FXCollections.observableArrayList();
 	StatisticalInsightTool insightTool = new StatisticalInsightTool(userStories);	//Creates the table and sets up the insight tool
@@ -444,8 +454,231 @@ public class Controller implements Initializable {
 	//delete this entry button method
 	//split entry into two entries button
 	//end of effort log editor variables
-	
-	
+	// User Story Table of Historical Data Tab
+	//start of jons historical stuff
+		@FXML
+		private TableView<FakeUserStory> userStoryHistTable;
+		@FXML
+		private TableColumn<FakeUserStory, String> userStoryDisabled;
+		@FXML
+		private TableColumn<FakeUserStory, String> userStoryID;
+		@FXML
+		private TableColumn<FakeUserStory, String> userStoryEstimation;
+		@FXML
+		private TableColumn<FakeUserStory, String> userStoryName;
+		@FXML
+		private TableColumn<FakeUserStory, String> userStoryDescription;
+		
+		// EffortLog Table of Historical Data Tab
+		@FXML
+		private TableView<FakeEffortLog> effortLogHistTable;
+		@FXML
+		private TableColumn<FakeEffortLog, String> effortLogUSID;
+		@FXML
+		private TableColumn<FakeEffortLog, String> effortLogELID;
+		@FXML
+		private TableColumn<FakeEffortLog, String> effortLogTimeElapsed;
+		
+		// DefectLog Table of Historical Data Tab
+		@FXML
+		private TableView<FakeDefectLog> defectLogHistTable;
+		@FXML
+		private TableColumn<FakeDefectLog, String> defectLogUSID;
+		@FXML
+		private TableColumn<FakeDefectLog, String> defectLogDLID;
+		@FXML
+		private TableColumn<FakeDefectLog, String> defectLogName;
+		@FXML
+		private TableColumn<FakeDefectLog, String> defectLogDetail;
+		// Vector of EffortLogs, TODO import from CSV
+		
+
+		private boolean firstTime = true;
+		public class FakeUserStory {
+			private CheckBox isDisabled;
+			private SimpleStringProperty id;
+			private SimpleStringProperty name;
+			private SimpleStringProperty estimation;
+			private SimpleStringProperty description;
+			
+			/*FakeUserStory(String id, String name, String estimation, String description) {
+				this.isDisabled = new CheckBox();
+				this.setId(new SimpleStringProperty(id));
+				this.setEstimation(new SimpleStringProperty(estimation));
+				this.setName(new SimpleStringProperty(name));
+				this.setDescription(new SimpleStringProperty(description));
+				
+				isDisabled.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+						// TODO Remove each match
+						
+						for (int i = 0; i < effortLogHistTable.getItems().size(); i++) {
+							if (getId() == effortLogHistTable.getSelectionModel().getSelectedItems().get(i).getUserStoryId()) {
+								effortLogHistTable.getItems().remove(i);
+								i--;
+							}
+						}
+						
+						for (int j = 0; j < defectLogHistTable.getItems().size(); j++) {
+							if (getId() == defectLogHistTable.getSelectionModel().getSelectedItems().get(j).getUserStoryId()) {
+								defectLogHistTable.getItems().remove(j);
+								j--;
+							}
+						}
+						
+						if (getId() == "1234" && firstTime) {
+							onPush1();
+							firstTime = false;
+						}
+						else if (getId() == "1234" && !firstTime) {
+							produceHistoricalDataTables();
+							firstTime = true;
+						}
+						else if (getId() == "4444") {
+							onPush2();
+						}
+					}
+				});
+			}*/
+			
+			public void onPush1() {
+				effortLogHistTable.getItems().remove(1);
+				effortLogHistTable.getItems().remove(0);
+				
+				defectLogHistTable.getItems().remove(0);
+			}
+			
+			public void onPush2() {
+				effortLogHistTable.getItems().remove(3);
+				effortLogHistTable.getItems().remove(2);
+				effortLogHistTable.getItems().remove(1);
+				
+				defectLogHistTable.getItems().remove(2);
+			}
+
+			public CheckBox getIsDisabled() {
+				return isDisabled;
+			}
+
+			public void setIsDisabled(CheckBox isDisabled) {
+				this.isDisabled = isDisabled;
+			}
+
+			public String getId() {
+				return id.get();
+			}
+
+			public void setId(SimpleStringProperty id) {
+				this.id = id;
+			}
+
+			public String getName() {
+				return name.get();
+			}
+
+			public void setName(SimpleStringProperty name) {
+				this.name = name;
+			}
+
+			public String getEstimation() {
+				return estimation.get();
+			}
+
+			public void setEstimation(SimpleStringProperty estimation) {
+				this.estimation = estimation;
+			}
+
+			public String getDescription() {
+				return description.get();
+			}
+
+			public void setDescription(SimpleStringProperty description) {
+				this.description = description;
+			}
+		}
+		
+		public class FakeEffortLog {
+			private SimpleStringProperty userStoryId;
+			private SimpleStringProperty effortLogId;
+			private SimpleStringProperty timeElapsed;
+			
+			FakeEffortLog(String userStoryId, String effortLogId, String timeElapsed) {
+				this.setUserStoryId(new SimpleStringProperty(userStoryId));
+				this.setEffortLogId(new SimpleStringProperty(effortLogId));
+				this.setTimeElapsed(new SimpleStringProperty(timeElapsed));
+			}
+
+			public String getUserStoryId() {
+				return userStoryId.get();
+			}
+
+			public void setUserStoryId(SimpleStringProperty userStoryId) {
+				this.userStoryId = userStoryId;
+			}
+
+			public String getEffortLogId() {
+				return effortLogId.get();
+			}
+
+			public void setEffortLogId(SimpleStringProperty effortLogId) {
+				this.effortLogId = effortLogId;
+			}
+
+			public String getTimeElapsed() {
+				return timeElapsed.get();
+			}
+
+			public void setTimeElapsed(SimpleStringProperty timeElapsed) {
+				this.timeElapsed = timeElapsed;
+			}
+		}
+		
+		public class FakeDefectLog {
+			private SimpleStringProperty userStoryId;
+			private SimpleStringProperty defectLogId;
+			private SimpleStringProperty name;
+			private SimpleStringProperty detail;
+			
+			FakeDefectLog(String userStoryId, String defectLogId, String name, String detail) {
+				this.setUserStoryId(new SimpleStringProperty(userStoryId));
+				this.setDefectLogId(new SimpleStringProperty(defectLogId));
+				this.setName(new SimpleStringProperty(name));
+				this.setDetail(new SimpleStringProperty(detail));
+			}
+
+			public String getUserStoryId() {
+				return userStoryId.get();
+			}
+
+			public void setUserStoryId(SimpleStringProperty userStoryId) {
+				this.userStoryId = userStoryId;
+			}
+
+			public String getDefectLogId() {
+				return defectLogId.get();
+			}
+
+			public void setDefectLogId(SimpleStringProperty defectLogId) {
+				this.defectLogId = defectLogId;
+			}
+
+			public String getName() {
+				return name.get();
+			}
+
+			public void setName(SimpleStringProperty name) {
+				this.name = name;
+			}
+
+			public String getDetail() {
+				return detail.get();
+			}
+
+			public void setDetail(SimpleStringProperty detail) {
+				this.detail = detail;
+			}
+		}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -540,6 +773,10 @@ public class Controller implements Initializable {
 		typeOfUserCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeOfUser()));
 		funcCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFeature()));
 		benefitCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReason()));
+		descriptionCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+		actualCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActualPointScore()));
+		actionedCol.setCellValueFactory(cellData -> 
+	    new SimpleStringProperty(cellData.getValue().isActioned() ? "Yes" : "No"));
 		
 		
 		// add choices to dropdown choice boxes
@@ -742,8 +979,199 @@ public class Controller implements Initializable {
 		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
 		
 		readFromCSV("userStory.csv");	//Reads data from CSV into table
+		// produce dummy tables for historical data tab
+		produceHistoricalDataTables();
 	}
-	
+	public void produceHistoricalDataTables() {
+		// userStory Data and add to columns
+		userStoryDisabled.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("isDisabled"));
+		userStoryID.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("id"));
+		userStoryName.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("name"));
+		userStoryEstimation.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("estimation"));
+		userStoryDescription.setCellValueFactory(new PropertyValueFactory<FakeUserStory, String>("description"));
+		
+		Vector <FakeUserStory> userStoryData = new Vector<FakeUserStory>(1);
+		
+		/*userStoryData.add(new FakeUserStory("1234","story/logs",
+				"100","as a user I would like to see historical logs of the "
+				+ "items to better use the software"));
+		userStoryData.add(new FakeUserStory("1242","story/console",
+				"1000","as a user I would like to have a visual interface so "
+				+ "that I can better visualise the software's capabilities"));
+		userStoryData.add(new FakeUserStory("2123","story/data-graph",
+				"200","as a user I would like to see visualizations of data "
+				+ "so that I can make better decisions with the software"));
+		userStoryData.add(new FakeUserStory("4444","epic/log-editor",
+				"500","as an administrator I would like to correct mistakes "
+				+ "that occur when logs are generated with the incorrect parameters"));*/
+		
+		final ObservableList<FakeUserStory> newData1 = FXCollections.observableArrayList(userStoryData);
+		userStoryHistTable.setItems(newData1);
+		
+		
+		// EffortLog Data and add to columns
+		effortLogUSID.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("userStoryId"));
+		effortLogELID.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("effortLogId"));
+		effortLogTimeElapsed.setCellValueFactory(new PropertyValueFactory<FakeEffortLog, String>("timeElapsed"));
+		
+		Vector <FakeEffortLog> effortLogData = new Vector<FakeEffortLog>(1);
+		
+		effortLogData.add(new FakeEffortLog("1234","1","2.4"));
+		effortLogData.add(new FakeEffortLog("1234","2","5.2"));
+		effortLogData.add(new FakeEffortLog("2123","3","6.1"));
+		effortLogData.add(new FakeEffortLog("4444","4","4.2"));
+		effortLogData.add(new FakeEffortLog("4444","5","6.6"));
+		effortLogData.add(new FakeEffortLog("4444","6","9.9"));
+		effortLogData.add(new FakeEffortLog("1242","7","1.0"));
+		
+		final ObservableList<FakeEffortLog> newData2 = FXCollections.observableArrayList(effortLogData);
+		effortLogHistTable.setItems(newData2);
+		
+		
+		// DefectLog Data and add to columns
+		defectLogUSID.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("userStoryId"));
+		defectLogDLID.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("defectLogId"));
+		defectLogName.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("name"));
+		defectLogDetail.setCellValueFactory(new PropertyValueFactory<FakeDefectLog, String>("detail"));
+		
+		Vector <FakeDefectLog> defectLogData = new Vector<FakeDefectLog>(1);
+		
+		defectLogData.add(new FakeDefectLog("1234","1","Log Duplication",
+				"When creating a Log, there is a chance that it may be generated twice"));
+		defectLogData.add(new FakeDefectLog("1242","2","Incompatible Software",
+				"When creating the interface, an issued occurred where javafx conflicted with java.awt"));
+		defectLogData.add(new FakeDefectLog("1242","3","Conflicting File Locations",
+				"When importing data, different file locations are specified for loading and saving to a CSV"));
+		defectLogData.add(new FakeDefectLog("4444","4","Log Modification Error",
+				"When modifying logs, data is not being rewritten correctly"));
+		defectLogData.add(new FakeDefectLog("2123","5","Graph Update Error",
+				"When additional logs are added, the graph fails to update with correct data"));
+		
+		final ObservableList<FakeDefectLog> newData3 = FXCollections.observableArrayList(defectLogData);
+		defectLogHistTable.setItems(newData3);
+	}
+	public void produceReportGraphs() {
+		// dummy data for bar charts
+		laborSeries1 = new XYChart.Series<String, Integer>();
+		laborSeries1.setName("Team 1 Labor Hours");
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.24.23", 50));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.25.23", 101));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.26.23", 80));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.27.23", 75));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.28.23", 42));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.29.23", 35));
+		laborSeries1.getData().add(new XYChart.Data<String, Integer>("11.30.23", 15));
+		
+		ticketSeries1 = new XYChart.Series<String, Integer>();
+		ticketSeries1.setName("Team 1 Tickets");
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.24.23", 3));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.25.23", 17));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.26.23", 5));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.27.23", 8));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.28.23", 2));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
+		ticketSeries1.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries2 = new XYChart.Series<String, Integer>();
+		laborSeries2.setName("Team 2 Labor Hours");
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 20));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 22));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 42));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 32));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 54));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 75));
+		laborSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 102));
+		
+		ticketSeries2 = new XYChart.Series<String, Integer>();
+		ticketSeries2.setName("Team 2 Tickets");
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.24.23", 3));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.25.23", 17));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.26.23", 5));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.27.23", 7));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.28.23", 3));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.29.23", 6));
+		ticketSeries2.getData().add(new XYChart.Data<String, Integer>("11.30.23", 20));
+		
+		laborSeries3 = new XYChart.Series<String, Integer>();
+		laborSeries3.setName("Team 3 Labor Hours");
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.29.23", 84));
+		laborSeries3.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries3 = new XYChart.Series<String, Integer>();
+		ticketSeries3.setName("Team 3 Tickets");
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.24.23", 0));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.25.23", 2));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.26.23", 1));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.27.23", 1));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.28.23", 5));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.29.23", 15));
+		ticketSeries3.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries4 = new XYChart.Series<String, Integer>();
+		laborSeries4.setName("Developer 1 Labor Hours");
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.24.23", 44));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.29.23", 84));
+		laborSeries4.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries4 = new XYChart.Series<String, Integer>();
+		ticketSeries4.setName("Developer 1 Tickets");
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.24.23", 7));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.25.23", 1));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.26.23", 4));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.28.23", 3));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.29.23", 11));
+		ticketSeries4.getData().add(new XYChart.Data<String, Integer>("11.30.23", 1));
+		
+		laborSeries5 = new XYChart.Series<String, Integer>();
+		laborSeries5.setName("Developer 2 Labor Hours");
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.24.23", 55));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.29.23", 85));
+		laborSeries5.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries5 = new XYChart.Series<String, Integer>();
+		ticketSeries5.setName("Developer 2 Tickets");
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.24.23", 8));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.25.23", 7));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.26.23", 2));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.27.23", 0));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.28.23", 2));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.29.23", 14));
+		ticketSeries5.getData().add(new XYChart.Data<String, Integer>("11.30.23", 5));
+		
+		laborSeries6 = new XYChart.Series<String, Integer>();
+		laborSeries6.setName("Developer 3 Labor Hours");
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.24.23", 66));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.25.23", 52));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.26.23", 21));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.27.23", 5));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 26));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 86));
+		laborSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 10));
+		
+		ticketSeries6 = new XYChart.Series<String, Integer>();
+		ticketSeries6.setName("Developer 3 Tickets");
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.24.23", 0));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.25.23", 4));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.26.23", 6));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.27.23", 2));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.28.23", 1));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.29.23", 5));
+		ticketSeries6.getData().add(new XYChart.Data<String, Integer>("11.30.23", 3));
+	}
 
 	public boolean areFieldsFull() {
 		// Check if the user did their civic duty and filled out
@@ -998,36 +1426,25 @@ public class Controller implements Initializable {
 		String userType = userBox.getValue();
 		String storyFeature = feature.getText();
 		String storyReason = reason.getText();
+		String storyDescription = description.getText();
 		
-		int priorityVal = 0;
-		
-		switch(storyPriority) {
-		case "High":
-			priorityVal = 3;
-			break;
-		case "Medium":
-			priorityVal = 2;
-			break;
-		case "Low" :
-			priorityVal = 1;
-			break;
-		}
-		
-		String priVal = Integer.toString(priorityVal);
 		
 		if(!storyPriority.equals(""))
 				{
 		
 			UserStory newUserStory = new UserStory(storyTitle, storyFeature, 
-					storyReason, userType, priVal, priVal);
+					storyReason, userType, storyPriority, storyDescription);
 			newUserStory.setEstimateStoryPoints(Integer.toString(insightTool.calcEstimate(newUserStory)));
 			userStories.add(newUserStory);	
+			
+			writeToCSV("userStory.csv");		//Writes user story to CSV
 		
 			title.clear();
 			priorityBox.setValue(null);
 			userBox.setValue(null);
 			feature.clear();
 			reason.clear();
+			description.clear();
 				}
 		}
 	//defect console commands start - Luz
