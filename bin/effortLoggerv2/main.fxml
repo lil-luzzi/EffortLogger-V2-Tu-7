@@ -30,7 +30,7 @@
    <children>
       <TabPane prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="User Stories">
+         <Tab closable="false" text="User Stories">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -480,7 +480,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Calculation View">
+             <Tab text="User Story Log">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -490,10 +490,13 @@
                                 <columns>
                                   <TableColumn fx:id="titleCol" prefWidth="128.0" text="Title" />
                                   <TableColumn fx:id="priority" prefWidth="72.0" text="Priority" />
-                                    <TableColumn fx:id="estimateCol" minWidth="6.0" prefWidth="88.0" text="Estimate" />
-                                    <TableColumn fx:id="typeOfUserCol" minWidth="0.0" prefWidth="132.0" text="Type of User" />
-                                    <TableColumn fx:id="funcCol" minWidth="0.0" prefWidth="200.0" text="Feature" />
-                                    <TableColumn fx:id="benefitCol" minWidth="0.0" prefWidth="208.0" text="Benefit" />
+                                    <TableColumn fx:id="estimateCol" minWidth="6.0" prefWidth="66.0" text="Estimate" />
+                                    <TableColumn fx:id="typeOfUserCol" minWidth="0.0" prefWidth="98.0" text="Type of User" />
+                                    <TableColumn fx:id="funcCol" minWidth="0.0" prefWidth="94.0" text="Feature" />
+                                    <TableColumn fx:id="benefitCol" minWidth="0.0" prefWidth="66.0" text="Benefit" />
+                                    <TableColumn fx:id="descriptionCol" minWidth="0.0" prefWidth="66.0" text="Description" />
+                                    <TableColumn fx:id="actualCol" minWidth="0.0" prefWidth="66.0" text="Actual Score" />
+                                    <TableColumn fx:id="actionedCol" minWidth="0.0" prefWidth="66.0" text="Actioned" />
                                 </columns>
                               </TableView>
                            </children>
