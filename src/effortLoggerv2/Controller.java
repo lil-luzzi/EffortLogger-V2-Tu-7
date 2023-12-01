@@ -684,81 +684,80 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//initialize effort log editor interface variables - Luz
-		//add project  choices
-		eeProjectSelect.getItems().addAll(eeProjectChoices);
-		//add log choices
-		eeLogSelect.getItems().addAll(eetest);
-		//lifecycle step choices
-		eeLifeCycleSelect.getItems().addAll(eeLifeCycle);
-		//effort category choices
-		eeEffortCategorySelect.getItems().addAll(eeEffortCategory);
-		//plan choices
-		eePlanSelect.getItems().addAll(eePlans);
-		
-		for (int i = 0; i < data.size(); i++) {
-            EffortLog log = data.get(i);
-            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
-            					log.getEffortCategory() + "; " + log.getPlan();
-            eeLogSelect.getItems().add(addToSelect);
-        }
-		
-		//end of initializing effort log variables - luz
-		
-		//initializing Defect Console variables -Luz 
-		//adding choices to #1
-		DefectProjectSelect.getItems().addAll(DefectProjectChoices);
-		//adding choices to #2.b
-		DefectSelect.getItems().addAll(defecttest);
-		for (int i = 0; i < defectData.size(); i++) {
-            DefectLog defect = defectData.get(i);
-            DefectSelect.getItems().add(defect.getDefectName());
-        }
-		//DefectSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            //@Override
-        /*public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // Update the label based on the selected item
-                updateDefectNumLabel(newValue);
-        }
-        });*/
-		DefectFix.getItems().addAll(defectPoints);
-		//initialize list views
-		StepWhenInjected.getItems().addAll(defectSteps);
-		StepWhenInjected.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-					currentStep = StepWhenInjected.getSelectionModel().getSelectedItem();
-				}	
-			});
-		
-		StepWhenRemoved.getItems().addAll(defectSteps2);
-		StepWhenRemoved.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-					currentStep2 = StepWhenRemoved.getSelectionModel().getSelectedItem();
-				}	
-			});
-		
-		DefectCategory.getItems().addAll(defectCategory1);
-		DefectCategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-					currentDefCategory = DefectCategory.getSelectionModel().getSelectedItem();
-				}	
-			});
-		defectLogs.setItems(defectData);
-		defectCounter = defectData.size();
-		defectCounter1 = 0;
-		
-		projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
-		defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
-		defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
-		defectDetailCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectDetail()));
-		stepInjectCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepInjected()));
-		stepRemoveCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepRemoved()));
-		defectCategoryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectCategory()));
-		defectStatusCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectStatus()));
-		defectFixCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectFix()));
-		
+				//add project  choices
+				eeProjectSelect.getItems().addAll(eeProjectChoices);
+				//add log choices
+				eeLogSelect.getItems().addAll(eetest);
+				//lifecycle step choices
+				eeLifeCycleSelect.getItems().addAll(eeLifeCycle);
+				//effort category choices
+				eeEffortCategorySelect.getItems().addAll(eeEffortCategory);
+				//plan choices
+				eePlanSelect.getItems().addAll(eePlans);
+				
+				for (int i = 0; i < data.size(); i++) {
+		            EffortLog log = data.get(i);
+		            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+		            					log.getEffortCategory() + "; " + log.getPlan();
+		            eeLogSelect.getItems().add(addToSelect);
+		        }
+				
+				//end of initializing effort log variables - luz
+				
+				//initializing Defect Console variables -Luz 
+				//adding choices to #1
+				DefectProjectSelect.getItems().addAll(DefectProjectChoices);
+				//adding choices to #2.b
+				DefectSelect.getItems().addAll(defecttest);
+				for (int i = 0; i < defectData.size(); i++) {
+		            DefectLog defect = defectData.get(i);
+		            DefectSelect.getItems().add(defect.getDefectName());
+		        }
+				//DefectSelect.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+		            //@Override
+		        /*public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		                // Update the label based on the selected item
+		                updateDefectNumLabel(newValue);
+		        }
+		        });*/
+				DefectFix.getItems().addAll(defectPoints);
+				//initialize list views
+				StepWhenInjected.getItems().addAll(defectSteps);
+				StepWhenInjected.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+					@Override
+					public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+							currentStep = StepWhenInjected.getSelectionModel().getSelectedItem();
+						}	
+					});
+				
+				StepWhenRemoved.getItems().addAll(defectSteps2);
+				StepWhenRemoved.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+					@Override
+					public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+							currentStep2 = StepWhenRemoved.getSelectionModel().getSelectedItem();
+						}	
+					});
+				
+				DefectCategory.getItems().addAll(defectCategory1);
+				DefectCategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+					@Override
+					public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+							currentDefCategory = DefectCategory.getSelectionModel().getSelectedItem();
+						}	
+					});
+				defectLogs.setItems(defectData);
+				defectCounter = defectData.size();
+				defectCounter1 = 0;
+				
+				projectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProject()));
+				defectNumCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getDefectNum()).asObject());
+				defectNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectName()));
+				defectDetailCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectDetail()));
+				stepInjectCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepInjected()));
+				stepRemoveCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStepRemoved()));
+				defectCategoryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectCategory()));
+				defectStatusCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectStatus()));
+				defectFixCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDefectFix()));
 		//Sets the data in the user story table
 		userStoryTable.setItems(userStories);
 		
@@ -1448,179 +1447,169 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
 				}
 		}
 	//defect console commands start - Luz
-	public void ClearDefectLog(ActionEvent event) {
-		//this should clear ALL defect logs for a selected project
-		defectData.clear();
-		DefectSelect.getItems().clear();
-		DefectSelect.getItems().addAll("no defect selected");
-		defectCounter = 0;
-	}
-	public void CreateNewDefect(ActionEvent event) {
-		//this should create a new defect 
-		
-			 String project = DefectProjectSelect.getValue();
-			 int defectNum;
-			 
-		     defectNum = getNextDefectNumber();
-			
-			 String defectName = DefectName.getText();
-			 String defectDetail = DefectDescription.getText();
-			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
-			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
-			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
-			 String newDefectStatus = DefectStatus.getText();
-			 String defectFix = DefectFix.getValue();
-			 DefectLog newDefectLog = new DefectLog(project, defectNum+1, defectName, defectDetail,
-		                stepInjected, stepRemoved, defectCategory, newDefectStatus, defectFix);
-			defectData.add(newDefectLog);
-			DefectSelect.getItems().add(defectName);
-		
-	}
-	public void StatusClosed(ActionEvent event) {
-		//this should close up the currently selected defect
-		DefectStatus.setText("Status: Closed");
-	}
-	public void StatusOpen(ActionEvent event) {
-		//this should open up the currently selected defect
-		DefectStatus.setText("Status: Open");
-	}
-	public void UpdateCurrentDefect(ActionEvent event) {
-		//this should update the current defect selected
-		
-		int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
-		System.out.println(selectedIndex);
-		if(selectedIndex != 0) {
-		     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
-			 String project = DefectProjectSelect.getValue();
-			 String defectName = DefectName.getText();
-			 String defectDetail = DefectDescription.getText();
-			 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
-			 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
-			 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
-			 String newDefectStatus = DefectStatus.getText();
-			 String defectFix = DefectFix.getValue();
-			 int newIndex = (selectedIndex -1);
-			 DefectLog updatedDefect = defectData.get(newIndex);
-			 String oldDefectName = updatedDefect.getDefectName();
-			 updatedDefect.setProject(project);
-	         updatedDefect.setDefectName(defectName);
-	         updatedDefect.setDefectDetail(defectDetail);
-	         updatedDefect.setStepInjected(stepInjected);
-	         updatedDefect.setStepRemoved(stepRemoved);
-	         updatedDefect.setDefectCategory(defectCategory);
-	         updatedDefect.setDefectStatus(newDefectStatus);
-	         updatedDefect.setDefectFix(defectFix);
-	         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
-	         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
-	         DefectSelect.getItems().clear();
-	         DefectSelect.getItems().addAll(defecttest);
-	
-	         for (int i = 0; i < defectData.size(); i++) {
-		            DefectLog defect = defectData.get(i);
-		            DefectSelect.getItems().add(defect.getDefectName());
-		        }
-	         defectLogs.refresh();
+		public void ClearDefectLog(ActionEvent event) {
+			//this should clear ALL defect logs for a selected project
+			defectData.clear();
+			DefectSelect.getItems().clear();
+			DefectSelect.getItems().addAll("no defect selected");
+			defectCounter = 0;
 		}
-		
+		public void CreateNewDefect(ActionEvent event) {
+			//this should create a new defect 
+			
+				 String project = DefectProjectSelect.getValue();
+				 int defectNum;
+				 
+			     defectNum = getNextDefectNumber();
+				
+				 String defectName = DefectName.getText();
+				 String defectDetail = DefectDescription.getText();
+				 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+				 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+				 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+				 String newDefectStatus = DefectStatus.getText();
+				 String defectFix = DefectFix.getValue();
+				 DefectLog newDefectLog = new DefectLog(project, defectNum+1, defectName, defectDetail,
+			                stepInjected, stepRemoved, defectCategory, newDefectStatus, defectFix);
+				defectData.add(newDefectLog);
+				DefectSelect.getItems().add(defectName);
+			
+		}
+		public void StatusClosed(ActionEvent event) {
+			//this should close up the currently selected defect
+			DefectStatus.setText("Status: Closed");
+		}
+		public void StatusOpen(ActionEvent event) {
+			//this should open up the currently selected defect
+			DefectStatus.setText("Status: Open");
+		}
+		public void UpdateCurrentDefect(ActionEvent event) {
+			//this should update the current defect selected
+			
+			int selectedIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+			System.out.println(selectedIndex);
+			if(selectedIndex != 0) {
+			     String selectedItem = DefectSelect.getSelectionModel().getSelectedItem();
+				 String project = DefectProjectSelect.getValue();
+				 String defectName = DefectName.getText();
+				 String defectDetail = DefectDescription.getText();
+				 String stepInjected = StepWhenInjected.getSelectionModel().getSelectedItem();
+				 String stepRemoved = StepWhenRemoved.getSelectionModel().getSelectedItem();
+				 String defectCategory = DefectCategory.getSelectionModel().getSelectedItem();
+				 String newDefectStatus = DefectStatus.getText();
+				 String defectFix = DefectFix.getValue();
+				 int newIndex = (selectedIndex -1);
+				 DefectLog updatedDefect = defectData.get(newIndex);
+				 String oldDefectName = updatedDefect.getDefectName();
+				 updatedDefect.setProject(project);
+		         updatedDefect.setDefectName(defectName);
+		         updatedDefect.setDefectDetail(defectDetail);
+		         updatedDefect.setStepInjected(stepInjected);
+		         updatedDefect.setStepRemoved(stepRemoved);
+		         updatedDefect.setDefectCategory(defectCategory);
+		         updatedDefect.setDefectStatus(newDefectStatus);
+		         updatedDefect.setDefectFix(defectFix);
+		         //String modifiedSelectedItem = selectedItem.replace(oldDefectName, defectName);
+		         //DefectSelect.getItems().set(DefectSelect.getSelectionModel().getSelectedIndex(), modifiedSelectedItem);
+		         DefectSelect.getItems().clear();
+		         DefectSelect.getItems().add("no defect selected");
+		         for (int i = 0; i < defectData.size(); i++) {
+			            DefectLog defect = defectData.get(i);
+			            DefectSelect.getItems().add(defect.getDefectName());
+			        }
+		         defectLogs.refresh();
+			}
+			
 
-	}
-	//count what defect its on
-	 private int getNextDefectNumber() {
-	        return defectCounter++;
-	 }
-	 //private int getNextDefectNumber1() {
-	        //return defectCounter1++;
-	   // }
-	 private void updateDefectNumbers(int startIndex) {
-	        for (int i = startIndex; i < defectData.size(); i++) {
-	            DefectLog defect = defectData.get(i);
-	            // Assuming you have a setDefectNum method in your DefectLog class
-	            defect.setDefectNum(defect.getDefectNum() - 1);
-	            // Update other properties as needed
-	        }
-	    }
-	 
-	public void DeleteCurrentDefect(ActionEvent event) {
-		//this should delete the current defect log
-		int selectedDefectIndex = DefectSelect.getSelectionModel().getSelectedIndex();
-		if (selectedDefectIndex==0) {
-			System.out.println("No defect selected!");
 		}
-		else {
-			 int newIndex = (selectedDefectIndex -1);
-			 DefectLog selectedDefect = defectData.get(newIndex);
-			 defectData.remove(selectedDefect);
-			 DefectSelect.getItems().remove(selectedDefectIndex);
-			 updateDefectNumbers(newIndex);
-			 defectCounter--;
+		//count what defect its on
+		 private int getNextDefectNumber() {
+		        return defectCounter++;
+		 }
+		 //private int getNextDefectNumber1() {
+		        //return defectCounter1++;
+		   // }
+		 private void updateDefectNumbers(int startIndex) {
+		        for (int i = startIndex; i < defectData.size(); i++) {
+		            DefectLog defect = defectData.get(i);
+		            // Assuming you have a setDefectNum method in your DefectLog class
+		            defect.setDefectNum(defect.getDefectNum() - 1);
+		            // Update other properties as needed
+		        }
+		    }
+		 
+		public void DeleteCurrentDefect(ActionEvent event) {
+			//this should delete the current defect log
+			int selectedDefectIndex = DefectSelect.getSelectionModel().getSelectedIndex();
+			if (selectedDefectIndex==0) {
+				System.out.println("No defect selected!");
+			}
+			else {
+				 int newIndex = (selectedDefectIndex -1);
+				 DefectLog selectedDefect = defectData.get(newIndex);
+				 defectData.remove(selectedDefect);
+				 DefectSelect.getItems().remove(selectedDefectIndex);
+				 updateDefectNumbers(newIndex);
+				 defectCounter--;
+			}
+				
 		}
+		//effort log editor stuff - Luz
+		public void ClearEffortLog(ActionEvent event){
+			//clear ALL effort logs
+			data.clear();
+			effortLogs.getColumns().clear();
+			eeLogSelect.getItems().clear();
+			eeLogSelect.getItems().addAll("no effort log selected");
 			
-	}
-	//effort log editor stuff - Luz
-	public void ClearEffortLog(ActionEvent event){
-		//clear ALL effort logs
-		data.clear();
-		effortLogs.getColumns().clear();
-		eeLogSelect.getItems().clear();
-		eeLogSelect.getItems().addAll("no effort log selected");
-		
-		
-	}
-	public void UpdateEffortLog(ActionEvent event) {
-		
-		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
-		if(selectedIndex != 0) {
-			String newLifeCycleStep = eeLifeCycleSelect.getSelectionModel().getSelectedItem();
-			String newEffortCategory = eeEffortCategorySelect.getSelectionModel().getSelectedItem();
-			String newPlans = eePlanSelect.getSelectionModel().getSelectedItem();
-			int newIndex = (selectedIndex -1);
-			EffortLog updatedLog = data.get(newIndex);
-			updatedLog.setLifecycleStep(newLifeCycleStep);
-			updatedLog.setEffortCategory(newEffortCategory);
-			updatedLog.setPlan(newPlans);
-			eeLogSelect.getItems().clear();
-			eeLogSelect.getItems().add("no effort log selected");
-			for (int i = 0; i < data.size(); i++) {
-	            EffortLog log = data.get(i);
-	            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
-	            					log.getEffortCategory() + "; " + log.getPlan();
-	            eeLogSelect.getItems().add(addToSelect);
-	        }
-			effortLogs.refresh();
+			
 		}
-		
-	}
-	public void DeleteEffortLog(ActionEvent event) {
-		int selectedLogIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
-		if (selectedLogIndex==0) {
-			System.out.println("No log selected!");
+		public void UpdateEffortLog(ActionEvent event) {
+			
+			int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+			if(selectedIndex != 0) {
+				String newLifeCycleStep = eeLifeCycleSelect.getSelectionModel().getSelectedItem();
+				String newEffortCategory = eeEffortCategorySelect.getSelectionModel().getSelectedItem();
+				String newPlans = eePlanSelect.getSelectionModel().getSelectedItem();
+				int newIndex = (selectedIndex -1);
+				EffortLog updatedLog = data.get(newIndex);
+				updatedLog.setLifecycleStep(newLifeCycleStep);
+				updatedLog.setEffortCategory(newEffortCategory);
+				updatedLog.setPlan(newPlans);
+				eeLogSelect.getItems().clear();
+				eeLogSelect.getItems().add("no effort log selected");
+				for (int i = 0; i < data.size(); i++) {
+		            EffortLog log = data.get(i);
+		            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
+		            					log.getEffortCategory() + "; " + log.getPlan();
+		            eeLogSelect.getItems().add(addToSelect);
+		        }
+				effortLogs.refresh();
+			}
+			
 		}
-		else {
-			 int newIndex = (selectedLogIndex -1);
-			 EffortLog selectedLog = data.get(newIndex);
-			 data.remove(selectedLog);
-			 eeLogSelect.getItems().remove(selectedLogIndex);
-			 effortLogs.getItems().remove(newIndex);
-			 effortLogs.refresh();
+		public void DeleteEffortLog(ActionEvent event) {
+			int selectedLogIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+			if (selectedLogIndex==0) {
+				System.out.println("No log selected!");
+			}
+			else {
+				 int newIndex = (selectedLogIndex -1);
+				 EffortLog selectedLog = data.get(newIndex);
+				 data.remove(selectedLog);
+				 eeLogSelect.getItems().remove(selectedLogIndex);
+				 effortLogs.getItems().remove(newIndex);
+				 effortLogs.refresh();
+			}
 		}
-	}
-	public void SplitEffortLog(ActionEvent event) {
-		int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
-		if(selectedIndex != 0) {
-			int newIndex = (selectedIndex -1);
-			EffortLog duplicateLog = data.get(newIndex);
-			parseEffortLog(duplicateLog);
-			eeLogSelect.getItems().clear();
-			eeLogSelect.getItems().add("no effort log selected");
-			for (int i = 0; i < data.size(); i++) {
-	            EffortLog log = data.get(i);
-	            String addToSelect = "(" + log.getStartDateTime() + "-" + log.getStopDateTime() + ") " + log.getLifecycleStep() + "; " + 
-	            					log.getEffortCategory() + "; " + log.getPlan();
-	            eeLogSelect.getItems().add(addToSelect);
-	        }
-			effortLogs.refresh();
+		public void SplitEffortLog(ActionEvent event) {
+			int selectedIndex = eeLogSelect.getSelectionModel().getSelectedIndex();
+			if(selectedIndex != 0) {
+				int newIndex = (selectedIndex -1);
+				EffortLog duplicateLog = data.get(newIndex);
+				parseEffortLog(duplicateLog);
+			}
 		}
-	}
 	@FXML
 	public void generateNewSession() {
 		try {
@@ -1862,249 +1851,3 @@ Vector<Vector<?>> userTable = new Vector<Vector<?>>(9);	//User table with 9 colu
         }
     }
 }
-	
-/*	@FXML
-	public void generateNewSession() {
-		try {
-			session = new PlanningPoker(userStories);				//Creates a new PlanningPoker Object
-			int players = Integer.parseInt(playerField.getText());	
-			if(!(playerField.getText()).equals(""))					//New session is generated when planning poker is started or when a user story is assigned actual point score
-				session.setPlayers(players);
-			roundLabel.setText("Round 1");
-			votingLabel.setText("Player 1 Voting");
-			votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
-			session.setUserStory(session.findUnactionedStory());
-			if(!session.hasUnactionedStories()) {
-				endSession();
-			}
-			else {
-				userStoryTitleLabel.setText(session.getUserStory().getTitle());
-				estimateLabel.setText(session.getUserStory().getEstimateStoryPoints());
-				userLabel.setText(session.getUserStory().getTypeOfUser());
-				featureLabel.setText(session.getUserStory().getFeature());
-				reasonLabel.setText(session.getUserStory().getReason());
-				descriptionField.setText(session.getUserStory().getDescription());
-				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
-				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
-			}
-		}
-		catch(Exception e) {		//bug fix
-			endSession();
-		}
-		
-	}
-	
-	@FXML
-	public void endSession() {
-		userStoryTitleLabel.setText("Session Ended");
-		estimateLabel.setText("No Story");
-		userLabel.setText("");
-		featureLabel.setText("");
-		reasonLabel.setText("");
-		descriptionField.setText("");
-		rangeLabel.setText("");
-		userAverageLabel.setText("");
-		roundAverageLabel.setText("");
-		userStdDevLabel.setText("");
-		roundStdDevLabel.setText("");
-		roundLabel.setText("Round Lynn Robert Carter");
-		votingLabel.setText("Planning Poker Now Voting");		//ends a session
-		votedLabel.setText("My Brain is Fried");
-		session = null;
-	}
-	
-	@FXML
-	public int captureScore() {
-		int score = Integer.parseInt(actualScoreField.getText());
-		if(!(actualScoreField.getText()).equals("")) {				//Captures a user answer, rounds to nearest base 100 value, fix 3
-			if (score < 100)
-				return 100;
-			else if (score > 1000)
-				return 1000;
-			else
-				return (int)(Math.round(score / 100.0) * 100);
-		}
-		return 0;
-	}
-	
-	@FXML
-	public void onScoreSubmit() {
-		session.addScores(captureScore());
-		actualScoreField.setText("");
-		session.setPlayersVoted(session.getPlayersVoted() + 1);
-		votingLabel.setText("Player " + (session.getPlayersVoted() + 1) + " Voting");
-		votedLabel.setText(session.getPlayersVoted() + " out of " + session.getPlayers() + " Players Voted");	//When a score is submitted, the score is added to the arraylist and logic determinesn what is done next
-		
-		if(session.getPlayersVoted() == session.getPlayers()) {
-			if(session.allTheSame()) {
-				endRound();
-			}
-			else {
-				session.setRound(session.getRound() + 1);
-				session.setPlayersVoted(0);
-				roundLabel.setText("Round " + session.getRound());
-				votingLabel.setText("Player 1 Voting");
-				votedLabel.setText("0 out of " + session.getPlayers() + " Players Voted");
-				rangeLabel.setText(session.minScore() + " - " + session.maxScore());
-				userAverageLabel.setText(Integer.toString(insightTool.calculateAverageByType(session.getUserStory())));
-				roundAverageLabel.setText(Integer.toString(session.getRoundAverage()));
-				userStdDevLabel.setText(Integer.toString(insightTool.calculateStandardDeviationByType(session.getUserStory())));
-				roundStdDevLabel.setText(Integer.toString(session.getRoundStdDev()));
-				session.clearScores();
-				;
-				
-			}
-		}
-		
-		
-	}
-	
-	public void endRound() {
-		session.getUserStory().setActualPointScore(Integer.toString(session.getRoundAverage()));	//ends a round
-		session.getUserStory().setActioned(true);
-		updateCSV("userStory.csv", session.getUserStory());
-		generateNewSession();
-	}
-	
-	public void updateCSV(String filePath, UserStory updatedStory) {
-	    for (int i = 0; i < userStories.size(); i++) {
-	        UserStory story = userStories.get(i);
-	        if (updatedStory.getDescription().equals(story.getDescription())) {
-	            userStories.set(i, updatedStory); // Update the story at the index
-	            break;
-	        }
-	    }
-	    writeToCSV(filePath);
-	}
-	
-	public void writeToCSV(String filePath) {
-        try (FileWriter csvWriter = new FileWriter(filePath)) {
-            csvWriter.append("Title,Priority,TypeOfUser,Feature,Reason,Description,EstimateStoryPoints,ActualStoryPoints,Actioned,\n");
-
-            for (UserStory story : userStories) {
-            	csvWriter.append(story.getTitle());
-                csvWriter.append(",");
-                csvWriter.append(story.getPriority());
-                csvWriter.append(",");
-                csvWriter.append(story.getTypeOfUser());
-                csvWriter.append(",");
-                csvWriter.append(story.getFeature());
-                csvWriter.append(",");
-                csvWriter.append(story.getReason());		//Writes to CSV
-                csvWriter.append(",");
-                csvWriter.append(story.getDescription());
-                csvWriter.append(",");
-                csvWriter.append(story.getEstimateStoryPoints());
-                csvWriter.append(",");
-                csvWriter.append(story.getActualPointScore());
-                csvWriter.append(",");
-                csvWriter.append(String.valueOf(story.isActioned()));
-                csvWriter.append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception appropriately
-        }
-    }
-    
-    public void readFromCSV(String filePath) {
-        String line = "";
-        String csvSplitBy = ",";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip the header line
-
-            while ((line = br.readLine()) != null) {
-                // Use comma as separator
-                String[] storyData = line.split(csvSplitBy);
-
-                UserStory story = new UserStory(
-                    storyData[0].replace("\"", "").trim(), // title
-                    storyData[3].replace("\"", "").trim(), // feature
-                    storyData[4].replace("\"", "").trim(), // reason
-                    storyData[2].replace("\"", "").trim(), // typeOfUser
-                    storyData[1].replace("\"", "").trim(), // priority
-                    storyData[5].replace("\"", "").trim() // Description
-                );
-                story.setEstimateStoryPoints(storyData[6].replace("\"", "").trim());  //estimate
-                story.setActualPointScore(storyData[7].replace("\"", "").trim());	//actual
-                story.setActioned(Boolean.parseBoolean(storyData[8].replace("\"", "").trim())); //actioned
-                
-                
-                userStories.add(story);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-	private void initialize() {
-	    // Initialize data structure
-		data = new Vector<>();
-
-
-	    // Initialize customEffortLogs TableView
-	    customEffortLogs.setItems(FXCollections.observableArrayList(data));
-
-	    // Initialize custom TableColumn cell value factories only once
-	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
-	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
-	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
-
-	   //  Adding the new column for user input
-	    inputColumn = new TableColumn<>("Input");
-	    inputColumn.setPrefWidth(150.0);
-	    inputColumn.setCellValueFactory(new PropertyValueFactory<>("input"));
-	    inputColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-	 
-
-	    // Add the new column to the TableView
-	    customEffortLogs.getColumns().add(inputColumn);
-	    inputColumn.setOnEditCommit(event -> {
-	        EffortLog rowData = event.getRowValue();
-	        rowData.setInput(event.getNewValue());
-	    });
-	    
-	    InputColumnFromUser.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Update the "Input" column in the TableView with the new value
-            if (!customEffortLogs.getSelectionModel().isEmpty()) {
-                EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
-                selectedRow.setInput(newValue);
-            }
-        });
-
-	}
-
-	public void parseCustomEffortLog(EffortLog e) {
-	    // Add data to the existing data structure
-	    data.add(e);
-	    
-	    // Add the EffortLog object to the TableView
-	    customEffortLogs.getItems().add(e);
-
-	    // Update column configurations (Uncomment these lines if they were previously commented out)
-	    customProjectCol.setCellValueFactory(cellData -> cellData.getValue().projectProperty());
-	    customPlanCol.setCellValueFactory(cellData -> cellData.getValue().planProperty());
-	    customLifecycleStepCol.setCellValueFactory(cellData -> cellData.getValue().lifecycleStepProperty());
-	    inputColumn.setCellValueFactory(cellData -> cellData.getValue().inputProperty());
-	    inputColumn.setEditable(true); 
-
-	    // Refresh the TableView
-	    customEffortLogs.refresh();
-	}
-
-	 @FXML
-	    private void updateTableView() {
-	        // Get the input value from InputColumnFromUser
-	        String userInput = InputColumnFromUser.getText();
-
-	        // Update the "Input" column in the TableView with the new value
-	        if (!customEffortLogs.getSelectionModel().isEmpty()) {
-	            EffortLog selectedRow = customEffortLogs.getSelectionModel().getSelectedItem();
-	            selectedRow.setInput(userInput);
-	        }
-	    }
-
-
-}*/
